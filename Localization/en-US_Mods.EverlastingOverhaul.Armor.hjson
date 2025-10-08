@@ -1,0 +1,429 @@
+None: {
+	VikingHelmet:
+		'''
+		+ 15% melee damage
+		+ 30% critical strike damage
+		+ 20% movement speed
+		+ 30% jump boost
+		'''
+	Goggles:
+		'''
+		+50% critical strike damage
+		+5% critical strike chance
+		'''
+}
+
+WoodArmor: {
+	Head:
+		'''
+		+ 5% ranged critical strike
+		+ 15% acorn critical strike chance
+		+ 2% chance to spawn a acorn
+		'''
+	Body:
+		'''
+		1.1x ranged damage
+		+ 20% acorn damage
+		+ 3% chance to spawn a acorn
+		'''
+	Leg:
+		'''
+		+ 15% movement speed and jump boost
+		+ 35% acorn velocity
+		+ 1% chance to spawn a acorn
+		'''
+	SetBonus:
+		'''
+		Increase defense by 5
+		Increase movement speed by 25%
+		+ 10% chance to spawn a acorn
+		+ 5% to spawn a sunflower
+		'''
+}
+
+BorealwoodArmor: {
+	Head:
+		'''
+		+ 2% chance to inflict frost burn
+		+ 3% chance to shoot snowball
+		+ 10% snowball damage
+		'''
+	Body:
+		'''
+		+ 3% chance to inflict frost burn
+		+ 4% chance to shoot snowball
+		+ 20% chance to throw out a snowblock
+		'''
+	Leg:
+		'''
+		+ 1% chance to inflict frost burn
+		+ 2% chance to shoot snowball
+		Running will cause snow to shoot behind you
+		'''
+	SetBonus:
+		'''
+		Increase defense by 5 and movement speed by 20%
+		You are immune to Chilled, Slow
+		+ 7% chance to inflict frost burn
+		+ 20% chance to shoot snowball
+		Frost burn now grant massive boost in regeneration
+		'''
+}
+
+RichMahoganyArmor: {
+	Head:
+		'''
+		Standing still passively grant you dryad's blessing
+		+ 12% summoner damage
+		'''
+	Body:
+		'''
+		Increases max minion
+		Getting hit release sharp leaf
+		'''
+	Leg:
+		'''
+		+ 15% whip range
+		Increases max sentry
+		'''
+	SetBonus:
+		'''
+		Increases maximum minion and sentry
+		Increase defense by 6 and movement speed by 30%
+		Increases damage of sharp leaf
+		Decreases standing requirement for dryad's blessing
+		'''
+}
+
+ShadewoodArmor: {
+	Head:
+		'''
+		Increases life regeneration 1 hp/s
+		+ 20 maximum health
+		'''
+	Body:
+		'''
+		Increases life regeneration 2 hp/s
+		+ 30 maximum health
+		'''
+	Leg:
+		'''
+		Increases life regeneration 1 hp/s
+		+ 15% movement speed
+		'''
+	SetBonus:
+		'''
+		Increase defense by 7
+		Striking an enemy creates a ring that deals 30 damage every 3 seconds, 
+		debuff enemies with ichor and heal you for 1 hp
+		'''
+}
+
+EbonwoodArmor: {
+	Head:
+		'''
+		+ 5% damage
+		+ 10% Critical damage
+		'''
+	Body:
+		'''
+		1.11x damage
+		+ 12% Critical damage
+		'''
+	Leg:
+		'''
+		+ 3% damage
+		+ 8% Critical damage
+		+ 17% movement speed
+		'''
+	SetBonus:
+		'''
+		Increase defense by 6, damage by 10% and movementspeed by 18%
+		You leave a trail of corruption that deal 3 damage and inflict cursed inferno for 2s
+		'''
+}
+
+AshwoodArmor: {
+	Head:
+		'''
+		1.09x damage to OnFire enemy
+		+ 20 maximum life
+		'''
+	Body:
+		'''
+		1.11x damage to OnFire enemy
+		+ 30 maximum life
+		'''
+	Leg:
+		'''
+		1.07x damage to OnFire enemy
+		Running will leave a trail of fire spark 
+		'''
+	SetBonus:
+		'''
+		Increase defense by 8
+		Increase damage by 10%
+		Getting hit fires a burst of flames at the attacker
+		'''
+}
+
+CactusArmor: {
+	Head:
+		'''
+		+ 10 thorn damage
+		Increases life regeneration
+		'''
+	Body:
+		'''
+		+ 15 thorn damage
+		+ 4 melee damage
+		'''
+	Leg:
+		'''
+		+ 7 thorn damage
+		+ 14% movement speed
+		'''
+	SetBonus:
+		'''
+		Increase defenses by 10
+		Getting hit will :
+		Drop down a friendly rolling cactus ( 5s cool down )
+		and shoot out 8 friendly cactus spike
+		'''
+}
+
+PalmwoodArmor: {
+	Head: + 3% critical strike chance
+	Body:
+		'''
+		+ 5 base damage
+		Getting hit increases defense by 7
+		'''
+	Leg:
+		'''
+		14% movement speed
+		Jumping will leave a trail of sand that deal 12 damage
+		'''
+	SetBonus:
+		'''
+		Increase defense by 10 and movement speed by 17%
+		Shooting out sand 3 time for each 7 shot that deal 50% of your weapon damage
+		At the end throw out a Coconut that deal 125% damage
+		'''
+}
+
+PumpkinArmor.SetBonus:
+	'''
+	When in overworld :
+	Grant well fed buff for 5s on getting hit
+	Hitting a enemy has 25% to inflict pumpkin overdose
+	Reapplying debuff to a enemy will causes an explosion dealing 5 + 5% of damage dealt
+	While below 20% HP, you gain 5x health regen
+	'''
+PearlwoodArmor.SetBonus:
+	'''
+	Increase movement speed by 35%
+	Attacking an enemy summons 6 hallow Swords that deals 12 damage with 4 seconds cooldown
+	During the day : Increases damage by 15% and defense by 12
+	When in Hallow biome : Hallow Swords deal 35 more damage
+	'''
+
+BeeArmor: {
+	Head:
+		'''
+		Increases your damage by 4%
+		Increases your critical strike chance by 3%
+		'''
+	Body:
+		'''
+		Increases your damage by 5%
+		Increases your melee attack speed by 6%
+		'''
+	Leg:
+		'''
+		Increases your damage by 5%
+		Increases your movement speed by 5%
+		Increases your mana reduction by 16%
+		'''
+	SetBonus:
+		'''
+		Set Bonus : Increases damage by 10%
+		+ Shoot out stringer when using range weapon
+		+ Shoot out queen stringer when using magic weapon
+		+ Holding melee weapon will allow dash
+		+ Increases your max number of minions by 1
+		"Borrow power of queen bee"
+		'''
+}
+
+TinArmor: {
+	Head:
+		'''
+		+ 9% attack speed
+		+ 4% tin weapon critical strike chance
+		'''
+	Body:
+		'''
+		+ 5% Damage reduction
+		+ 16% tin weapon damage
+		'''
+	Leg:
+		'''
+		+ 10% jump boost
+		+ 12% movement speed
+		'''
+	SetBonus:
+		'''
+		Increase defense by 5
+		Increase movement speed by 21%
+		Buff most weapon with tin power
+		'''
+}
+
+CopperArmor: {
+	Head: + 2% chance to inflict Electrified on hit
+	Body: + 3% chance to inflict Electrified on hit
+	Leg: + 1% chance to inflict Electrified on hit
+	SetBonus:
+		'''
+		+ 25% increased movement speed
+		Hitting enemies 50 times, or 25 in the rain grants 5 seconds of Overcharged
+		'''
+}
+
+IronArmor: {
+	Head: + 4% Damage reduction
+	Body: + 5% Damage reduction
+	Leg: + 3% Damage reduction
+	SetBonus:
+		'''
+		Increase damage reduction 10%
+		Increase defense effectivness by 1.25x
+		While under 50% HP, gain 25 bonus defense
+		Have 20% to halve incoming damage
+		'''
+}
+
+JungleArmor.SetBonus:
+	'''
+	When using magic weapon, you will shoot out magical leaf hover around player up to max of 10
+	Reaching max leafs, the leaf will home into the closest enemy when possible
+	'''
+
+LeadArmor: {
+	Head: + 5% debuff inflict duration
+	Body: + 10% debuff inflict duration
+	Leg: + 5% debuff inflict duration
+	SetBonus:
+		'''
+		Increase defense by 7
+		Your attack can inflict irradiation poison
+		Lead irradiation increase enemy defense by 20 but deal 50 DoT
+		'''
+}
+
+SilverArmor: {
+	Head: + 16% First strike damage
+	Body: + 24% First strike damage
+	Leg: + 12% First strike damage
+	SetBonus:
+		'''
+		+ 112% First strike damage
+		Dealing first strike cause enemy to move slower
+		During the day : increases defense by 10
+		During the night : increases damage by 10%
+		While above 75% health, day and night effects are multiply by 2
+		'''
+}
+
+TungstenArmor: {
+	Head:
+		'''
+		+ 6% ranged damage
+		+ 3% critical strike chance
+		'''
+	Body: + 6% melee damage and magic damage
+	Leg:
+		'''
+		+ 6% summon damage
+		+ 8% movement speed
+		'''
+	SetBonus:
+		'''
+		+ 31% movement speed
+		Gain a buff that rotate damage increases after 10s
+		'''
+}
+
+GoldArmor: {
+	SetBonus:
+		'''
+		Attacking enemy with midas debuff will deal additional damage based on their defense
+		While enemy have midas debuff, you will take 1 damage and heal 5 life ( debuff is removed after )
+		'''
+	Head: + 5% chance to inflict Midas on hit
+	Body: + 5% chance to inflict Midas on hit
+	Leg: + 5% chance to inflict Midas on hit
+}
+
+NinjaArmor: {
+	SetBonus:
+		'''
+		Grant complete dodge for 10s after attack ( CD : 20s )
+		During i-frame, increases critical strike chance by 50% and critical strike damage by 150%
+		'''
+	Head:
+		'''
+		+ 3% Dodge chance
+		+ 15% Critical strike damage
+		'''
+	Body:
+		'''
+		+ 5% Dodge chance
+		+ 5% Attack speed
+		'''
+	Leg:
+		'''
+		+ 2% Dodge chance
+		+ 5% Damage
+		'''
+}
+
+GladiatorArmor: {
+	SetBonus:
+		'''
+		10 defense
+		Strengthen pieces effect the lower your health is
+		'''
+	Head: + 15% Critical strike damage
+	Body: + 5% damage reduction
+	Leg:
+		'''
+		+ 10% Movement speed
+		+ 10% Jump boost
+		'''
+}
+
+PlatinumArmor: {
+	SetBonus:
+		'''
+		Getting hit :
+		Reduce next incoming damage by 66% for 4s
+		You spawn collectible gem that can be thrown into enemy
+		'''
+	Head:
+		'''
+		+ 6% damage
+		+ 3% damage reduction
+		'''
+	Body:
+		'''
+		+ 6% damage
+		+ 4% damage reduction
+		'''
+	Leg:
+		'''
+		+ 6% damage
+		+ 3% damage reduction
+		'''
+}
