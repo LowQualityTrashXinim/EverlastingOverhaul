@@ -1,6 +1,5 @@
-﻿using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul;
-using Microsoft.Xna.Framework;
-using Roguelike.Common.Utils;
+﻿using Microsoft.Xna.Framework;
+using EverlastingOverhaul.Common.Utils;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

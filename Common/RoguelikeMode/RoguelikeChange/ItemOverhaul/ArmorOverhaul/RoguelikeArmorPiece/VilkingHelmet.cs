@@ -1,5 +1,5 @@
 ﻿using EverlastingOverhaul.Common.Global;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 

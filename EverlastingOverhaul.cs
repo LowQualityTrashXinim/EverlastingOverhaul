@@ -32,73 +32,18 @@ public class ModItemLib : ModSystem
             ItemID.AnkhShield,
             ItemID.FrozenShield,
             ItemID.HeroShield};
-    public static Dictionary<int, List<int>> WeaponRarityDB { get; private set; }
-    public static Dictionary<int, List<int>> AccRarityDB { get; private set; }
-    public static Dictionary<int, List<int>> HeadArmorRarityDB { get; private set; }
-    public static Dictionary<int, List<int>> BodyArmorRarityDB { get; private set; }
-    public static Dictionary<int, List<int>> LegsArmorRarityDB { get; private set; }
     public static HashSet<Item> List_Weapon { get; private set; }
     public static HashSet<int> MinionPetMountBuff { get; private set; }
-    public static int Safe_GetWeaponRarity(int rare)
-    {
-        if (WeaponRarityDB.ContainsKey(rare))
-        {
-            return Main.rand.Next(WeaponRarityDB[rare]);
-        }
-        return ItemID.None;
-    }
-    public static int Safe_GetAccRarity(int rare)
-    {
-        if (AccRarityDB.ContainsKey(rare))
-        {
-            return Main.rand.Next(AccRarityDB[rare]);
-        }
-        return ItemID.None;
-    }
-    public static int Safe_GetHeadRarity(int rare)
-    {
-        if (HeadArmorRarityDB.ContainsKey(rare))
-        {
-            return Main.rand.Next(HeadArmorRarityDB[rare]);
-        }
-        return ItemID.None;
-    }
-    public static int Safe_GetBodyRarity(int rare)
-    {
-        if (BodyArmorRarityDB.ContainsKey(rare))
-        {
-            return Main.rand.Next(BodyArmorRarityDB[rare]);
-        }
-        return ItemID.None;
-    }
-    public static int Safe_GetLegsRarity(int rare)
-    {
-        if (LegsArmorRarityDB.ContainsKey(rare))
-        {
-            return Main.rand.Next(LegsArmorRarityDB[rare]);
-        }
-        return ItemID.None;
-    }
     public override void OnModLoad()
     {
-        WeaponRarityDB = new();
-        HeadArmorRarityDB = new();
-        BodyArmorRarityDB = new();
-        LegsArmorRarityDB = new();
-        AccRarityDB = new();
         List_Weapon = new();
         MinionPetMountBuff = new();
         FireDeBuff = new();
     }
     public override void OnModUnload()
     {
-        WeaponRarityDB = null;
         FireDeBuff = null;
         IsPoisonBuff = null;
-        HeadArmorRarityDB = null;
-        BodyArmorRarityDB = null;
-        LegsArmorRarityDB = null;
-        AccRarityDB = null;
         List_Weapon = null;
         MinionPetMountBuff = null;
     }
@@ -111,76 +56,6 @@ public class ModItemLib : ModSystem
         for (int i = 0; i < cacheitemList.Count; i++)
         {
             Item item = cacheitemList[i];
-            if (!item.vanity)
-            {
-                if (item.headSlot > 0)
-                {
-                    if (!HeadArmorRarityDB.ContainsKey(item.rare))
-                    {
-                        HeadArmorRarityDB.Add(item.rare, new List<int> { item.type });
-                    }
-                    else
-                    {
-                        HeadArmorRarityDB[item.rare].Add(item.type);
-                    }
-                    continue;
-                }
-                else if (item.bodySlot > 0)
-                {
-                    if (!BodyArmorRarityDB.ContainsKey(item.rare))
-                    {
-                        BodyArmorRarityDB.Add(item.rare, new List<int> { item.type });
-                    }
-                    else
-                    {
-                        BodyArmorRarityDB[item.rare].Add(item.type);
-                    }
-                    continue;
-                }
-                else if (item.legSlot > 0)
-                {
-                    if (!LegsArmorRarityDB.ContainsKey(item.rare))
-                    {
-                        LegsArmorRarityDB.Add(item.rare, new List<int> { item.type });
-                    }
-                    else
-                    {
-                        LegsArmorRarityDB[item.rare].Add(item.type);
-                    }
-                    continue;
-                }
-                if (item.accessory && item.createTile == -1
-                    && item.type != ItemID.ClothierVoodooDoll
-                    && item.type != ItemID.GuideVoodooDoll
-                    && item.type != ItemID.TreasureMagnet
-                    && item.type != ItemID.DontStarveShaderItem
-                    && item.type != ItemID.JellyfishNecklace
-                    && item.type != ItemID.JellyfishDivingGear
-                    && item.type != ItemID.GreedyRing
-                    && item.type != ItemID.GoldRing
-                    && item.type != ItemID.LuckyCoin
-                    && item.type != ItemID.DiscountCard
-                    && item.type != ItemID.CoinRing
-                    && item.type != ItemID.ShimmerCloak
-                    && item.type != ItemID.SpectreGoggles
-                    && item.type != ItemID.FlowerBoots
-                    && item.type != ItemID.CordageGuide
-                    && !TerrariaArrayID.IsFishingBobber.Contains(item.type)
-                    && !TerrariaArrayID.NonHelpfulCombatAcc.Contains(item.type)
-                    && !TerrariaArrayID.IsInfoAcc.Contains(item.type)
-                    && !TerrariaArrayID.FishingAcc.Contains(item.type))
-                {
-                    if (!AccRarityDB.ContainsKey(item.rare))
-                    {
-                        AccRarityDB.Add(item.rare, new List<int> { item.type });
-                    }
-                    else
-                    {
-                        AccRarityDB[item.rare].Add(item.type);
-                    }
-                    continue;
-                }
-            }
             if (item.IsAWeapon())
             {
                 if (item.buffType != -1 && item.shoot != ProjectileID.None)
@@ -191,14 +66,6 @@ public class ModItemLib : ModSystem
                     }
                 }
                 List_Weapon.Add(item);
-                if (!WeaponRarityDB.ContainsKey(item.rare))
-                {
-                    WeaponRarityDB.Add(item.rare, new List<int> { item.type });
-                }
-                else
-                {
-                    WeaponRarityDB[item.rare].Add(item.type);
-                }
             }
         }
     }

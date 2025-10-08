@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using ReLogic.Content;
-using Roguelike.Contents.BuffAndDebuff;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
@@ -9,8 +8,8 @@ using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Roguelike.Common.Utils;
-using Roguelike.Texture;
+using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Texture;
 using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Common.Graphics;
 using EverlastingOverhaul.Common.Systems;

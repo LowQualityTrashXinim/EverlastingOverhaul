@@ -11,8 +11,8 @@ using Terraria.WorldBuilding;
 using Color = Microsoft.Xna.Framework.Color;
 using Point = Microsoft.Xna.Framework.Point;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using Roguelike.Common.Utils;
-using Roguelike.Common.Graphics;
+using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Common.Graphics;
 using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.NPCsOverhaul;
 using EverlastingOverhaul.Common.Graphics.Structs.QuadStructs;
 using EverlastingOverhaul.Texture;
@@ -332,7 +332,7 @@ internal class KingSlime : NPCReworker {
 
 						}
 						else
-							currentScale = Vector2.One.ClampedLerp(new Vector2(2f, 0.5f), Utils.PingPongFrom01To010(ModUtils.OutSine(Counter / 40f)));
+							currentScale = Vector2.One.ClampedLerp(new Vector2(2f, 0.5f), Terraria.Utils.PingPongFrom01To010(ModUtils.OutSine(Counter / 40f)));
 
 
 						if (Counter % 5 == 0 && Counter2 <= 9) {
@@ -582,7 +582,7 @@ public class SlimeKingRubyBolt : ModProjectile {
 			if (progress < 0.25)
 				default(ColorIndicatorQuad).Draw(Projectile.Center, i + lasersRotation, new Vector2(length, 256), shaderSettings2);
 			else
-				default(RubyLaserQuad).Draw(Projectile.Center, i + lasersRotation, new Vector2(length, 256 * Utils.PingPongFrom01To010(progress)), shaderSettings);
+				default(RubyLaserQuad).Draw(Projectile.Center, i + lasersRotation, new Vector2(length, 256 * Terraria.Utils.PingPongFrom01To010(progress)), shaderSettings);
 
 		}
 

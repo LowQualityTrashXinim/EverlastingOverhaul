@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Roguelike.Common.Utils;
-using Roguelike.Texture;
+using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Texture;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

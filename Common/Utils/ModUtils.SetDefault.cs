@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.Mechanic;
 using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul;
+using EverlastingOverhaul.Common.Global;
 
 namespace EverlastingOverhaul.Common.Utils {
 	public enum WeaponTag : byte {

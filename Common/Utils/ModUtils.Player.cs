@@ -446,8 +446,6 @@ namespace EverlastingOverhaul.Common.Utils {
 	/// It make more sense to have a modplayer file do all the logic so we don't have to worry about it when implement
 	/// </summary>
 	public class ModUtilsPlayer : ModPlayer {
-		public static float ToStatsNumFloat(PlayerStats stats, int multi) => (float)Math.Round(TerrariaArrayID.Dict_PlayerStatAndValue[stats] * multi * .01f, 2);
-		public static int ToStatsNumInt(PlayerStats stats, int multi) => TerrariaArrayID.Dict_PlayerStatAndValue[stats] * multi;
 		public const float PLAYERARMLENGTH = 12f;
 		public Vector2 MouseLastPositionBeforeAnimation = Vector2.Zero;
 		public Vector2 PlayerLastPositionBeforeAnimation = Vector2.Zero;
