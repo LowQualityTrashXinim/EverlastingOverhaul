@@ -223,10 +223,10 @@ public abstract class ModArmorSet : ModType {
 	protected int bodyID;
 
 	public ModPlayer modplayer = null;
-	public string SetBonusToolTip => Language.GetTextValue($"Mods.Roguelike.Armor.{Name}.SetBonus");
-	public string HeadToolTip => Language.GetTextValue($"Mods.Roguelike.Armor.{Name}.Head");
-	public string BodyToolTip => Language.GetTextValue($"Mods.Roguelike.Armor.{Name}.Body");
-	public string LegToolTip => Language.GetTextValue($"Mods.Roguelike.Armor.{Name}.Leg");
+	public string SetBonusToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.SetBonus");
+	public string HeadToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.Head");
+	public string BodyToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.Body");
+	public string LegToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.Leg");
 	public bool OverrideOriginalToolTip = false;
 	public int HeadID { get => headID; }
 	public int BodyID { get => bodyID; }

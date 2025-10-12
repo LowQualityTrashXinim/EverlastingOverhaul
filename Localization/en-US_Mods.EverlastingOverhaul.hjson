@@ -1,2 +1,248 @@
-# This file will automatically update with entries for new content after a build and reload.
+Buffs: {
+	AbsoluteStunMovement: {
+		DisplayName: Absolute Stun Movement
+		Description: Mods.EverlastingOverhaul.Buffs.AbsoluteStunMovement.Description
+	}
 
+	BloodButchererEnchantmentDebuff: {
+		DisplayName: Blood Butcherer Enchantment Debuff
+		Description: Mods.EverlastingOverhaul.Buffs.BloodButchererEnchantmentDebuff.Description
+	}
+
+	CrimsonAbsorbtion: {
+		DisplayName: Crimson Absorbtion
+		Description: Mods.EverlastingOverhaul.Buffs.CrimsonAbsorbtion.Description
+	}
+
+	DeepSeaPressure: {
+		DisplayName: Deep Sea Pressure
+		Description: Mods.EverlastingOverhaul.Buffs.DeepSeaPressure.Description
+	}
+
+	EvilPresence: {
+		DisplayName: Evil Presence
+		Description: Mods.EverlastingOverhaul.Buffs.EvilPresence.Description
+	}
+
+	KingSlimeRage: {
+		DisplayName: King Slime Rage
+		Description: Mods.EverlastingOverhaul.Buffs.KingSlimeRage.Description
+	}
+
+	LeadIrradiation: {
+		DisplayName: Lead Irradiation
+		Description: Mods.EverlastingOverhaul.Buffs.LeadIrradiation.Description
+	}
+
+	MindBreak: {
+		DisplayName: Mind Break
+		Description: Mods.EverlastingOverhaul.Buffs.MindBreak.Description
+	}
+
+	MoonLordWrath: {
+		DisplayName: Moon Lord Wrath
+		Description: Mods.EverlastingOverhaul.Buffs.MoonLordWrath.Description
+	}
+
+	OverCharged: {
+		DisplayName: Over Charged
+		Description: Mods.EverlastingOverhaul.Buffs.OverCharged.Description
+	}
+
+	Penetrating: {
+		DisplayName: Penetrating
+		Description: Mods.EverlastingOverhaul.Buffs.Penetrating.Description
+	}
+
+	Drawback: {
+		DisplayName: Drawback
+		Description: Mods.EverlastingOverhaul.Buffs.Drawback.Description
+	}
+
+	LifeLoss: {
+		DisplayName: Life Loss
+		Description: Mods.EverlastingOverhaul.Buffs.LifeLoss.Description
+	}
+
+	Stasis: {
+		DisplayName: Stasis
+		Description: Mods.EverlastingOverhaul.Buffs.Stasis.Description
+	}
+
+	pumpkinOverdose: {
+		DisplayName: pumpkin Overdose
+		Description: Mods.EverlastingOverhaul.Buffs.pumpkinOverdose.Description
+	}
+
+	Rotting: {
+		DisplayName: Rotting
+		Description: Mods.EverlastingOverhaul.Buffs.Rotting.Description
+	}
+
+	RoyalAntiEscapeTm: {
+		DisplayName: Royal Anti Escape Tm
+		Description: Mods.EverlastingOverhaul.Buffs.RoyalAntiEscapeTm.Description
+	}
+
+	SecondChance: {
+		DisplayName: Second Chance
+		Description: Mods.EverlastingOverhaul.Buffs.SecondChance.Description
+	}
+
+	Shatter: {
+		DisplayName: Shatter
+		Description: Mods.EverlastingOverhaul.Buffs.Shatter.Description
+	}
+
+	TheUnderworldWrath: {
+		DisplayName: The Underworld Wrath
+		Description: Mods.EverlastingOverhaul.Buffs.TheUnderworldWrath.Description
+	}
+
+	DodgeJutsu: {
+		DisplayName: Dodge Jutsu
+		Description: Mods.EverlastingOverhaul.Buffs.DodgeJutsu.Description
+	}
+
+	DodgeJutsuCoolDown: {
+		DisplayName: Dodge Jutsu Cool Down
+		Description: Mods.EverlastingOverhaul.Buffs.DodgeJutsuCoolDown.Description
+	}
+
+	PlatinumDefense: {
+		DisplayName: Platinum Defense
+		Description: Mods.EverlastingOverhaul.Buffs.PlatinumDefense.Description
+	}
+
+	SandArmorBuff: {
+		DisplayName: Sand Armor Buff
+		Description: Mods.EverlastingOverhaul.Buffs.SandArmorBuff.Description
+	}
+
+	SilverPurification: {
+		DisplayName: Silver Purification
+		Description: Mods.EverlastingOverhaul.Buffs.SilverPurification.Description
+	}
+
+	TungstenEmpowerment: {
+		DisplayName: Tungsten Empowerment
+		Description: Mods.EverlastingOverhaul.Buffs.TungstenEmpowerment.Description
+	}
+
+	NightInfection: {
+		DisplayName: Night Infection
+		Description: Mods.EverlastingOverhaul.Buffs.NightInfection.Description
+	}
+
+	Special_Vulnerable: {
+		DisplayName: Special_ Vulnerable
+		Description: Mods.EverlastingOverhaul.Buffs.Special_Vulnerable.Description
+	}
+
+	ThrowShortSwordCoolDown: {
+		DisplayName: Throw Short Sword Cool Down
+		Description: Mods.EverlastingOverhaul.Buffs.ThrowShortSwordCoolDown.Description
+	}
+
+	Freezy: {
+		DisplayName: Freezy
+		Description: Mods.EverlastingOverhaul.Buffs.Freezy.Description
+	}
+
+	Roguelike_RedRyder_Buff: {
+		DisplayName: Roguelike_ Red Ryder_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_RedRyder_Buff.Description
+	}
+
+	Shield_ModBuff: {
+		DisplayName: Shield_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Shield_ModBuff.Description
+	}
+}
+
+Items: {
+	SunItem: {
+		DisplayName: Sun Item
+		Tooltip: ""
+	}
+}
+
+NPCs: {
+	KingSlimeCrown.DisplayName: King Slime Crown
+	KingSlimeMinion.DisplayName: King Slime Minion
+	KingSlimeMinionSpawner.DisplayName: King Slime Minion Spawner
+}
+
+Prefixes: {
+	Alchemic.DisplayName: Alchemic
+	Chaotic.DisplayName: Chaotic
+	Cunning.DisplayName: Cunning
+	Evasive.DisplayName: Evasive
+	Holy.DisplayName: Holy
+	Jumpy.DisplayName: Jumpy
+	Spiky.DisplayName: Spiky
+	Stealthy.DisplayName: Stealthy
+	Unstable.DisplayName: Unstable
+	Vampiric.DisplayName: Vampiric
+	Vital.DisplayName: Vital
+}
+
+Projectiles: {
+	ItemProjectile.DisplayName: Item Projectile
+	AcornProjectile.DisplayName: Acorn Projectile
+	AcornRainCloud.DisplayName: Acorn Rain Cloud
+	AmethystMagicalBolt.DisplayName: Amethyst Magical Bolt
+	CoconutProjectile.DisplayName: Coconut Projectile
+	CorruptionTrail.DisplayName: Corruption Trail
+	DiamondMagicalBolt.DisplayName: Diamond Magical Bolt
+	EmeraldMagicalBolt.DisplayName: Emerald Magical Bolt
+	FlyingSlashProjectile.DisplayName: Flying Slash Projectile
+	LeafProjectile.DisplayName: Leaf Projectile
+	pearlSwordProj.DisplayName: pearl Sword Proj
+	RubyMagicalBolt.DisplayName: Ruby Magical Bolt
+	SandProjectile.DisplayName: Sand Projectile
+	SapphireMagicalBolt.DisplayName: Sapphire Magical Bolt
+	ShortSwordProjectile.DisplayName: Short Sword Projectile
+	SimplePiercingProjectile.DisplayName: Simple Piercing Projectile
+	SimplePiercingProjectile2.DisplayName: Simple Piercing Projectile2
+	SnowBlockProjectile.DisplayName: Snow Block Projectile
+	StarWarSwordProjectile.DisplayName: Star War Sword Projectile
+	SunflowerProjectile.DisplayName: Sunflower Projectile
+	SwordProjectile.DisplayName: Sword Projectile
+	SwordProjectile2.DisplayName: Sword Projectile2
+	SwordProjectile3.DisplayName: Sword Projectile3
+	SwordProjectileSpear.DisplayName: Sword Projectile Spear
+	ThrowShortSwordProjectile.DisplayName: Throw Short Sword Projectile
+	TinBarProjectile.DisplayName: Tin Bar Projectile
+	TinBroadSwordProjectile.DisplayName: Tin Broad Sword Projectile
+	TinOreProjectile.DisplayName: Tin Ore Projectile
+	TinShortSwordProjectile.DisplayName: Tin Short Sword Projectile
+	TomahawkProjectile.DisplayName: Tomahawk Projectile
+	TopazMagicalBolt.DisplayName: Topaz Magical Bolt
+	WindShot.DisplayName: Wind Shot
+	WindSlashProjectile.DisplayName: Wind Slash Projectile
+	GemCollectible.DisplayName: Gem Collectible
+	SentientBlood.DisplayName: Sentient Blood
+	RoguelikeOverhaul_ShortSwordProjectile.DisplayName: Roguelike Overhaul_ Short Sword Projectile
+	Special_ThrowShortSwordProjectile.DisplayName: Special_ Throw Short Sword Projectile
+	ChlorophyteOrb_SimplePiercingTrailProjectile.DisplayName: Chlorophyte Orb_ Simple Piercing Trail Projectile
+	Roguelike_RedRyder_ModProjectile.DisplayName: Roguelike_ Red Ryder_ Mod Projectile
+	Roguelike_Starfury_Projectile.DisplayName: Roguelike_ Starfury_ Projectile
+	TinBolt.DisplayName: Tin Bolt
+	TinOreMeteor.DisplayName: Tin Ore Meteor
+	EvilFlamesProj.DisplayName: Evil Flames Proj
+	LingeringEvilFlames.DisplayName: Lingering Evil Flames
+	KingSlimeSludgeProjectile.DisplayName: King Slime Sludge Projectile
+	SlimeKingRubyBolt.DisplayName: Slime King Ruby Bolt
+}
+
+Configs: {
+	RogueLikeConfig: {
+		DisplayName: Rogue Like Config
+
+		HoldShift: {
+			Label: Hold Shift
+			Tooltip: ""
+		}
+	}
+}

@@ -14,6 +14,7 @@ using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Common.Graphics;
 using EverlastingOverhaul.Common.Systems;
 using EverlastingOverhaul.Common.Projectiles;
+using EverlastingOverhaul.Common.BuffAndDebuff;
 
 namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
 {
@@ -264,9 +265,9 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
 
 		}
 		public override void ProcessTriggers(TriggersSet triggersSet) {
-			WeaponKeyPressed = UniversalSystem.WeaponActionKey.JustPressed;
-			WeaponKeyReleased = UniversalSystem.WeaponActionKey.JustReleased;
-			WeaponKeyHeld = UniversalSystem.WeaponActionKey.Current;
+			//WeaponKeyPressed = UniversalSystem.WeaponActionKey.JustPressed;
+			//WeaponKeyReleased = UniversalSystem.WeaponActionKey.JustReleased;
+			//WeaponKeyHeld = UniversalSystem.WeaponActionKey.Current;
 		}
 		public override bool CanUseItem(Item item) {
 			if (item.type == ItemID.ToxicFlask && ToxicFlask_DelayWeaponUse > 0) {

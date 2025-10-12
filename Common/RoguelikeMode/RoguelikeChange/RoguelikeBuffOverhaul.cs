@@ -1,6 +1,6 @@
 ﻿using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using System;
 using Terraria;
 using Terraria.ID;

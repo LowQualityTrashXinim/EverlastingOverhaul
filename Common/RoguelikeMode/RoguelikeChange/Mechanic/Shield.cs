@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Texture;
 

@@ -9,7 +9,7 @@ using EverlastingOverhaul.Common.Systems;
 using EverlastingOverhaul.Common.Systems.ObjectSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using System;
 using Terraria;
 using Terraria.Audio;

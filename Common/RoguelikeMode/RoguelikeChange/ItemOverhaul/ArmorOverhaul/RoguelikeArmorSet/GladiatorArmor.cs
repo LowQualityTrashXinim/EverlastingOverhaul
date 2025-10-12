@@ -1,8 +1,8 @@
 ﻿using System;
 using Terraria;
 using Terraria.ID;
-using Roguelike.Common.Global;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Global;
+using EverlastingOverhaul.Common.Utils;
 
 namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul.RoguelikeArmorSet;
 internal class GladiatorArmor : ModArmorSet {

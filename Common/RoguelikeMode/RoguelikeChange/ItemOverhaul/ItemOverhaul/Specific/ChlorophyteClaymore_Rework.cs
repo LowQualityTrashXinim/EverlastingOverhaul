@@ -1,7 +1,7 @@
 ﻿using EverlastingOverhaul.Common.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;

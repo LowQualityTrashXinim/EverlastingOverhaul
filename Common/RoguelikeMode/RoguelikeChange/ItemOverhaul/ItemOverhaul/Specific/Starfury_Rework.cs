@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Roguelike.Common.Systems;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Systems;
+using EverlastingOverhaul.Common.Utils;
 using System;
 using System.Collections.Generic;
 using Terraria;

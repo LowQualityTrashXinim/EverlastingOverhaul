@@ -1,10 +1,9 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Roguelike.Contents.BuffAndDebuff;
-using Roguelike.Common.Utils;
-using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul;
+using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Global;
+using EverlastingOverhaul.Common.BuffAndDebuff;
 
 namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul.RoguelikeArmorSet;
 internal class LeadArmor : ModArmorSet {

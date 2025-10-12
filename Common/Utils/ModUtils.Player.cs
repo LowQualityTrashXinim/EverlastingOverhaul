@@ -49,16 +49,15 @@ namespace EverlastingOverhaul.Common.Utils {
 		/// Return false when player is not helding the item in hand
 		/// </returns>
 		public static bool IsHeldingModItem(this Player player, int type) => player.HeldItem.type == type;
-		public static bool DoesStatsRequiredWholeNumber(PlayerStats stats) =>
-					stats is PlayerStats.Defense
-					|| stats is PlayerStats.MaxMinion
-					|| stats is PlayerStats.MaxSentry
-					|| stats is PlayerStats.MaxHP
-					|| stats is PlayerStats.MaxMana
-					|| stats is PlayerStats.CritChance
-					|| stats is PlayerStats.RegenHP
-					|| stats is PlayerStats.RegenMana
-					|| stats is PlayerStats.LootDropIncrease;
+        public static bool DoesStatsRequiredWholeNumber(PlayerStats stats) =>
+                    stats is PlayerStats.Defense
+                    || stats is PlayerStats.MaxMinion
+                    || stats is PlayerStats.MaxSentry
+                    || stats is PlayerStats.MaxHP
+                    || stats is PlayerStats.MaxMana
+                    || stats is PlayerStats.CritChance
+                    || stats is PlayerStats.RegenHP
+                    || stats is PlayerStats.RegenMana;
 		public static bool Player_MeteoriteArmorSet(Player player) =>
 			player.head == ArmorIDs.Head.MeteorHelmet
 			&& player.body == ArmorIDs.Body.MeteorSuit
@@ -324,7 +323,6 @@ namespace EverlastingOverhaul.Common.Utils {
 		CritChance,
 		CritDamage,
 		DefenseEffectiveness,
-		LootDropIncrease,
 		MaxMinion,
 		MaxSentry,
 		Thorn,
@@ -339,9 +337,6 @@ namespace EverlastingOverhaul.Common.Utils {
 		AttackSpeed,
 		LifeSteal,
 		HealEffectiveness,
-		MysteriousPotionEffectiveness,
-		EnergyCap,
-		EnergyRechargeCap,
 		/// <summary>
 		/// This is first strike damage dealt stat, dealing damage to enemy first time will activate this stat
 		/// </summary>
@@ -357,8 +352,6 @@ namespace EverlastingOverhaul.Common.Utils {
 		/// </summary>
 		SynergyDamage,
 		Iframe,
-		EnergyRecharge,
-		SkillDuration,
 		/// <summary>
 		/// This stat will increases debuff duration when inflicting on enemy
 		/// </summary>

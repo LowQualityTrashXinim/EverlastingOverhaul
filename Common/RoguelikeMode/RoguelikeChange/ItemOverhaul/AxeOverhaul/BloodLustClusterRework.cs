@@ -3,9 +3,9 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Roguelike.Contents.BuffAndDebuff;
 
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Common.BuffAndDebuff;
 
 namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.AxeOverhaul;
 internal class BloodLustClusterRework : GlobalItem {

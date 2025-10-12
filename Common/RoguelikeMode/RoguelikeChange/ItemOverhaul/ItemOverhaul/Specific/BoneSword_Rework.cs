@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;

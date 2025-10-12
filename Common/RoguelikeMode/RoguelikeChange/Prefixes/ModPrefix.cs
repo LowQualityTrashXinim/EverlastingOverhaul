@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using System.Collections.Generic;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Global;
 
 namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.Prefixes;
@@ -114,20 +114,6 @@ public class Vampiric : BaseAccPrefix {
 		};
 	}
 }
-
-public class Energetic : BaseAccPrefix {
-	public override float PowerLevel => base.PowerLevel * 2;
-	public override void ApplyAccessoryEffects(Player player) {
-		PlayerStatsHandle modplayer = player.GetModPlayer<PlayerStatsHandle>();
-		modplayer.AddStatsToPlayer(PlayerStats.EnergyCap, Base: PowerLevel * 25);
-	}
-	public override IEnumerable<TooltipLine> GetTooltipLines(Item item) {
-		yield return new TooltipLine(Mod, $"Tooltip_{Name}", "+50 maximum energy") {
-			IsModifier = true,
-		};
-	}
-}
-
 public class Alchemic : BaseAccPrefix {
 	public override float PowerLevel => base.PowerLevel * 2;
 	public override void ApplyAccessoryEffects(Player player) {

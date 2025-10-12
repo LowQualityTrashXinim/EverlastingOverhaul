@@ -2,8 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Roguelike.Common.Utils;
-using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul;
+using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Common.Projectiles;
 

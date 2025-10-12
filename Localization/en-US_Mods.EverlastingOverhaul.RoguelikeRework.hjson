@@ -91,7 +91,7 @@ Minishark:
 GemStaff: Alt-click to activate special attack
 PlatinumBow:
 	'''
-	If previous weapon used is:
-	{0} : shoot out arch of 8 diamond bolts and increases arrow damage by 50%
-	{1} : Rain down Star fury projectiles along with current arrow
+	Hold down to dish out combo
+	While air born, shooting will cause player to fall down without taking fall damage
+	Alt-click to shoot out a single arrow
 	'''

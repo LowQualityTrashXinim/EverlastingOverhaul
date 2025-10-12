@@ -4,9 +4,8 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Roguelike.Contents.BuffAndDebuff;
-using Roguelike.Common.Utils;
-using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul;
+using EverlastingOverhaul.Common.BuffAndDebuff;
+using EverlastingOverhaul.Common.Utils;
 
 namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul.RoguelikeArmorSet;
 internal class PumpkinArmor : ModArmorSet {

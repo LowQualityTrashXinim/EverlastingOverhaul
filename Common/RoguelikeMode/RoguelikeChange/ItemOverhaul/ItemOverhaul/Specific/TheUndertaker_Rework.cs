@@ -1,7 +1,7 @@
 ﻿using EverlastingOverhaul.Common.Global;
 using Microsoft.Xna.Framework;
-using Roguelike.Common.Utils;
-using Roguelike.Contents.BuffAndDebuff;
+using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Common.BuffAndDebuff;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;

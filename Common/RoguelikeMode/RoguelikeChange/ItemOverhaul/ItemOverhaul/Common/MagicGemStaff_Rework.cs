@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using EverlastingOverhaul.Common.Projectiles;

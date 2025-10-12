@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using EverlastingOverhaul.Common.Utils;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria;
-
-using Roguelike.Common.Utils;
 
 namespace EverlastingOverhaul.Common.Projectiles;
 public class TomahawkProjectile : ModProjectile {

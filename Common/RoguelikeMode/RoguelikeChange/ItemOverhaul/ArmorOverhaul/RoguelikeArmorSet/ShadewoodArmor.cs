@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ArmorOverhaul;
 using EverlastingOverhaul.Common.Global;
 

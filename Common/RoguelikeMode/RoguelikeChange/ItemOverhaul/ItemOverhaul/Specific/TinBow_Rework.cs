@@ -1,7 +1,7 @@
 ﻿using EverlastingOverhaul.Texture;
 using Microsoft.Xna.Framework;
-using Roguelike.Common.Systems;
-using Roguelike.Common.Utils;
+using EverlastingOverhaul.Common.Systems;
+using EverlastingOverhaul.Common.Utils;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
