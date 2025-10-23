@@ -1,1 +1,3 @@
-Modify this file with a description of your mod.
+This is a demo of what to be expected from Everlasting mod vanilla item rework, please enjoy our change in a vanilla environment.
+
+The mod will be updated whenever everlasting mod made changes toward vanilla item.
