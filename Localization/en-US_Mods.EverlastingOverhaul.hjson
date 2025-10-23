@@ -234,6 +234,7 @@ Projectiles: {
 	LingeringEvilFlames.DisplayName: Lingering Evil Flames
 	KingSlimeSludgeProjectile.DisplayName: King Slime Sludge Projectile
 	SlimeKingRubyBolt.DisplayName: Slime King Ruby Bolt
+	Roguelike_Chik_ModProjectile.DisplayName: Roguelike_ Chik_ Mod Projectile
 }
 
 Configs: {
