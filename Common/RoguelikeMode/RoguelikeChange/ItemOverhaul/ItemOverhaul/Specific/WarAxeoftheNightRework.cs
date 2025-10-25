@@ -7,7 +7,7 @@ using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Texture;
 
-namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.AxeOverhaul;
+namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ItemOverhaul.Specific;
 internal class WarAxeoftheNightRework : GlobalItem {
 	public override void SetDefaults(Item entity) {
 		if (entity.type == ItemID.WarAxeoftheNight) {

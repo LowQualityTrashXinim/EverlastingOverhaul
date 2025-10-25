@@ -16,20 +16,19 @@ None: {
 WoodArmor: {
 	Head:
 		'''
-		+ 5% ranged critical strike
-		+ 15% acorn critical strike chance
+		+ 5% critical strike chance
+		+ 15% wooden weapon critical strike chance
 		+ 2% chance to spawn a acorn
 		'''
 	Body:
 		'''
-		1.1x ranged damage
-		+ 20% acorn damage
+		1.1x damage
+		+ 20% wooden weapon damage
 		+ 3% chance to spawn a acorn
 		'''
 	Leg:
 		'''
 		+ 15% movement speed and jump boost
-		+ 35% acorn velocity
 		+ 1% chance to spawn a acorn
 		'''
 	SetBonus:

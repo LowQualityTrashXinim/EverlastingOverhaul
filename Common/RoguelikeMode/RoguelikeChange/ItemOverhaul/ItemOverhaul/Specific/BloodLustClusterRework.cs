@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.BuffAndDebuff;
 
-namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.AxeOverhaul;
+namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ItemOverhaul.Specific;
 internal class BloodLustClusterRework : GlobalItem {
 	public override void SetDefaults(Item entity) {
 		if (entity.type == ItemID.WarAxeoftheNight) {

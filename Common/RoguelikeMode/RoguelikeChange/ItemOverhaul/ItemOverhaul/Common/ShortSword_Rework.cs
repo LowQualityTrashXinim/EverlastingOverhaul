@@ -70,6 +70,10 @@ public class Roguelike_ShortSword : GlobalItem {
 		public override bool? CanDamage() {
 			return progression > 0 && !HitEnemey;
 		}
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
+        }
 		public override void AI() {
 			if (Projectile.timeLeft == 300) {
 				MaxProgression = 10;

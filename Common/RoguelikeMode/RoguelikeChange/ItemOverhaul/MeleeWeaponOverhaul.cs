@@ -555,7 +555,7 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
             var item = player.HeldItem;
             if (item.noMelee || item.noUseGraphic)
             {
-                orig.Invoke(ref drawinfo);
+                orig(ref drawinfo);
                 return;
             }
             if (player.TryGetModPlayer(out MeleeOverhaulPlayer modplayer) && item.TryGetGlobalItem(out MeleeWeaponOverhaul meleeItem))
@@ -570,7 +570,7 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
                     DrawSwordTrail(modplayer);
                 }
             }
-            orig.Invoke(ref drawinfo);
+            orig(ref drawinfo);
         }
 
         private static void AdjustDrawingInfo(ref PlayerDrawSet drawinfo, MeleeOverhaulPlayer modplayer, MeleeWeaponOverhaul meleeItem, Player player, Item item)

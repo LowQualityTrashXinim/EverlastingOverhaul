@@ -23,7 +23,7 @@ public class TomahawkProjectile : ModProjectile {
 			intialvelocity = Projectile.velocity.Length();
 		}
 		Player player = Main.player[Projectile.owner];
-		if (++Projectile.ai[0] >= ModUtils.ToSecond(3) || !player.ItemAnimationActive && (player.altFunctionUse == 2 || Main.mouseRight && Projectile.owner == Main.myPlayer)) {
+		if (++Projectile.ai[0] >= ModUtils.ToSecond(5) || !player.ItemAnimationActive && (Main.mouseRight && Projectile.owner == Main.myPlayer)) {
 			Projectile.ai[1] = 1;
 		}
 		if (Projectile.ai[1] == 1) {
