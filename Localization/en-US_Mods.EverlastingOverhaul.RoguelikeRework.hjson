@@ -101,3 +101,23 @@ Chik:
 	After 12 yoyo hits, the next 3 hit shoot out ring of crystal
 	A illusion yoyo follow the main yoyo.
 	'''
+MechanicalLens:
+	'''
+	Increases critical strike damage by 55%
+	Multiply critical strike chance by 1.33x and flat chance by 5%
+	'''
+Aglet:
+	'''
+	Increases dodge chance by 15% and jump boost by 35%
+	Upon dodge, player gain 35% movement speed for 30s
+	'''
+ClimbingClaws:
+	'''
+	Increases melee damage by 12%, melee crit chance by 10% and melee crit damage by 25%
+	While sliding, increases defenses by 10.
+	'''
+LavaCharm:
+	'''
+	Enemy that is on fire take 100% more damage.
+	While enemy is near you, deal 42 damage every 1s and inflict on fire debuff.
+	'''
