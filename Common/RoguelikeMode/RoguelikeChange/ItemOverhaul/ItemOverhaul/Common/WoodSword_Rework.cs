@@ -1,4 +1,5 @@
 ﻿using EverlastingOverhaul.Common.Projectiles;
+using EverlastingOverhaul.Common.Utils;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -40,21 +41,25 @@ public class Roguelike_WoodSword : GlobalItem
         entity.damage += 10;
         entity.GetGlobalItem<MeleeWeaponOverhaul>().ShaderOffSetLength += 1;
     }
-    public override void UseStyle(Item item, Player player, Rectangle heldItemFrame)
+    public override void HoldItem(Item item, Player player)
     {
-        if (player.itemAnimation == player.itemAnimationMax)
+        if (player.itemAnimation == player.itemAnimationMax && player.ItemAnimationActive)
         {
             int damage = player.GetWeaponDamage(item);
             float knockback = player.GetWeaponKnockback(item);
             if (++swingCount >= 5)
             {
                 swingCount = 0;
-                Vector2 pos = new Vector2(Main.MouseWorld.X, player.Center.Y - 1000) + Main.rand.NextVector2Circular(100, 100);
-                Vector2 vel = (Main.MouseWorld - pos).SafeNormalize(Vector2.Zero) * 20;
-                int projec = Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), pos, vel, ModContent.ProjectileType<SwordProjectile2>(), damage, knockback, player.whoAmI, 1);
-                if (Main.projectile[projec].ModProjectile is SwordProjectile2 spear)
+                int direction = ModUtils.DirectionFromEntityAToEntityB(player.Center.X, Main.MouseWorld.X);
+                for (int i = 0; i < 40; i++)
                 {
-                    spear.ItemIDtextureValue = item.type;
+                    Vector2 pos = new Vector2(player.Center.X + (50 * i + 100) * direction, player.Center.Y - 1000 - 100 * i);
+                    Vector2 vel = Vector2.UnitY.Vector2RotateByRandom(5) * 20;
+                    int projec = Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), pos, vel, ModContent.ProjectileType<SwordProjectile2>(), damage, knockback, player.whoAmI, 1);
+                    if (Main.projectile[projec].ModProjectile is SwordProjectile2 spear)
+                    {
+                        spear.ItemIDtextureValue = item.type;
+                    }
                 }
             }
             Vector2 toward = (Main.MouseWorld - player.Center).SafeNormalize(Vector2.Zero) * 100;

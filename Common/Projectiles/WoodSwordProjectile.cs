@@ -1,12 +1,12 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Texture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using EverlastingOverhaul.Texture;
-using EverlastingOverhaul.Common.Utils;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Projectiles;
 internal class SwordProjectile : ModProjectile {
@@ -89,13 +89,28 @@ internal class SwordProjectile2 : ModProjectile {
 		Projectile.extraUpdates = 5;
 	}
 	public int ItemIDtextureValue = ItemID.WoodenSword;
-	Vector2 vel = Vector2.Zero;
-	public float Counter { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
+	Vector2 vel = Vector2.Zero; Vector2 mousePos = Vector2.Zero;
+    public override void OnSpawn(IEntitySource source)
+    {
+        mousePos = Main.MouseWorld;
+    }
+    public float Counter { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
 	public float State { get => Projectile.ai[1]; set => Projectile.ai[1] = value; }
 	public override bool? CanDamage() {
 		return State != 1;
-	}
-	public override void AI() {
+    }
+    public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+    {
+        if (Projectile.Center.Y >= mousePos.Y - 50)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public override void AI() {
 		if (State == 1) {
 			if (Projectile.timeLeft > 30) {
 				Projectile.timeLeft = 30;

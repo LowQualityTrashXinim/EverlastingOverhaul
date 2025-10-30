@@ -64,8 +64,8 @@ BorealwoodArmor: {
 		Increase defense by 5 and movement speed by 20%
 		You are immune to Chilled, Slow
 		+ 7% chance to inflict frost burn
-		+ 20% chance to shoot snowball
-		Frost burn now grant massive boost in regeneration
+		+ 10% chance to shoot snowball
+		Hitting enemy with Frost burn heal you for 1 hp (CD:1s)
 		'''
 }
 
@@ -280,9 +280,21 @@ TinArmor: {
 }
 
 CopperArmor: {
-	Head: + 2% chance to inflict Electrified on hit
-	Body: + 3% chance to inflict Electrified on hit
-	Leg: + 1% chance to inflict Electrified on hit
+	Head: 
+	'''
+	+ 2% chance to inflict Electrified on hit
+	Increases critical damage against electrified target by 25%
+	'''
+	Body: 
+	'''
+	+ 3% chance to inflict Electrified on hit
+	Getting hit inflict Electrified on target for 3s
+	'''
+	Leg: 
+	'''
+	+ 1% chance to inflict Electrified on hit
+	Increases damage against electrified target by 12%
+	'''
 	SetBonus:
 		'''
 		+ 25% increased movement speed
