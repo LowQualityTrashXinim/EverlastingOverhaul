@@ -158,6 +158,21 @@ Buffs: {
 		DisplayName: Shield_ Mod Buff
 		Description: Mods.EverlastingOverhaul.Buffs.Shield_ModBuff.Description
 	}
+
+	Aglet_Buff: {
+		DisplayName: Aglet_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Aglet_Buff.Description
+	}
+
+	SpaceSuitDefenses: {
+		DisplayName: Space Suit Defenses
+		Description: Mods.EverlastingOverhaul.Buffs.SpaceSuitDefenses.Description
+	}
+
+	BroadSword_Guard: {
+		DisplayName: Broad Sword_ Guard
+		Description: Mods.EverlastingOverhaul.Buffs.BroadSword_Guard.Description
+	}
 }
 
 Items: {
@@ -235,6 +250,8 @@ Projectiles: {
 	KingSlimeSludgeProjectile.DisplayName: King Slime Sludge Projectile
 	SlimeKingRubyBolt.DisplayName: Slime King Ruby Bolt
 	Roguelike_Chik_ModProjectile.DisplayName: Roguelike_ Chik_ Mod Projectile
+	AshwoodSwordProjectile.DisplayName: Ashwood Sword Projectile
+	Roguelike_StylistScissor_ModProjectile.DisplayName: Roguelike_ Stylist Scissor_ Mod Projectile
 }
 
 Configs: {

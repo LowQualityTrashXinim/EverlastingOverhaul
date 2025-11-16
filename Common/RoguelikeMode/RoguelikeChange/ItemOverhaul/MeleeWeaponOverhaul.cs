@@ -76,6 +76,10 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
         public float ShaderOffSetLength = 0;
         public Vector2 scaleWarp = Vector2.One;
         public bool Ignore_AttackSpeed = false;
+        /// <summary>
+        /// This will temporary disable attack animation during player item animation active
+        /// </summary>
+        public bool DisableAttackAnimation = false;
         public override bool InstancePerEntity => true;
         public override void SetDefaults(Item item)
         {
@@ -205,11 +209,15 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
         }
         public override void UseStyle(Item item, Player player, Rectangle heldItemFrame)
         {
+            if (DisableAttackAnimation)
+            {
+                return;
+            }
             if (item.type == player.HeldItem.type || item.type == Main.mouseItem.type)
             {
                 if (RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item))
                 {
-                    if (player.itemAnimation <= AnimationEndTime)
+                    if (player.itemAnimation <= AnimationEndTime && player.altFunctionUse != 2)
                     {
                         if (Main.mouseLeftRelease)
                         {
@@ -414,11 +422,24 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
             trailShaderSettings.oldPos = modplayer.swordTipPositions;
             trailShaderSettings.oldRot = modplayer.swordRotations;
             trailShaderSettings.shaderType = SwordSlashTrail.GetShaderType(modplayer.Player);
-            trailShaderSettings.image1 = TextureAssets.Extra[193];
+            trailShaderSettings.image1 = ModContent.Request<Texture2D>(ModTexture.PingpongGradient2);
             trailShaderSettings.image2 = ModContent.Request<Texture2D>(ModTexture.Gradient);
             trailShaderSettings.image3 = ModContent.Request<Texture2D>(ModTexture.PingpongGradient);
-            trailShaderSettings.Color = SwordSlashTrail.averageColorByID[modplayer.Player.HeldItem.type] * 2;
+            trailShaderSettings.Color = SwordSlashTrail.averageColorByID[modplayer.Player.HeldItem.type];
             default(GenericTrail).Draw(trailShaderSettings,
+            (progress) => { return MathHelper.Lerp(modplayer.swordLength, modplayer.swordLength, progress); },
+            //Tf this do nothing ??
+            (progress) => { return new(0, 0, 0, 0); });
+
+            var trailShaderSettings2 = new TrailShaderSettings();
+            trailShaderSettings2.oldPos = modplayer.swordTipPositions;
+            trailShaderSettings2.oldRot = modplayer.swordRotations;
+            trailShaderSettings2.shaderType = SwordSlashTrail.GetShaderType(modplayer.Player);
+            trailShaderSettings2.image1 = ModContent.Request<Texture2D>(ModTexture.PingpongGradient);
+            trailShaderSettings2.image2 = ModContent.Request<Texture2D>(ModTexture.Gradient);
+            trailShaderSettings2.image3 = ModContent.Request<Texture2D>(ModTexture.PingpongGradient);
+            trailShaderSettings2.Color = SwordSlashTrail.averageColorByID[modplayer.Player.HeldItem.type] * 2;
+            default(GenericTrail).Draw(trailShaderSettings2,
             (progress) => { return MathHelper.Lerp(modplayer.swordLength, modplayer.swordLength, progress); },
             //Tf this do nothing ??
             (progress) => { return new(0, 0, 0, 0); });
@@ -436,7 +457,7 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
             var item = player.HeldItem;
             if (item.noMelee || item.noUseGraphic)
             {
-                orig(ref drawinfo);
+                orig.Invoke(ref drawinfo);
                 return;
             }
             if (player.TryGetModPlayer(out MeleeOverhaulPlayer modplayer) && item.TryGetGlobalItem(out MeleeWeaponOverhaul meleeItem))
@@ -451,7 +472,7 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
                     DrawSwordTrail(modplayer);
                 }
             }
-            orig(ref drawinfo);
+            orig.Invoke(ref drawinfo);
         }
 
         private static void AdjustDrawingInfo(ref PlayerDrawSet drawinfo, MeleeOverhaulPlayer modplayer, MeleeWeaponOverhaul meleeItem, Player player, Item item)
@@ -499,6 +520,11 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
         public int CountDownToResetCombo = 0;
         public float CustomItemRotation = 0;
         public float itemAnimationImproved = 0;
+        /// <summary>
+        /// This is to force shader to draw regardless of condition<br/>
+        /// By default this is set to false and always reset to false
+        /// </summary>
+        public bool ExtraOverride = false;
         // sword trail fields
         public Vector2[] swordTipPositions = new Vector2[30];
         public float[] swordRotations = new float[30];
@@ -514,6 +540,7 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
         public Vector2 Item_LastFramePosition = Vector2.Zero;
         public override void PreUpdate()
         {
+            ExtraOverride = false;
             var item = Player.HeldItem;
             if (oldHeldItem != item.type)
             {
@@ -532,7 +559,7 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
             }
             if (item.TryGetGlobalItem(out MeleeWeaponOverhaul meleeItem))
             {
-                if (meleeItem.SwingType != BossRushUseStyle.Swipe)
+                if (meleeItem.SwingType != BossRushUseStyle.Swipe || meleeItem.DisableAttackAnimation)
                 {
                     ComboNumber = 0;
                 }
@@ -598,14 +625,17 @@ namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul
             }
             if (Player.ItemAnimationActive)
             {
-                float scale = Player.GetAdjustedItemScale(item);
-                swordLength = item.Size.Length() * .55f * scale;
                 Player.direction = PlayerToMouseDirection.X > 0 ? 1 : -1;
                 var overhaul = item.GetGlobalItem<MeleeWeaponOverhaul>();
                 if (overhaul.HideSwingVisual)
                 {
-                    return;
+                    if (!ExtraOverride)
+                    {
+                        return;
+                    }
                 }
+                float scale = Player.GetAdjustedItemScale(item);
+                swordLength = item.Size.Length() * .55f * scale;
                 swordLength += overhaul.ShaderOffSetLength;
                 float extraAdd = MathHelper.ToRadians(2) * Player.direction;
                 float customAddByXinim = startSwordSwingAngle;

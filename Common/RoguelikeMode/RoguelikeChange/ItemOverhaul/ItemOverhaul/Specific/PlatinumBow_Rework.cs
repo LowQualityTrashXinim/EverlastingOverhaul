@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.Mode.RoguelikeMode.RoguelikeChange.ItemOverhaul.ItemOverhaul.Specific;
+namespace EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul.ItemOverhaul.Specific;
 internal class Roguelike_PlatinumBow : GlobalItem
 {
     public override bool AppliesToEntity(Item entity, bool lateInstantiation)
@@ -79,7 +79,7 @@ internal class Roguelike_PlatinumBow : GlobalItem
                 break;
             case 4:
                 player.velocity -= velocity.SafeNormalize(Vector2.Zero) * 3;
-                damage = (int)(damage);
+                damage = damage;
                 break;
         }
         player.velocity.Y = 0;

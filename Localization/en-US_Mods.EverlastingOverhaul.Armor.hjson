@@ -438,3 +438,24 @@ PlatinumArmor: {
 		+ 3% damage reduction
 		'''
 }
+
+MeteorArmor: {
+	SetBonus:
+		'''
+		And Laser rifle cost 0 mana
+		Gain 200 Space suit defenses
+		While space suit defenses is above 0
+		Decreases damage taken by 80%
+		'''
+	Head:
+		'''
+		15% magic critical damage
+		5% magic critical strike chance
+		'''
+	Body: 15% Damage reduction
+	Leg:
+		'''
+		Grant rocket boot ability
+		+50% Jump boost
+		'''
+}

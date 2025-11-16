@@ -1,11 +1,6 @@
 ﻿using EverlastingOverhaul.Common.Projectiles;
 using EverlastingOverhaul.Common.Utils;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,14 +17,11 @@ public class Roguelike_WoodSword : GlobalItem
     {
         switch (type)
         {
-            case ItemID.PearlwoodSword:
             case ItemID.BorealWoodSword:
             case ItemID.PalmWoodSword:
             case ItemID.ShadewoodSword:
             case ItemID.EbonwoodSword:
             case ItemID.RichMahoganySword:
-            case ItemID.WoodenSword:
-            case ItemID.AshWoodSword:
                 return true;
         }
         return false;
