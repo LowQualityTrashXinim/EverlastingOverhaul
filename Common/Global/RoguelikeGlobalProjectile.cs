@@ -95,28 +95,6 @@ internal class RoguelikeGlobalProjectile : GlobalProjectile {
 			projectile.Kill();
 		}
 	}
-	public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) {
-		if (Source_CustomContextInfo == "Skill" && projectile.type == ProjectileID.Blizzard) {
-			var player = Main.player[projectile.owner];
-			target.AddBuff(BuffID.Frozen, ModUtils.ToSecond(Main.rand.Next(4, 7)));
-			target.Center.LookForHostileNPC(out var npclist, 75);
-			var hitweaker = hit;
-			hitweaker.Damage = (int)(hit.Damage * .54f);
-			foreach (var npc in npclist) {
-				if (npc.whoAmI == target.whoAmI) {
-					continue;
-				}
-				player.StrikeNPCDirect(npc, hitweaker);
-			}
-		}
-		if (Source_ItemType == ItemID.CopperBow && projectile.type != ProjectileID.Electrosphere) {
-			if (Main.rand.NextFloat() <= .15f) {
-				int min = Math.Max(projectile.damage / 4, 1);
-				Projectile proj = Projectile.NewProjectileDirect(projectile.GetSource_FromAI(), projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, min, projectile.knockBack, projectile.owner);
-				proj.timeLeft = 30;
-			}
-		}
-	}
 	public override bool TileCollideStyle(Projectile projectile, ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac) {
 		if (projectile.type == ProjectileID.StarCannonStar
 			|| projectile.type == ProjectileID.Starfury

@@ -8,7 +8,7 @@ CobaltSword:
 CopperBow:
 	'''
 	Wait 1.5s to shoot out a burst of thunder shots
-	Wait additional 1s to increases shot amount by 5
+	Wait additional 1s to increases shot amount by 15
 	Shoot out a additional thunder shot
 	Arrow shot from this bow have 15% chance to explode into electric sphere
 	'''
@@ -21,7 +21,7 @@ Starfury:
 PhoenixBlaster:
 	'''
 	Wait 1.5s to shoot out a phoenix deal 3.0x weapon damage
-	Wait additional 1.5s to shoot out flame lash projectile deal 1.5x weapon damage
+	Wait additional 1.5s to shoot out flame lash projectile deal .34x weapon damage
 	Every 5th shot shoot out a flame lash projectile
 	Shot from this gun deal extra 10 fixed damage on target that is on fire
 	'''
@@ -94,11 +94,11 @@ BroadSword:
 	Alt-click to guard against any attack which reduce 95% of damage
 	Wait 1s to deal 3x damage and increases critical strike chance by 30%
 	'''
-PlatinumBow:
+OreBow:
 	'''
-	Hold down to dish out combo
-	While air born, shooting will cause player to fall down without taking fall damage
-	Alt-click to shoot out a single arrow
+	Intro effect: Increases weapon damage by 10 base for 15s
+	Wait for 1s to increases arrow damage by 50%
+	Wait additional 2s to shoot out 3 arrows instead of 1
 	'''
 Chik:
 	'''
@@ -115,12 +115,37 @@ PearlwoodSword:
 	'''
 	Your swing are accompany with a ghost version of itself
 	Every 3rd swing, shoot out a 6 copy of itself toward the cursor
+	After successful 60 strike, for 2s unleash sword dance
 	'''
 WoodenSword:
 	'''
 	Your swing are accompany with ghost version of itself
 	Every 3rd swing, you instead swing out 6 ghost version of itself
-	Every 5th swing, rain down wooden sword 
+	Every 5th swing, rain down wooden sword at cursor position
+	'''
+WarAxeoftheNight:
+	'''
+	"Night full of scream and blood"
+	Hitting enemy have 50% to inflict [c/6f00ab:Night Infection] debuff
+	While enemy have the debuff, hitting enemy again will create shadow flame around them
+	and deal 50% more damage and ignore 30 defenses on that strikes
+	'''
+BloodLustCluster:
+	'''
+	Inflict excessive bleeding
+	May spawn additional sentient blood during swing
+	'''
+VenusMagnum:
+	'''
+	Intro effect: Your shot will be accompany with spore and chlorophyte bullet for 9s
+	Waiting for 2.5s will increases your damage by 40 base and your shot accompany with spore clouds
+	Waiting for 5s will increases your damage by 3x and your shot is accompany with chlorophyte bullets
+	Shotting at perfect moment will make your shot enhanced 
+	'''
+TacticalShotgun:
+	'''
+	Have 25% to quickly shoot another round
+	Have 50% to shoot more bullet
 	'''
 MechanicalLens:
 	'''
@@ -156,5 +181,17 @@ SorcererEmblem:
 	'''
 	Increases magic critical strike chance by 5%
 	Increases magic critical strike damage by 30%
+	'''
+AnkletoftheWind:
+	'''
+	Increases jump boost by 150% and allow directional dash toward your cursor
+	Gain a wind shield that can regenerate itself
+	Wind shield reduce damage taken directly by 20% and projectile damage by 80%
+	Wind shield multiply taken knockback taken directly by 0.7x and projectile knockback by 0x
+	'''
+FeralCraws:
+	'''
+	Increases attack speed by 5%
+	Increases attack speed the lower your health is ( up to maximum of 15% )
 	'''
 InvisibilityPotion: Increases critical damage by 15% and critical strike chance by 5%

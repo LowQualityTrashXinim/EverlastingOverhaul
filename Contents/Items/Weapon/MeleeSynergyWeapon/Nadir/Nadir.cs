@@ -1,0 +1,156 @@
+﻿using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
+using Terraria.Audio;
+using EverlastingOverhaul.Common.Utils;
+
+namespace EverlastingOverhaul.Contents.Items.Weapon.MeleeSynergyWeapon.Nadir {
+	internal class Nadir : SynergyModItem {
+		public override void SetDefaults() {
+			Item.BossRushSetDefault(34, 54, 20, 7f, 7, 21, ItemUseStyleID.Shoot, true);
+			Item.BossRushSetDefaultSpear(1, 1);
+			Item.rare = ItemRarityID.Orange;
+			Item.value = Item.sellPrice(0, 5);
+		}
+		public override void ModifySynergyToolTips(ref List<TooltipLine> tooltips, PlayerSynergyItemHandle modplayer) {
+			base.ModifySynergyToolTips(ref tooltips, modplayer);
+		}
+		public override void HoldSynergyItem(Player player, PlayerSynergyItemHandle modplayer) {
+			base.HoldSynergyItem(player, modplayer);
+		}
+		int counter = 0;
+		public override void ModifySynergyShootStats(Player player, PlayerSynergyItemHandle modplayer, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
+			position = position.PositionOFFSET(velocity, 30);
+		}
+		public override void SynergyShoot(Player player, PlayerSynergyItemHandle modplayer, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out bool CanShootItem) {
+			SoundEngine.PlaySound(SoundID.Item1, player.Center);
+			if (counter >= TerrariaArrayID.AllOreBroadSword.Length) {
+				counter = 0;
+			}
+			Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ZenishProjectile>(), damage, knockback, player.whoAmI, 0, 0, TerrariaArrayID.AllOreBroadSword[counter]);
+			counter++;
+			CanShootItem = false;
+		}
+		public override void AddRecipes() {
+			CreateRecipe()
+				.AddIngredient(ItemID.CopperBroadsword)
+				.AddIngredient(ItemID.TinBroadsword)
+				.AddIngredient(ItemID.IronBroadsword)
+				.AddIngredient(ItemID.LeadBroadsword)
+				.AddIngredient(ItemID.SilverBroadsword)
+				.AddIngredient(ItemID.TungstenBroadsword)
+				.AddIngredient(ItemID.GoldBroadsword)
+				.AddIngredient(ItemID.PlatinumBroadsword)
+				.Register();
+		}
+	}
+	public class ZenishProjectile : ModProjectile {
+		public override void SetStaticDefaults() {
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+		}
+		public override string Texture => ModUtils.GetTheSameTextureAsEntity<Nadir>();
+		public override void SetDefaults() {
+			Projectile.width = Projectile.height = 50;
+			Projectile.friendly = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.timeLeft = 999;
+			Projectile.usesLocalNPCImmunity = true;
+		}
+		Player player;
+		int MouseXPosDirection;
+		float MaxLengthX = 0;
+		float MaxLengthY = 0;
+		int maxProgress = 25;
+		int progression = 0;
+		Vector2 offset = Vector2.Zero;
+		public override void OnSpawn(IEntitySource source) {
+			player = Main.player[Projectile.owner];
+		}
+		public override bool PreAI() {
+			if (Projectile.timeLeft == 999) {
+				Projectile.localAI[0] = Main.rand.NextBool(10).ToDirectionInt();
+				MaxLengthX = (Main.MouseWorld - player.Center).Length();
+				maxProgress += (int)(MaxLengthX * .075f);
+				progression = maxProgress;
+				MouseXPosDirection = Main.rand.NextBool().ToDirectionInt() * (Main.MouseWorld.X - player.Center.X > 0 ? 1 : -1);
+				MaxLengthY = -Main.rand.NextFloat(20, 150 + MaxLengthX * .25f) * MouseXPosDirection;
+			}
+			return base.PreAI();
+		}
+		public override void AI() {
+			if (progression <= 0) {
+				if (Projectile.timeLeft > 10)
+					Projectile.timeLeft = 10;
+				Projectile.velocity = Vector2.Zero;
+				Projectile.Center = player.Center + offset;
+				return;
+			}
+			int halfmaxProgress = (int)(maxProgress * .5f);
+			int quadmaxProgress = (int)(maxProgress * .25f);
+			float progress;
+			if (progression > halfmaxProgress) {
+				progress = (maxProgress - progression) / (float)halfmaxProgress;
+			}
+			else {
+				progress = progression / (float)halfmaxProgress;
+			}
+			Projectile.alpha = (int)(255 * (1 - progress));
+			Projectile.Opacity = ModUtils.InOutExpo(progress, 20);
+			float X = MathHelper.SmoothStep(-30, MaxLengthX, progress);
+			ProgressYHandle(progression, halfmaxProgress, quadmaxProgress, out float Y);
+			Vector2 VelocityPosition = new Vector2(X, Y).RotatedBy(Projectile.velocity.ToRotation());
+			offset = VelocityPosition;
+			Projectile.Center = player.Center + VelocityPosition + new Vector2(10, 0);
+			float rotation = MathHelper.SmoothStep(0, 360, 1 - progression / (float)maxProgress) * MouseXPosDirection;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4 + MathHelper.Pi + MathHelper.ToRadians(rotation);
+			progression--;
+		}
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+			target.immune[Projectile.owner] = 3;
+		}
+		private void ProgressYHandle(int timeleft, float progressMaxHalf, float progressMaxQuad, out float Y) {
+			if (timeleft > progressMaxHalf + progressMaxQuad) {
+				float progressY = 1 - (timeleft - (progressMaxHalf + progressMaxQuad)) / progressMaxQuad;
+				Y = MathHelper.SmoothStep(0, MaxLengthY, progressY);
+				return;
+			}
+			if (timeleft > progressMaxQuad) {
+				float progressY = 1 - (timeleft - progressMaxQuad) / progressMaxHalf;
+				Y = MathHelper.SmoothStep(MaxLengthY, -MaxLengthY, progressY);
+				return;
+			}
+			else {
+				float progressY = 1 - timeleft / progressMaxQuad;
+				Y = MathHelper.SmoothStep(-MaxLengthY, 0, progressY);
+				return;
+			}
+		}
+		public override bool PreDraw(ref Color lightColor) {
+			Main.instance.LoadProjectile(Projectile.type);
+			Texture2D texture;
+			if (Projectile.localAI[0] != 1) {
+				texture = ModContent.Request<Texture2D>(ModUtils.GetVanillaTexture<Item>((int)Projectile.ai[2])).Value;
+			}
+			else {
+				texture = TextureAssets.Projectile[Type].Value;
+			}
+			Vector2 origin = new Vector2(texture.Width * 0.5f, Projectile.height * 0.5f);
+			Vector2 drawPos = Projectile.position - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+			Main.EntitySpriteDraw(texture, drawPos, null, new Color(255, 255, 255, Projectile.alpha) * Projectile.Opacity, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos2 = Projectile.oldPos[k] - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = new Color(255, 255, 255, Projectile.alpha) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				Main.EntitySpriteDraw(texture, drawPos2, null, color * Projectile.Opacity, Projectile.oldRot[k], origin, Projectile.scale, SpriteEffects.None, 0);
+			}
+			return false;
+		}
+	}
+}

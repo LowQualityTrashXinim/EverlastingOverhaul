@@ -64,7 +64,11 @@ namespace EverlastingOverhaul.Common.Global
 			if (Player.HeldItem != null && Player.HeldItem.IsAWeapon()) {
 				Player.itemAnimationMax = Player.HeldItem.useAnimation;
 			}
-		}
+            Main.NewText("Welcome to Everlasting overhaul !");
+            Main.NewText("This mod will only focus on overhauling vanilla weapon to Everlasting balancing");
+            Main.NewText("Expect many weapon to be terribly broken or unbalanced");
+            Main.NewText("We are looking for playtester for this mod so if you think you are up to the task, join our discord server !");
+        }
 		public override void PreUpdate() {
 			if (starterItem == null) {
 				var item = Player.HeldItem;

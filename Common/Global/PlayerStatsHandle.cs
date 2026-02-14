@@ -13,6 +13,7 @@ using Terraria.ModLoader.IO;
 using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Systems.ObjectSystem;
 using Steamworks;
+using EverlastingOverhaul.Contents.Items.Weapon;
 
 namespace EverlastingOverhaul.Common.Global;
 /// <summary>
@@ -22,6 +23,7 @@ namespace EverlastingOverhaul.Common.Global;
 /// </summary>
 public class PlayerStatsHandle : ModPlayer
 {
+    public string CurrentDashType = "";
     public StatModifier UpdateMovement = new StatModifier();
     public StatModifier UpdateJumpBoost = new StatModifier();
     public StatModifier UpdateHPMax = new StatModifier();
@@ -108,6 +110,10 @@ public class PlayerStatsHandle : ModPlayer
     /// Uses for enchantment cool down effect
     /// </summary>
     public StatModifier EnchantmentCoolDown = StatModifier.Default;
+    /// <summary>
+    /// This percentage damage will always deal NPC% health as true damage
+    /// </summary>
+    public float PercentageDamage = 0;
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         if (LifeSteal_CoolDownCounter <= 0 && LifeSteal.Additive > 0 && LifeSteal.ApplyTo(1) > 0)
@@ -215,7 +221,7 @@ public class PlayerStatsHandle : ModPlayer
         }
         if (HasDebuff)
             modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(DebuffDamage * count);
-
+        modifiers.FinalDamage.Flat = target.lifeMax * PercentageDamage;
         modifiers.ModifyHitInfo += Modifiers_ModifyHitInfo;
     }
     public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
@@ -278,6 +284,15 @@ public class PlayerStatsHandle : ModPlayer
         {
             return;
         }
+        if (Healed_timeSinceLastHeal == 0)
+        {
+            Healed = false;
+        }
+        else
+        {
+            Healed_timeSinceLastHeal = (byte)Math.Clamp(Healed_timeSinceLastHeal - 1, byte.MinValue, byte.MaxValue);
+        }
+        CurrentDashType = string.Empty;
         CurrentMinionAmount = 0;
         for (int i = 0; i < Main.projectile.Length; i++)
         {
@@ -380,8 +395,25 @@ public class PlayerStatsHandle : ModPlayer
 
         AlwaysCritValue = 0;
     }
-    public bool RelicActivation = true;
-    public int RelicPoint = 0;
+    /// <summary>
+    /// Easy check to see did player just healed
+    /// </summary>
+    /// <returns></returns>
+    public bool Check_Heal()
+    {
+        if (Healed)
+        {
+            Healed = false;
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// This field is a easier way to check whenever a player has Healed, however you better refer to <see cref="Check_Heal"/>
+    /// </summary>
+    public bool Healed = false;
+    public byte Healed_timeSinceLastHeal = 0;
+
     /// <summary>
     /// This value will do a smarter handling of whenever or not should a critical strike be guaranteed or disable<br/>
     /// If this value is <![CDATA[>]]> 0 then the hit will always be critical<br/>
@@ -1037,6 +1069,8 @@ public class PlayerStatsHandleSystem : ModSystem
     {
         if (self.TryGetModPlayer(out PlayerStatsHandle modplayer))
         {
+            modplayer.Healed = true;
+            modplayer.Healed_timeSinceLastHeal = (byte)60;
             orig(self, (int)modplayer.HealEffectiveness.ApplyTo(amount));
         }
         else

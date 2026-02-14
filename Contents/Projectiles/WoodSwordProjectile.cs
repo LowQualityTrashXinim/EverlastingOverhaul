@@ -1,0 +1,371 @@
+﻿using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Texture;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace EverlastingOverhaul.Contents.Projectiles;
+public class SwordProjectile : ModProjectile
+{
+    public override string Texture => ModTexture.MissingTexture_Default;
+    public override void SetStaticDefaults()
+    {
+        ProjectileID.Sets.TrailCacheLength[Type] = 25;
+        ProjectileID.Sets.TrailingMode[Type] = 2;
+    }
+    public override void SetDefaults()
+    {
+        Projectile.width = Projectile.height = 32;
+        Projectile.penetrate = -1;
+        Projectile.friendly = true;
+        Projectile.tileCollide = false;
+        Projectile.DamageType = DamageClass.Melee;
+        Projectile.scale = 1.5f;
+        Projectile.usesLocalNPCImmunity = true;
+    }
+    public int ItemIDtextureValue = ItemID.WoodenSword;
+    Player player;
+    Vector2 directionToMouse = Vector2.Zero;
+    float outrotation = 0;
+    public int directionLooking = 0;
+    public Vector2 oldCenter = Vector2.Zero;
+    public float rotationSwing = 150;
+    public float delay = 0;
+    public int Set_TimeLeft = 30;
+    public int Set_AnimationTimeEnd = -1;
+    public bool FollowPlayer = false;
+    public override void OnSpawn(IEntitySource source)
+    {
+        if (Projectile.ai[2] == 0)
+        {
+            Projectile.ai[2] = 60f;
+        }
+    }
+    public override void AI()
+    {
+        EnergySword_Code1AI();
+    }
+    private void EnergySword_Code1AI()
+    {
+        if (Projectile.timeLeft > Set_TimeLeft)
+        {
+            player = Main.player[Projectile.owner];
+            directionToMouse = Projectile.velocity;
+            if (directionToMouse == Vector2.Zero)
+            {
+                directionToMouse = (Main.MouseWorld - player.MountedCenter).SafeNormalize(Vector2.Zero);
+            }
+            oldCenter = Projectile.Center.PositionOFFSET(directionToMouse, -30);
+            Projectile.timeLeft = Set_TimeLeft;
+            if (directionLooking == 0)
+                directionLooking = Main.rand.NextBool().ToDirectionInt();
+            if (Set_AnimationTimeEnd == -1)
+            {
+                Set_AnimationTimeEnd = Set_TimeLeft;
+            }
+        }
+        if (FollowPlayer)
+        {
+            oldCenter = player.Center;
+        }
+        if (--delay > 0)
+        {
+            Projectile.timeLeft = Set_TimeLeft;
+            return;
+        }
+        if (Projectile.timeLeft <= 10)
+        {
+            Projectile.ProjectileAlphaDecay(10);
+        }
+        float percentDone = (Projectile.timeLeft - (Set_TimeLeft - Set_AnimationTimeEnd)) / (float)Set_AnimationTimeEnd;
+        percentDone = Math.Clamp(ModUtils.InExpo(percentDone), 0, 1);
+        Projectile.spriteDirection = directionLooking;
+        float baseAngle = directionToMouse.ToRotation();
+        float angle = MathHelper.ToRadians(rotationSwing) * directionLooking;
+        float start = baseAngle + angle;
+        float end = baseAngle - angle;
+        float rotation = MathHelper.Lerp(start, end, percentDone);
+        outrotation = rotation;
+        Projectile.rotation = rotation + MathHelper.PiOver4;
+        Projectile.velocity.X = directionLooking;
+        Projectile.Center = oldCenter + Vector2.UnitX.RotatedBy(rotation) * Projectile.ai[2];
+    }
+    public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+    {
+        Player player = Main.player[Projectile.owner];
+
+        int directionTo = (player.Center.X < target.Center.X).ToDirectionInt();
+        modifiers.HitDirectionOverride = directionTo;
+    }
+    public override void ModifyDamageHitbox(ref Rectangle hitbox)
+    {
+        ModUtils.ModifyProjectileDamageHitbox(ref hitbox, oldCenter, outrotation, Projectile.width, Projectile.height, Projectile.ai[2]);
+    }
+    public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+    {
+        float itemlength = Projectile.Size.Length();
+        float itemsize = itemlength * Projectile.scale;
+        int laserline = (int)itemsize;
+        if (laserline <= 0)
+        {
+            laserline = 1;
+        }
+        Vector2 Projectile_DirectionOfLooking = Projectile.rotation.ToRotationVector2();
+        var offset = Projectile.Center - Projectile.oldPosition;
+        var directionTo = (Projectile.oldPosition + offset - Projectile.Center).SafeNormalize(Vector2.Zero);
+        bool checkComboNum = directionLooking == -1;
+        int LastCollideCheck, check;
+        float PreviousProgress = ModUtils.InExpo((player.itemAnimation + 1) / (float)player.itemAnimationMax);
+        float CurrentProgress = ModUtils.InExpo(player.itemAnimation / (float)player.itemAnimationMax);
+        if (checkComboNum && player.direction == 1 || !checkComboNum && player.direction == -1)
+        {
+            LastCollideCheck = (int)Math.Ceiling(MathHelper.Lerp(0, laserline, PreviousProgress));
+            check = (int)Math.Ceiling(MathHelper.Lerp(0, laserline, CurrentProgress));
+        }
+        else
+        {
+            LastCollideCheck = (int)Math.Ceiling(MathHelper.Lerp(laserline, 0, PreviousProgress));
+            check = (int)Math.Ceiling(MathHelper.Lerp(laserline, 0, CurrentProgress));
+        }
+        int assigned = Math.Min(LastCollideCheck, check);
+        int length = Math.Max(check, LastCollideCheck);
+        for (int i = assigned; i <= length; i++)
+        {
+            var point = player.Center + directionTo.Vector2DistributeEvenly(laserline, rotationSwing * 2, i) * itemsize;
+            if (ModUtils.Collision_PointAB_EntityCollide(targetHitbox, Projectile.Center + Projectile_DirectionOfLooking * itemsize * -.5f, point))
+            {
+                return true;
+            }
+        }
+        return base.Colliding(projHitbox, targetHitbox);
+    }
+    public override bool PreDraw(ref Color lightColor)
+    {
+        Main.instance.LoadProjectile(Projectile.type);
+        Texture2D texture = ModContent.Request<Texture2D>(ModUtils.GetVanillaTexture<Item>(ItemIDtextureValue)).Value;
+        Vector2 origin = texture.Size() * .5f;
+        for (int k = 0; k < Projectile.oldPos.Length; k++)
+        {
+            Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+            Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * .25f;
+            Main.EntitySpriteDraw(texture, drawPos, null, color, Projectile.oldRot[k], origin, Projectile.scale, SpriteEffects.None, 0);
+        }
+        Vector2 drawPosMain = Projectile.position - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+        Main.EntitySpriteDraw(texture, drawPosMain, null, lightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+        return false;
+    }
+}
+internal class SwordProjectile2 : ModProjectile
+{
+    public override string Texture => ModTexture.MissingTexture_Default;
+    public override void SetStaticDefaults()
+    {
+        ProjectileID.Sets.TrailingMode[Type] = 0;
+        ProjectileID.Sets.TrailCacheLength[Type] = 10;
+    }
+    public override void SetDefaults()
+    {
+        Projectile.width = Projectile.height = 32;
+        Projectile.penetrate = -1;
+        Projectile.friendly = true;
+        Projectile.tileCollide = true;
+        Projectile.DamageType = DamageClass.Melee;
+        Projectile.extraUpdates = 5;
+    }
+    public int ItemIDtextureValue = ItemID.WoodenSword;
+    Vector2 vel = Vector2.Zero;
+    Vector2 mousePos = Vector2.Zero;
+    public override void OnSpawn(IEntitySource source)
+    {
+        mousePos = Main.MouseWorld;
+    }
+    public float Counter { get => Projectile.ai[0]; set => Projectile.ai[0] = value; }
+    public float State { get => Projectile.ai[1]; set => Projectile.ai[1] = value; }
+    public override bool? CanDamage()
+    {
+        return State != 1;
+    }
+    public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+    {
+        if (Projectile.Center.Y >= mousePos.Y - 50)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public override void AI()
+    {
+        if (State == 1)
+        {
+            if (Projectile.timeLeft > 30)
+            {
+                Projectile.timeLeft = 30;
+            }
+            Projectile.alpha = (int)MathHelper.Lerp(255, 0, Projectile.timeLeft / 30f);
+            Projectile.velocity = Vector2.Zero;
+            return;
+        }
+        if (Projectile.timeLeft > 900)
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+            vel = Projectile.velocity;
+            Projectile.timeLeft = 900;
+            if (Counter == 0)
+            {
+                Counter = 120 + Projectile.ai[2];
+            }
+            Projectile.velocity = Vector2.Zero;
+        }
+        if (--Counter < 0)
+        {
+            Projectile.timeLeft = 900;
+            Projectile.velocity += vel * .005f;
+            Projectile.velocity = Projectile.velocity.LimitedVelocity(9);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+        }
+    }
+    public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+    {
+        Player player = Main.player[Projectile.owner];
+
+        int directionTo = (player.Center.X < target.Center.X).ToDirectionInt();
+        modifiers.HitDirectionOverride = directionTo;
+    }
+    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+    {
+        State = 1;
+    }
+    public override bool OnTileCollide(Vector2 oldVelocity)
+    {
+        if (State != 1)
+        {
+            State = 1;
+            Projectile.position += Projectile.velocity * 2;
+            Projectile.velocity = Vector2.Zero;
+        }
+        return false;
+    }
+    public override bool PreDraw(ref Color lightColor)
+    {
+        Main.instance.LoadProjectile(Projectile.type);
+        Texture2D texture = ModContent.Request<Texture2D>(ModUtils.GetVanillaTexture<Item>(ItemIDtextureValue)).Value;
+        Vector2 origin = texture.Size() * .5f;
+        if (State != 1)
+        {
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos2 = Projectile.oldPos[k] - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * .5f;
+                Main.EntitySpriteDraw(texture, drawPos2, null, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            }
+        }
+        Vector2 drawPos = Projectile.position - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+        Main.EntitySpriteDraw(texture, drawPos, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+        return false;
+    }
+}
+internal class SwordProjectile3 : ModProjectile
+{
+    public override string Texture => ModTexture.MissingTexture_Default;
+    public override void SetDefaults()
+    {
+        Projectile.width = Projectile.height = 32;
+        Projectile.penetrate = -1;
+        Projectile.friendly = true;
+        Projectile.timeLeft = 999;
+        Projectile.tileCollide = false;
+        Projectile.DamageType = DamageClass.Melee;
+        Projectile.scale = 1.5f;
+        Projectile.usesLocalNPCImmunity = true;
+    }
+    public int ItemIDtextureValue = ItemID.WoodenSword;
+    public float ProjectileIndex { get => Projectile.ai[2]; set => Projectile.ai[2] = value; }
+    public float RotationValue { get => Projectile.ai[1]; set => Projectile.ai[1] = value; }
+    public override void AI()
+    {
+        if (Projectile.timeLeft == 999)
+        {
+            Projectile.velocity = Vector2.Zero;
+        }
+        RotationValue += 10;
+        Vector2 RotationPos = Vector2.One.RotatedBy(MathHelper.ToRadians(ProjectileIndex * 120 + RotationValue)) * 50f;
+        Vector2 NewPos = Main.player[Projectile.owner].Center + RotationPos;
+        Projectile.Center = NewPos;
+        Projectile.rotation = RotationPos.ToRotation() + MathHelper.PiOver4;
+    }
+    public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+    {
+        Player player = Main.player[Projectile.owner];
+
+        int directionTo = (player.Center.X < target.Center.X).ToDirectionInt();
+        modifiers.HitDirectionOverride = directionTo;
+    }
+    public override bool PreDraw(ref Color lightColor)
+    {
+        Main.instance.LoadProjectile(Projectile.type);
+        Texture2D texture = ModContent.Request<Texture2D>(ModUtils.GetVanillaTexture<Item>(ItemIDtextureValue)).Value;
+        Vector2 origin = texture.Size() * .5f;
+        Vector2 drawPos = Projectile.position - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+        Main.EntitySpriteDraw(texture, drawPos, null, lightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+        return false;
+    }
+}
+internal class SwordProjectileSpear : ModProjectile
+{
+    public override string Texture => ModTexture.MissingTexture_Default;
+    public override void SetDefaults()
+    {
+        Projectile.width = Projectile.height = 32;
+        Projectile.penetrate = -1;
+        Projectile.friendly = true;
+        Projectile.timeLeft = 999;
+        Projectile.tileCollide = false;
+        Projectile.DamageType = DamageClass.Melee;
+        Projectile.usesLocalNPCImmunity = true;
+    }
+    public int ItemIDtextureValue = ItemID.WoodenSword;
+    protected virtual float HoldoutRangeMin => 20f;
+    protected virtual float HoldoutRangeMax => 120f;
+    public override void AI()
+    {
+        Player player = Main.player[Projectile.owner];
+        int duration = player.itemAnimationMax;
+        player.heldProj = Projectile.whoAmI;
+        if (Projectile.timeLeft > duration)
+        {
+            Projectile.timeLeft = duration;
+            Projectile.ai[1] = Projectile.Center.X;
+            Projectile.ai[2] = Projectile.Center.Y;
+        }
+        Projectile.velocity = Vector2.Normalize(Projectile.velocity);
+        Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+        float halfDuration = duration * 0.5f;
+        float progress = 1 - Projectile.timeLeft / halfDuration;
+        Vector2 vel = Vector2.SmoothStep(Projectile.velocity * HoldoutRangeMin, Projectile.velocity * (HoldoutRangeMax + 100), progress);
+        Projectile.Center = new Vector2(Projectile.ai[1], Projectile.ai[2]) + vel;
+        Projectile.rotation += Projectile.spriteDirection == -1 ? MathHelper.PiOver4 : MathHelper.PiOver4 + MathHelper.PiOver2;
+    }
+    public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+    {
+        Player player = Main.player[Projectile.owner];
+
+        int directionTo = (player.Center.X < target.Center.X).ToDirectionInt();
+        modifiers.HitDirectionOverride = directionTo;
+    }
+    public override bool PreDraw(ref Color lightColor)
+    {
+        Main.instance.LoadProjectile(Projectile.type);
+        Texture2D texture = ModContent.Request<Texture2D>(ModUtils.GetVanillaTexture<Item>(ItemIDtextureValue)).Value;
+        Vector2 origin = texture.Size() * .5f;
+        Vector2 drawPos = Projectile.position - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
+        Main.EntitySpriteDraw(texture, drawPos, null, lightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+        return false;
+    }
+}

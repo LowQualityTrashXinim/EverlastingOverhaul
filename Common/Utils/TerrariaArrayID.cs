@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using EverlastingOverhaul.Contents.Items.Weapon.MeleeSynergyWeapon.EnchantedOreSword;
+using EverlastingOverhaul.Contents.Items.Weapon.RangeSynergyWeapon.ForceOfEarth;
+using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -312,7 +314,28 @@ public static class TerrariaArrayID {
 	public readonly static int[] MossMaterial = {
 		ItemID.BlueMoss, ItemID.GreenMoss, ItemID.BrownMoss, ItemID.PurpleMoss, ItemID.RedMoss, ItemID.LavaMoss, ItemID.KryptonMoss, ItemID.ArgonMoss, ItemID.XenonMoss, ItemID.RainbowMoss, ItemID.VioletMoss
 	};
-	public static readonly Dictionary<PlayerStats, int> Dict_PlayerStatAndValue = new Dictionary<PlayerStats, int>() {
+    public readonly static int[] FoEProjectileCustom = new int[] {
+        ModContent.ProjectileType<CopperBowP>(),
+        ModContent.ProjectileType<TinBowP>(),
+        ModContent.ProjectileType<IronBowP>(),
+        ModContent.ProjectileType<LeadBowP>(),
+        ModContent.ProjectileType<SilverBowP>(),
+        ModContent.ProjectileType<TungstenBowP>(),
+        ModContent.ProjectileType<GoldBowP>(),
+        ModContent.ProjectileType<PlatinumBowP>()
+    };
+
+    public readonly static int[] EnchantedOreSwordProjectile = new int[] {
+            ModContent.ProjectileType<EnchantedCopperSwordP>(),
+            ModContent.ProjectileType<EnchantedTinSwordP>(),
+            ModContent.ProjectileType<EnchantedLeadSwordP>(),
+            ModContent.ProjectileType<EnchantedIronSwordP>(),
+            ModContent.ProjectileType<EnchantedSilverSwordP>(),
+            ModContent.ProjectileType<EnchantedTungstenSwordP>(),
+            ModContent.ProjectileType<EnchantedGoldSwordP>(),
+            ModContent.ProjectileType<EnchantedPlatinumSwordP>() };
+
+    public static readonly Dictionary<PlayerStats, int> Dict_PlayerStatAndValue = new Dictionary<PlayerStats, int>() {
 			{ PlayerStats.Thorn, 15 },
 			{ PlayerStats.MeleeDMG, 15 },
 			{ PlayerStats.RangeDMG, 15 },

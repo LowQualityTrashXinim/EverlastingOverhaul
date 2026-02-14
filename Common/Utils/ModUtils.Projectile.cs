@@ -11,7 +11,25 @@ using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Utils {
 	public static partial class ModUtils {
-		public static bool Check_ItemTypeSource(this Projectile projectile, int ItemType) {
+        public static void DustStar(Vector2 pos, int dustID, Color color, int thiccness = 20, int thiccness2 = 8, float rotationOff = 0, float speed = 5)
+        {
+            for (int o = 0; o < thiccness; o++)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    var Toward = Vector2.UnitX.RotatedBy(MathHelper.ToRadians(rotationOff + 90 * i)) * (3 + Main.rand.NextFloat()) * speed;
+                    for (int l = 0; l < thiccness2; l++)
+                    {
+                        float multiplier = Main.rand.NextFloat();
+                        float scale = MathHelper.Lerp(1.1f, .1f, multiplier);
+                        int dust = Dust.NewDust(pos, 0, 0, dustID, 0, 0, 0, color, scale);
+                        Main.dust[dust].velocity = Toward * multiplier;
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+            }
+        }
+        public static bool Check_ItemTypeSource(this Projectile projectile, int ItemType) {
 			if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global)) {
 				return global.Source_ItemType == ItemType;
 			}

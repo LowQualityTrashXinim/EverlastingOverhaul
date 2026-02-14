@@ -1,72 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EverlastingOverhaul.Common.Global;
+using EverlastingOverhaul.Common.Global.Mechanic;
+using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
+using EverlastingOverhaul.Common.ItemOverhaul;
+using EverlastingOverhaul.Contents.Items.Weapon;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.Mechanic;
-using EverlastingOverhaul.Common.RoguelikeMode.RoguelikeChange.ItemOverhaul;
-using EverlastingOverhaul.Common.Global;
 
 namespace EverlastingOverhaul.Common.Utils {
-	public enum WeaponTag : byte {
-		None,
-		//Weapon type
-		Sword,
-		Shortsword,
-		Greatsword,
-
-		Spear,
-		Frail,
-		Yoyo,
-		Boomerang,
-
-		Bow,
-		Repeater,
-		Pistol,
-		Rifle,
-		Shotgun,
-		Launcher,
-
-		Staff,
-		Wand,
-		MagicGun,
-		Book,
-
-		SummonStaff,
-		SummonWand,
-		Whip,
-
-		Other,
-
-		Wooden,
-		Ore,
-		/// <summary>
-		/// Not to be confused with actual magic weapon<br/>
-		/// This is for weapon that shoot magical projectile like ice blade and Blood Rain Bow
-		/// </summary>
-		Magical,
-		/// <summary>
-		/// Not to be confused with <see cref="Magical"/><br/>
-		/// This is for weapon that are like Candy Cane Sword and Tentacle Spike 
-		/// </summary>
-		Fantasy,
-		/// <summary>
-		/// For weapon that is a actual living creature like toxickarp
-		/// </summary>
-		Living,
-		/// <summary>
-		/// For weapon that shoot out elemental like fire, or water like ice bow, waterbolt, etc
-		/// </summary>
-		Elemental,
-		/// <summary>
-		/// For weapon that is consider must have like Night Edge, Terra Blade, True Night Edge, Last Prism, etc<br/>
-		/// in more simple term, it is for weapon that consider to be lengendary
-		/// </summary>
-		Mythical,
-		Celestial,
-	}
 	public static partial class ModUtils {
 		public static void BossRushSetDefaultBuff(this ModBuff buff) {
 			Main.debuff[buff.Type] = false;
@@ -198,36 +143,35 @@ namespace EverlastingOverhaul.Common.Utils {
 				globalitem.AdvancedBuffItem = Advanced;
 			}
 		}
-		public static void Set_RequiredWeaponGuide(this Item item, bool Guide = true) {
-			if (item.TryGetGlobalItem(out GlobalItemHandle globalitem)) {
-				globalitem.RequiredWeaponGuide = Guide;
-			}
-		}
 		public static void Set_ItemCriticalDamage(this Item item, float critDmg) {
 			if (item.TryGetGlobalItem(out GlobalItemHandle globalitem)) {
 				globalitem.CriticalDamage = critDmg;
 			}
 		}
-		/// <summary>
-		/// This will work for most vanilla accessory, however item effect such as follow will not work :<br/>
-		/// - kbglove<br/>
-		/// - accFishingBobber<br/>
-		/// - skyStoneEffects<br/>
-		/// - dd2Accessory<br/>
-		/// - accFlipper<br/>
-		/// - chiselSpeed<br/>
-		/// - equippedAnyWallSpeedAcc<br/>
-		/// - equippedAnyTileRangeAcc<br/>
-		/// - accWatch<br/>
-		/// - hasLuck_LuckyHorseshoe<br/>
-		/// - hasLuck_LuckyCoin<br/>
-		/// - dpsStarted<br/>
-		/// For detailed information on why those won't work, see <see cref="Player.UpdateEquips"/><br/>
-		/// Should you want to remove any of above effect, do it manually after UpdateEquips via a hook is recommended
-		/// </summary>
-		/// <param name="item"></param>
-		/// <param name="itemoverride"></param>
-		public static void Item_Set_OverrideVanillaEffect(this Item item, bool itemoverride = true) {
+        public static void Set_ItemOutroEffect<T>(this Item item) where T : WeaponEffect
+        {
+            item.GetGlobalItem<GlobalItemHandle>().OutroEffect_type = WeaponEffect.GetWeaponEffectType<T>();
+        }
+        /// <summary>
+        /// This will work for most vanilla accessory, however item effect such as follow will not work :<br/>
+        /// - kbglove<br/>
+        /// - accFishingBobber<br/>
+        /// - skyStoneEffects<br/>
+        /// - dd2Accessory<br/>
+        /// - accFlipper<br/>
+        /// - chiselSpeed<br/>
+        /// - equippedAnyWallSpeedAcc<br/>
+        /// - equippedAnyTileRangeAcc<br/>
+        /// - accWatch<br/>
+        /// - hasLuck_LuckyHorseshoe<br/>
+        /// - hasLuck_LuckyCoin<br/>
+        /// - dpsStarted<br/>
+        /// For detailed information on why those won't work, see <see cref="Player.UpdateEquips"/><br/>
+        /// Should you want to remove any of above effect, do it manually after UpdateEquips via a hook is recommended
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="itemoverride"></param>
+        public static void Item_Set_OverrideVanillaEffect(this Item item, bool itemoverride = true) {
 			if (item.TryGetGlobalItem(out GlobalItemHandle handle)) {
 				handle.OverrideVanillaEffect = itemoverride;
 			}
@@ -310,4 +254,27 @@ namespace EverlastingOverhaul.Common.Utils {
 			}
 		}
 	}
+}
+public static class Roguelike_DamageClass
+{
+    /// <summary>
+    /// Vanilla summoner re-implementation that have crit enable
+    /// </summary>
+    public static DamageClass Summon => new Roguelike_SummonDamageClass();
+}
+public class Roguelike_SummonDamageClass : VanillaDamageClass
+{
+    protected override string LangKey => "LegacyTooltip.53";
+    public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
+    {
+        if (damageClass == Summon)
+        {
+            return StatInheritanceData.Full;
+        }
+        else
+        {
+            return StatInheritanceData.None;
+        }
+    }
+    public override bool GetPrefixInheritance(DamageClass damageClass) => damageClass == Magic;
 }
