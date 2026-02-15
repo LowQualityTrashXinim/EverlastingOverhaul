@@ -1,10 +1,10 @@
-﻿using Terraria;
+﻿using EverlastingOverhaul.Common.Global;
+using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
+using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Contents.Items.Weapon;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using EverlastingOverhaul.Contents.Items.Weapon;
-using EverlastingOverhaul.Common.Global;
-using EverlastingOverhaul.Common.Utils;
 
 namespace EverlastingOverhaul.Contents.Items {
 	internal class SynergyEnergy : ModItem {
@@ -44,8 +44,12 @@ namespace EverlastingOverhaul.Contents.Items {
 			}
 			if (Player.itemAnimation == Player.itemAnimationMax) {
 				if (ItemTypeCurrent != item.type) {
-					ItemTypeCurrent = item.type;
-					itemOld = item;
+					ItemTypeCurrent = item.type; 
+                    if (itemOld != null)
+                    {
+                        Player.GetModPlayer<WeaponEffect_ModPlayer>().Add_WeaponEffect(itemOld.GetGlobalItem<GlobalItemHandle>().OutroEffect_type);
+                    }
+                    itemOld = item;
 					JustSwitched = true;
 				}
 				ItemTypeOld = ItemTypeCurrent;

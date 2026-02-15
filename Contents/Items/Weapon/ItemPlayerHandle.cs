@@ -335,12 +335,6 @@ namespace EverlastingOverhaul.Contents.Items.Weapon {
 			}
 		}
 		public override void UpdateInventory(Item item, Player player) {
-			if (player.GetModPlayer<SynergyModPlayer>().JustSwitched) {
-				WeaponEffect eff = OutroEffectSystem.GetWeaponEffect(OutroEffect_type);
-				if (eff != null) {
-					player.GetModPlayer<WeaponEffect_ModPlayer>().Add_WeaponEffect(eff);
-				}
-			}
 			if (++Counter >= int.MaxValue / 10) {
 				Counter = 0;
 			}
