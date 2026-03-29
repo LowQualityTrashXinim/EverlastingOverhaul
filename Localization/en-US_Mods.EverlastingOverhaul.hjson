@@ -370,6 +370,10 @@ Projectiles: {
 	StardustSymphony_StarProjectile_Normal.DisplayName: Stardust Symphony_ Star Projectile_ Normal
 	StardustSymphony_StarProjectile_Special.DisplayName: Stardust Symphony_ Star Projectile_ Special
 	StardustSymphony_Projectile_Explosion.DisplayName: Stardust Symphony_ Projectile_ Explosion
+	DukeWaterStream.DisplayName: Duke Water Stream
+	DukeVortex.DisplayName: Duke Vortex
+	DukeShadows.DisplayName: Duke Shadows
+	Dukenado.DisplayName: Dukenado
 }
 
 NPCs: {
@@ -2526,5 +2530,12 @@ Configs: {
 			Label: Hold Shift
 			Tooltip: ""
 		}
+	}
+}
+
+Biomes: {
+	DukeBiome: {
+		DisplayName: Duke Biome
+		TownNPCDialogueName: the Duke Biome
 	}
 }

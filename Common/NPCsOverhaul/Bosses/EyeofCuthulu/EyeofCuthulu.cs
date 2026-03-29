@@ -16,7 +16,6 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EverlastingOverhaul.Common.ItemOverhaul;
-using EverlastingOverhaul.Common.NPCsOverhaul;
 
 namespace EverlastingOverhaul.Common.NPCsOverhaul.Bosses.EyeofCuthulu;
 public class EyeofCuthulu : NPCReworkerFSM {

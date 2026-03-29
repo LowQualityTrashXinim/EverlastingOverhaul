@@ -21,6 +21,12 @@ namespace EverlastingOverhaul.Common.Utils
 {
     public static partial class ModUtils
     {
+        public static void Push<T>(this T[] array, T value)
+        {
+            Array.Copy(array, 0, array, 1, array.Length - 1);
+            array[0] = value;
+        }
+
         public static bool Check_PositionValid(int X, int Y)
         {
             if (!WorldGen.InWorld(X, Y))

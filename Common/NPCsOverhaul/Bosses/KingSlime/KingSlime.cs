@@ -15,7 +15,7 @@ using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Graphics;
 using EverlastingOverhaul.Common.Graphics.Structs.QuadStructs;
 using EverlastingOverhaul.Texture;
-using EverlastingOverhaul.Common.NPCsOverhaul;
+using EverlastingOverhaul.Common.Systems;
 
 namespace EverlastingOverhaul.Common.NPCsOverhaul.Bosses.KingSlime;
 internal class KingSlime : NPCReworker {

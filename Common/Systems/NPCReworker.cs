@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EverlastingOverhaul.Common.NPCsOverhaul;
+namespace EverlastingOverhaul.Common.Systems;
 
 /// <summary>
 /// NOTE: its much better to use <see cref="NPCReworkerFSM"/>, this code is here for old stuff that needs it
