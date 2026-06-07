@@ -2,7 +2,7 @@
 using Terraria;
 
 namespace EverlastingOverhaul.Common.Global.Mechanic.OutroEffect.Contents;
-internal class OutroEffect_SoulSweep : WeaponEffect {
+internal class OutroEffect_SoulSweep : OutroEffect {
 	public override void SetStaticDefaults() {
 		Duration = ModUtils.ToSecond(5);
 	}

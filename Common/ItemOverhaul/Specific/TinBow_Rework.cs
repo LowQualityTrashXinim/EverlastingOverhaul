@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
+using EverlastingOverhaul.Common.Systems;
 using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Texture;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -8,45 +10,84 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.ItemOverhaul.Specific;
-public class Roguelike_TinBow : GlobalItem {
-	public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-		return entity.type == ItemID.TinBow;
-	}
-	public override void SetDefaults(Item entity) {
-		entity.damage = 26;
-		entity.useTime = entity.useAnimation = 33;
-	}
-	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-		ModUtils.AddTooltip(ref tooltips, new(Mod, "Roguelike_TinBow", ModUtils.LocalizationText("RoguelikeRework", item.Name)));
-	}
-	public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-		int counter = player.GetModPlayer<Roguelike_TinBow_ModPlayer>().Counter;
-		player.GetModPlayer<Roguelike_TinBow_ModPlayer>().Counter = -player.itemAnimationMax;
-		if (counter >= 120) {
-			int amount = 3;
-			bool randomizeYAxis = false;
-			if (counter >= 240) {
-				amount = 12;
-				randomizeYAxis = true;
-			}
-			for (int i = 0; i < amount; i++) {
-				var pos = position.Add(Main.rand.Next(-300, 300), 1000);
-				if (randomizeYAxis) {
-					pos.Y -= Main.rand.Next(0, 1000);
-				}
-				Projectile.NewProjectile(source, pos, (Main.MouseWorld + Main.rand.NextVector2Circular(50, 50) - pos).SafeNormalize(Vector2.Zero) * 2.5f, ModContent.ProjectileType<TinBolt>(), damage * 2, knockback, player.whoAmI);
-				if (Main.rand.NextBool(3)) {
-					pos = position.Add(Main.rand.Next(-300, 300), 1000);
-					pos.Y -= Main.rand.Next(0, 200);
-					Projectile.NewProjectile(source, pos, (Main.MouseWorld + Main.rand.NextVector2Circular(50, 50) - pos).SafeNormalize(Vector2.Zero) * 5, ModContent.ProjectileType<TinOreMeteor>(), (int)(damage * 2.5f), knockback, player.whoAmI);
-				}
-			}
-		}
-		var proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
-		Projectile.NewProjectile(source, position, velocity.SafeNormalize(Vector2.Zero).Vector2RotateByRandom(15) * 5, ModContent.ProjectileType<TinOreMeteor>(), damage, knockback, player.whoAmI);
-		proj.extraUpdates = 1;
-		return false;
-	}
+public class Roguelike_TinBow : GlobalItem
+{
+    public override bool AppliesToEntity(Item entity, bool lateInstantiation)
+    {
+        return entity.type == ItemID.TinBow;
+    }
+    public static readonly WeaponProgress progress = new()
+    {
+
+    };
+    public override void SetStaticDefaults()
+    {
+        progress.Set_Progress(120f / 240f, 125f / 240f, new Color(255, 100, 0));
+        progress.Charge = true;
+    }
+    public override void SetDefaults(Item entity)
+    {
+        entity.damage = 26;
+        entity.useTime = entity.useAnimation = 33;
+    }
+    public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+    {
+        ModUtils.AddTooltip(ref tooltips, new(Mod, "Roguelike_TinBow", ModUtils.LocalizationText("RoguelikeRework", item.Name)));
+    }
+    public override void HoldItem(Item item, Player player)
+    {
+        if (OutroEffect_ModPlayer.Check_ValidForIntroEffect(player))
+        {
+            OutroEffect_ModPlayer.Set_IntroEffect(player, item.type, ModUtils.ToSecond(4));
+        }
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.SetWeaponProgress(progress);
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.barProgress = player.GetModPlayer<Roguelike_TinBow_ModPlayer>().Counter / 240f;
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.gradientA = Color.White;
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.gradientB = new Color(255, 240, 195);
+    }
+    public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+    {
+        int counter = player.GetModPlayer<Roguelike_TinBow_ModPlayer>().Counter;
+        player.GetModPlayer<Roguelike_TinBow_ModPlayer>().Counter = -player.itemAnimationMax;
+        if (OutroEffect_ModPlayer.Check_IntroEffect(player, item.type))
+        {
+            Vector2 vel = velocity.SafeNormalize(Vector2.Zero) * 2.5f;
+            int amount = Main.rand.Next(1, 4);
+            for (int i = 0; i < amount; i++)
+            {
+                Projectile.NewProjectile(source, position + Main.rand.NextVector2Circular(30, 30), vel, ModContent.ProjectileType<TinBolt>(), damage * 2, knockback, player.whoAmI);
+            }
+        }
+        if (counter >= 120)
+        {
+            int amount = 3;
+            bool randomizeYAxis = false;
+            if (counter >= 240)
+            {
+                amount = 12;
+                randomizeYAxis = true;
+            }
+            for (int i = 0; i < amount; i++)
+            {
+                var pos = position.Add(Main.rand.Next(-300, 300), 1000);
+                if (randomizeYAxis)
+                {
+                    pos.Y -= Main.rand.Next(0, 1000);
+                }
+                Projectile.NewProjectile(source, pos, (Main.MouseWorld + Main.rand.NextVector2Circular(50, 50) - pos).SafeNormalize(Vector2.Zero) * 2.5f, ModContent.ProjectileType<TinBolt>(), damage * 2, knockback, player.whoAmI);
+                if (Main.rand.NextBool(3))
+                {
+                    pos = position.Add(Main.rand.Next(-300, 300), 1000);
+                    pos.Y -= Main.rand.Next(0, 200);
+                    Projectile.NewProjectile(source, pos, (Main.MouseWorld + Main.rand.NextVector2Circular(50, 50) - pos).SafeNormalize(Vector2.Zero) * 5, ModContent.ProjectileType<TinOreMeteor>(), (int)(damage * 2.5f), knockback, player.whoAmI);
+                }
+            }
+        }
+        var proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
+        Projectile.NewProjectile(source, position, velocity.SafeNormalize(Vector2.Zero).Vector2RotateByRandom(15) * 5, ModContent.ProjectileType<TinOreMeteor>(), damage, knockback, player.whoAmI);
+        proj.extraUpdates = 1;
+        return false;
+    }
 }
 public class Roguelike_TinBow_ModPlayer : ModPlayer {
 	public int Counter = 0;

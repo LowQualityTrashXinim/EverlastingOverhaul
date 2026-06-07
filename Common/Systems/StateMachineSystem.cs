@@ -1,5 +1,4 @@
 ﻿using EverlastingOverhaul.Common.Graphics;
-using EverlastingOverhaul.Common.NPCsOverhaul;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

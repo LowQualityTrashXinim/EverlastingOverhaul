@@ -1,6 +1,8 @@
-﻿using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect.Contents;
-using Microsoft.Xna.Framework;
+﻿using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
+using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect.Contents;
+using EverlastingOverhaul.Common.Systems;
 using EverlastingOverhaul.Common.Utils;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
@@ -9,54 +11,83 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.ItemOverhaul.Specific;
-internal class Roguelike_BoneSword : GlobalItem {
-	public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
-		return entity.type == ItemID.BoneSword;
-	}
-	public override void SetDefaults(Item entity) {
-		entity.damage = 43;
-		entity.crit = 4;
-		entity.ArmorPenetration = 5;
-		entity.shoot = ProjectileID.BookOfSkullsSkull;
-		entity.shootSpeed = 15;
-		entity.Set_ItemOutroEffect<OutroEffect_ReaperMark>();
-	}
-	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-		ModUtils.AddTooltip(ref tooltips, new(Mod, $"RoguelikeOverhaul_{item.Name}", ModUtils.LocalizationText("RoguelikeRework", item.Name)));
-	}
-	public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+internal class Roguelike_BoneSword : GlobalItem
+{
+    public override bool AppliesToEntity(Item entity, bool lateInstantiation)
+    {
+        return entity.type == ItemID.BoneSword;
+    }
+    public static readonly WeaponProgress progress = new()
+    {
 
-		var modplayer = player.GetModPlayer<Roguelike_BoneSword_ModPlayer>();
-		if (modplayer.Counter >= 60) {
-			for (int i = 0; i < 3; i++) {
-				Projectile.NewProjectile(source, position, velocity.Vector2DistributeEvenlyPlus(3, 60, i), type, damage, knockback, player.whoAmI);
-			}
-		}
-		modplayer.Counter = 0;
-		if (++modplayer.SwingCounter >= 5) {
-			modplayer.SwingCounter = 0;
-			return true;
-		}
+    };
+    public override void SetStaticDefaults()
+    {
+        progress.Set_Progress(60 / 180f, 74 / 180f, new Color(150, 150, 150));
+    }
+    public override void SetDefaults(Item entity)
+    {
+        entity.damage = 43;
+        entity.crit = 4;
+        entity.ArmorPenetration = 5;
+        entity.shoot = ProjectileID.BookOfSkullsSkull;
+        entity.shootSpeed = 15;
+        entity.Set_ItemOutroEffect<OutroEffect_ReaperMark>();
+    }
+    public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+    {
+        ModUtils.AddTooltip(ref tooltips, new(Mod, $"RoguelikeOverhaul_{item.Name}", ModUtils.LocalizationText("RoguelikeRework", item.Name)));
+    }
+    public override void HoldItem(Item item, Player player)
+    {
+        if (OutroEffect_ModPlayer.Check_ValidForIntroEffect(player))
+        {
+            OutroEffect_ModPlayer.Set_IntroEffect(player, item.type, ModUtils.ToSecond(9));
+        }
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.SetWeaponProgress(progress);
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.barProgress = player.GetModPlayer<Roguelike_BoneSword_ModPlayer>().Counter / 180f;
+    }
+    public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+    {
 
-		return false;
-	}
-	public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage) {
-		var modplayer = player.GetModPlayer<Roguelike_BoneSword_ModPlayer>();
-		if (modplayer.PerfectStrike || modplayer.Counter >= 180) {
-			damage *= 1.5f;
-		}
-		else if (modplayer.Counter >= 60) {
-			damage *= 1.2f;
+        var modplayer = player.GetModPlayer<Roguelike_BoneSword_ModPlayer>();
+        if (modplayer.Counter >= 60)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Projectile.NewProjectile(source, position, velocity.Vector2DistributeEvenlyPlus(3, 60, i), type, damage, knockback, player.whoAmI);
+            }
+        }
+        modplayer.Counter = -player.itemAnimationMax;
+        if (++modplayer.SwingCounter >= 5)
+        {
+            modplayer.SwingCounter = 0;
+            return true;
+        }
 
-		}
-	}
-	public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
-		var projectile = Projectile.NewProjectileDirect(player.GetSource_ItemUse(item), target.Center.Add(0, target.height + 5), Vector2.UnitY * (-5 + Main.rand.NextFloat(0, 2)), ProjectileID.Bone, player.GetWeaponDamage(item), 1f, player.whoAmI);
-		projectile.friendly = true;
-		projectile.hostile = false;
-		projectile.penetrate = 3;
-		projectile.maxPenetrate = 3;
-	}
+        return false;
+    }
+    public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage)
+    {
+        var modplayer = player.GetModPlayer<Roguelike_BoneSword_ModPlayer>();
+        if (modplayer.PerfectStrike || modplayer.Counter >= 180)
+        {
+            damage *= 1.5f;
+        }
+        else if (modplayer.Counter >= 60)
+        {
+            damage *= 1.2f;
+
+        }
+    }
+    public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
+    {
+        var projectile = Projectile.NewProjectileDirect(player.GetSource_ItemUse(item), target.Center.Add(0, target.height + 5), Vector2.UnitY * (-5 + Main.rand.NextFloat(0, 2)), ProjectileID.Bone, player.GetWeaponDamage(item), 1f, player.whoAmI);
+        projectile.friendly = true;
+        projectile.hostile = false;
+        projectile.penetrate = 3;
+        projectile.maxPenetrate = 3;
+    }
 }
 public class Roguelike_BoneSword_ModPlayer : ModPlayer {
 	public int SwingCounter = 0;

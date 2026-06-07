@@ -21,6 +21,7 @@ namespace EverlastingOverhaul.Common.Utils
         {
             return player.dashType == DashID.None && player.ModPlayerStats().CurrentDashType == currentDash;
         }
+        public static bool Check_IsPlayerFlying(this Player player) => player.wingTime > 0 && player.wingTime < player.wingTimeMax;
         /// <summary>
         /// Basically the same as getting <code>player.GetModPlayer<![CDATA[<]]>PlayerStatsHandle<![CDATA[>]]>()</code>
         /// </summary>

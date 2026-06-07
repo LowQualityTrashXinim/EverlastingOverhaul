@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
 using EverlastingOverhaul.Common.Systems;
 using EverlastingOverhaul.Common.Utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -14,6 +14,13 @@ namespace EverlastingOverhaul.Common.ItemOverhaul.Specific;
 public class Roguelike_CopperBow : GlobalItem {
 	public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
 		return entity.type == ItemID.CopperBow;
+	}
+	public static readonly WeaponProgress progress = new() {
+
+	};
+	public override void SetStaticDefaults() {
+		progress.Set_Progress(90 / 150f, 91 / 150f, new Color(10, 100, 255));
+		progress.Charge = true;
 	}
 	public override void SetDefaults(Item entity) {
 		entity.damage += 15;
@@ -35,12 +42,29 @@ public class Roguelike_CopperBow : GlobalItem {
 				projectile.alpha -= 1020;
 			}
 		}
+		if (OutroEffect_ModPlayer.Check_IntroEffect(player, item.type)) {
+			for (int i = 0; i < 2; i++) {
+				projectile = Projectile.NewProjectileDirect(source, position, velocity.Vector2DistributeEvenlyPlus(2, 20, i), ProjectileID.ThunderSpearShot, (int)(damage * 1.25f), knockback, player.whoAmI);
+				projectile.DamageType = DamageClass.Ranged;
+				projectile.extraUpdates = 2;
+				projectile.alpha -= 1020;
+			}
+		}
 		projectile = Projectile.NewProjectileDirect(source, position, velocity, ProjectileID.ThunderSpearShot, (int)(damage * 1.25f), knockback, player.whoAmI);
 		projectile.DamageType = DamageClass.Ranged;
 		projectile.extraUpdates = 2;
 		projectile.alpha -= 1020;
 		player.GetModPlayer<Roguelike_CopperBow_ModPlayer>().CopperBow_Counter = -player.itemAnimationMax;
 		return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+	}
+	public override void HoldItem(Item item, Player player) {
+		if (OutroEffect_ModPlayer.Check_ValidForIntroEffect(player)) {
+			OutroEffect_ModPlayer.Set_IntroEffect(player, item.type, ModUtils.ToSecond(9));
+		}
+		ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.SetWeaponProgress(progress);
+		ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.barProgress = player.GetModPlayer<Roguelike_CopperBow_ModPlayer>().CopperBow_Counter / 150f;
+		ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.gradientA = Color.Orange;
+		ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.gradientB = Color.Yellow;
 	}
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
 		ModUtils.AddTooltip(ref tooltips, new(Mod, "Roguelike_CoperBow", ModUtils.LocalizationText("RoguelikeRework", item.Name)));

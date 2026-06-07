@@ -84,12 +84,4 @@ internal class RoguelikeGlobalRecipe : ModSystem
         //    SynergyRecipe(recipe);
         //}
     }
-
-    private void SynergyRecipe(Recipe recipe)
-    {
-        if (recipe.createItem.ModItem is SynergyModItem)
-        {
-            recipe.AddIngredient(ModContent.ItemType<SynergyEnergy>());
-        }
-    }
 }

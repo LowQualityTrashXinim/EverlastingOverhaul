@@ -1,5 +1,4 @@
 ﻿using EverlastingOverhaul.Common.Graphics;
-using EverlastingOverhaul.Common.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Steamworks;
@@ -10,7 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.NPCsOverhaul;
+namespace EverlastingOverhaul.Common.Systems;
 public class NPCReworkerFSM : GlobalNPC, IZDepth {
     public int currentState
     {

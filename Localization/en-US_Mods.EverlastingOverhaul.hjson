@@ -290,7 +290,7 @@ Projectiles: {
 	TinBolt.DisplayName: Tin Bolt
 	TinOreMeteor.DisplayName: Tin Ore Meteor
 	Special_ThrowShortSwordProjectile.DisplayName: Special_ Throw Short Sword Projectile
-	RoguelikeOverhaul_ShortSwordProjectile.DisplayName: Roguelike Overhaul_ Short Sword Projectile
+	RoguelikeOverhaul_ShortSwordProjectile.DisplayName: EverlastingOverhaul Overhaul_ Short Sword Projectile
 	Roguelike_RedRyder_ModProjectile.DisplayName: Roguelike_ Red Ryder_ Mod Projectile
 	Unforgiving_BlastWave.DisplayName: Unforgiving_ Blast Wave
 	Unforgiving_Bolt.DisplayName: Unforgiving_ Bolt
@@ -374,6 +374,13 @@ Projectiles: {
 	DukeVortex.DisplayName: Duke Vortex
 	DukeShadows.DisplayName: Duke Shadows
 	Dukenado.DisplayName: Dukenado
+	Roguelike_ChocolateChipCookie_ModProjectile.DisplayName: Roguelike_ Chocolate Chip Cookie_ Mod Projectile
+	Roguelike_Milkshake_ModProjectile.DisplayName: Roguelike_ Milkshake_ Mod Projectile
+	Roguelike_ShrimpPoBoy_ModProjectile.DisplayName: Roguelike_ Shrimp Po Boy_ Mod Projectile
+	IceBlade_Slash_Projectile.DisplayName: Ice Blade_ Slash_ Projectile
+	ReworkIceShards.DisplayName: Rework Ice Shards
+	Roguelike_Revolver_ModProjectile.DisplayName: Roguelike_ Revolver_ Mod Projectile
+	ShortCircusDischarge.DisplayName: Short Circus Discharge
 }
 
 NPCs: {
@@ -382,6 +389,7 @@ NPCs: {
 	KingSlimeMinionSpawner.DisplayName: King Slime Minion Spawner
 	KingSlimeMinion.DisplayName: King Slime Minion
 	KingSlimeCrown.DisplayName: King Slime Crown
+	Roguelike_CookedShrimp_NPC.DisplayName: Roguelike_ Cooked Shrimp_ N P C
 }
 
 Items: {
@@ -1717,6 +1725,26 @@ Items: {
 			while player are in the field they will heal 34 + 5% HP and 45 + 5% Mana
 			'''
 	}
+
+	Roguelike_CreamSoda_Pickup: {
+		DisplayName: Roguelike_ Cream Soda_ Pickup
+		Tooltip: ""
+	}
+
+	Roguelike_Grapefruit_Item: {
+		DisplayName: Roguelike_ Grapefruit_ Item
+		Tooltip: ""
+	}
+
+	Roguelike_Mango_Pickup: {
+		DisplayName: Roguelike_ Mango_ Pickup
+		Tooltip: ""
+	}
+
+	Roguelike_Milkshake_Pickup: {
+		DisplayName: Roguelike_ Milkshake_ Pickup
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -2300,12 +2328,12 @@ Buffs: {
 
 	ProtectiveOnslaught_Buff: {
 		DisplayName: Protective Onslaught_ Buff
-		Description: Mods.Roguelike.Buffs.ProtectiveOnslaught_Buff.Description
+		Description: Mods.EverlastingOverhaul.Buffs.ProtectiveOnslaught_Buff.Description
 	}
 
 	Special_Vulnerable: {
 		DisplayName: Special_ Vulnerable
-		Description: Mods.Roguelike.Buffs.Special_Vulnerable.Description
+		Description: Mods.EverlastingOverhaul.Buffs.Special_Vulnerable.Description
 	}
 
 	Roguelike_RedRyder_Buff: {
@@ -2320,12 +2348,12 @@ Buffs: {
 
 	Unforgiving_Curse: {
 		DisplayName: Unforgiving Curse
-		Description: Mods.Roguelike.Buffs.Unforgiving_Curse.Description
+		Description: Mods.EverlastingOverhaul.Buffs.Unforgiving_Curse.Description
 	}
 
 	Unforgiving_Mark: {
 		DisplayName: Unforgiving Marked
-		Description: Mods.Roguelike.Buffs.Unforgiving_Mark.Description
+		Description: Mods.EverlastingOverhaul.Buffs.Unforgiving_Mark.Description
 	}
 
 	Unforgiving_OutroAttack: {
@@ -2398,12 +2426,12 @@ Buffs: {
 
 	Guard_Buff: {
 		DisplayName: Guard_ Buff
-		Description: Mods.Roguelike.Buffs.Guard_Buff.Description
+		Description: Mods.EverlastingOverhaul.Buffs.Guard_Buff.Description
 	}
 
 	Parry_Buff: {
 		DisplayName: Parry_ Buff
-		Description: Mods.Roguelike.Buffs.Parry_Buff.Description
+		Description: Mods.EverlastingOverhaul.Buffs.Parry_Buff.Description
 	}
 
 	DefenseMK1_Buff: {
@@ -2432,12 +2460,12 @@ Buffs: {
 
 	DeathshotMark: {
 		DisplayName: Deathshot Mark
-		Description: Mods.Roguelike.Buffs.DeathshotMark.Description
+		Description: Mods.EverlastingOverhaul.Buffs.DeathshotMark.Description
 	}
 
 	BroadSword_Guard: {
 		DisplayName: Broad Sword_ Guard
-		Description: Mods.Roguelike.Buffs.BroadSword_Guard.Description
+		Description: Mods.EverlastingOverhaul.Buffs.BroadSword_Guard.Description
 	}
 
 	SpaceSuitDefenses: {
@@ -2447,7 +2475,7 @@ Buffs: {
 
 	InfectiousStella: {
 		DisplayName: Infectious Stella
-		Description: Mods.Roguelike.Buffs.InfectiousStella.Description
+		Description: Mods.EverlastingOverhaul.Buffs.InfectiousStella.Description
 	}
 
 	WindDashCoolDown: {
@@ -2472,22 +2500,22 @@ Buffs: {
 
 	GreaterLifeForceBuff: {
 		DisplayName: Greater Life Force Buff
-		Description: Mods.Roguelike.Buffs.GreaterLifeForceBuff.Description
+		Description: Mods.EverlastingOverhaul.Buffs.GreaterLifeForceBuff.Description
 	}
 
 	HallowedGaze: {
 		DisplayName: Hallowed Gaze
-		Description: Mods.Roguelike.Buffs.HallowedGaze.Description
+		Description: Mods.EverlastingOverhaul.Buffs.HallowedGaze.Description
 	}
 
 	FuryOfTheSun: {
 		DisplayName: Fury Of The Sun
-		Description: Mods.Roguelike.Buffs.FuryOfTheSun.Description
+		Description: Mods.EverlastingOverhaul.Buffs.FuryOfTheSun.Description
 	}
 
 	WrathOfBlueMoon: {
 		DisplayName: Wrath Of Blue Moon
-		Description: Mods.Roguelike.Buffs.WrathOfBlueMoon.Description
+		Description: Mods.EverlastingOverhaul.Buffs.WrathOfBlueMoon.Description
 	}
 
 	Avarice_Buff: {
@@ -2497,12 +2525,417 @@ Buffs: {
 
 	StardustSymphony_Buff: {
 		DisplayName: Stardust Symphony_ Buff
-		Description: Mods.Roguelike.Buffs.StardustSymphony_Buff.Description
+		Description: Mods.EverlastingOverhaul.Buffs.StardustSymphony_Buff.Description
 	}
 
 	StardustSymphony_CoolDown: {
 		DisplayName: Stardust Symphony_ Cool Down
-		Description: Mods.Roguelike.Buffs.StardustSymphony_CoolDown.Description
+		Description: Mods.EverlastingOverhaul.Buffs.StardustSymphony_CoolDown.Description
+	}
+
+	Frostbite: {
+		DisplayName: Frostbite
+		Description: Mods.EverlastingOverhaul.Buffs.Frostbite.Description
+	}
+
+	FoodCoolDown: {
+		DisplayName: Food Cool Down
+		Description: Mods.EverlastingOverhaul.Buffs.FoodCoolDown.Description
+	}
+
+	Roguelike_Apple_Buff: {
+		DisplayName: Roguelike_ Apple_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Apple_Buff.Description
+	}
+
+	Roguelike_AppleJuice_Buff: {
+		DisplayName: Roguelike_ Apple Juice_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_AppleJuice_Buff.Description
+	}
+
+	Roguelike_ApplePie_ModBuff: {
+		DisplayName: Roguelike_ Apple Pie_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ApplePie_ModBuff.Description
+	}
+
+	Roguelike_Apricot_Buff: {
+		DisplayName: Roguelike_ Apricot_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Apricot_Buff.Description
+	}
+
+	Roguelike_Bacon_ModBuff: {
+		DisplayName: Roguelike_ Bacon_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Bacon_ModBuff.Description
+	}
+
+	Roguelike_Banana_Buff: {
+		DisplayName: Roguelike_ Banana_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Banana_Buff.Description
+	}
+
+	Roguelike_BananaSplit_ModBuff: {
+		DisplayName: Roguelike_ Banana Split_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_BananaSplit_ModBuff.Description
+	}
+
+	Roguelike_BBQRibs_ModBuff: {
+		DisplayName: Roguelike_ B B Q Ribs_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_BBQRibs_ModBuff.Description
+	}
+
+	Roguelike_BlackCurrent_Buff: {
+		DisplayName: Roguelike_ Black Current_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_BlackCurrent_Buff.Description
+	}
+
+	Roguelike_BloodOrange_Buff: {
+		DisplayName: Roguelike_ Blood Orange_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_BloodOrange_Buff.Description
+	}
+
+	Roguelike_BloodyMoscato_Buff: {
+		DisplayName: Roguelike_ Bloody Moscato_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_BloodyMoscato_Buff.Description
+	}
+
+	Roguelike_BowlofSoup_ModBuff: {
+		DisplayName: Roguelike_ Bowlof Soup_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_BowlofSoup_ModBuff.Description
+	}
+
+	Roguelike_BunnyStew_ModBuff: {
+		DisplayName: Roguelike_ Bunny Stew_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_BunnyStew_ModBuff.Description
+	}
+
+	Roguelike_CartonOfMilk_Buff: {
+		DisplayName: Roguelike_ Carton Of Milk_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_CartonOfMilk_Buff.Description
+	}
+
+	Roguelike_Cherry_Buff: {
+		DisplayName: Roguelike_ Cherry_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Cherry_Buff.Description
+	}
+
+	Roguelike_ChickenNugget_ModBuff: {
+		DisplayName: Roguelike_ Chicken Nugget_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ChickenNugget_ModBuff.Description
+	}
+
+	Roguelike_ChocolateChipCookie_Buff: {
+		DisplayName: Roguelike_ Chocolate Chip Cookie_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ChocolateChipCookie_Buff.Description
+	}
+
+	Roguelike_ChocolateChipCookie_ModBuff: {
+		DisplayName: Roguelike_ Chocolate Chip Cookie_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ChocolateChipCookie_ModBuff.Description
+	}
+
+	Roguelike_ChristmasPudding_ModBuff: {
+		DisplayName: Roguelike_ Christmas Pudding_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ChristmasPudding_ModBuff.Description
+	}
+
+	Roguelike_Coconut_Buff: {
+		DisplayName: Roguelike_ Coconut_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Coconut_Buff.Description
+	}
+
+	Roguelike_Coffee_ModBuff: {
+		DisplayName: Roguelike_ Coffee_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Coffee_ModBuff.Description
+	}
+
+	Roguelike_CookedFish_Buff: {
+		DisplayName: Roguelike_ Cooked Fish_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_CookedFish_Buff.Description
+	}
+
+	Roguelike_CookedMarshmallow_ModBuff: {
+		DisplayName: Roguelike_ Cooked Marshmallow_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_CookedMarshmallow_ModBuff.Description
+	}
+
+	Roguelike_CookedShrimp_Buff: {
+		DisplayName: Roguelike_ Cooked Shrimp_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_CookedShrimp_Buff.Description
+	}
+
+	Roguelike_CreamSoda_Buff: {
+		DisplayName: Roguelike_ Cream Soda_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_CreamSoda_Buff.Description
+	}
+
+	Roguelike_DragonFruit_ModBuff: {
+		DisplayName: Roguelike_ Dragon Fruit_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_DragonFruit_ModBuff.Description
+	}
+
+	Roguelike_ElderBerry_Buff: {
+		DisplayName: Roguelike_ Elder Berry_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ElderBerry_Buff.Description
+	}
+
+	Roguelike_Escargot_Buff: {
+		DisplayName: Roguelike_ Escargot_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Escargot_Buff.Description
+	}
+
+	Roguelike_FriedEgg_ModBuff: {
+		DisplayName: Roguelike_ Fried Egg_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_FriedEgg_ModBuff.Description
+	}
+
+	Roguelike_Fries_ModBuff: {
+		DisplayName: Roguelike_ Fries_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Fries_ModBuff.Description
+	}
+
+	Roguelike_FroggieBunwich_ModBuff: {
+		DisplayName: Roguelike_ Froggie Bunwich_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_FroggieBunwich_ModBuff.Description
+	}
+
+	Roguelike_FrozenBananaDaiquiri_ModBuff: {
+		DisplayName: Roguelike_ Frozen Banana Daiquiri_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_FrozenBananaDaiquiri_ModBuff.Description
+	}
+
+	Roguelike_FruitJuice_ModBuff: {
+		DisplayName: Roguelike_ Fruit Juice_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_FruitJuice_ModBuff.Description
+	}
+
+	Roguelike_FruitSalad_ModBuff: {
+		DisplayName: Roguelike_ Fruit Salad_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_FruitSalad_ModBuff.Description
+	}
+
+	Roguelike_GingerbreadCookie_ModBuff: {
+		DisplayName: Roguelike_ Gingerbread Cookie_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_GingerbreadCookie_ModBuff.Description
+	}
+
+	Roguelike_GoldenDelight_ModBuff: {
+		DisplayName: Roguelike_ Golden Delight_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_GoldenDelight_ModBuff.Description
+	}
+
+	Roguelike_Grapefruit_ModBuff: {
+		DisplayName: Roguelike_ Grapefruit_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Grapefruit_ModBuff.Description
+	}
+
+	Roguelike_Grapefruit_ModDeBuff: {
+		DisplayName: Roguelike_ Grapefruit_ Mod De Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Grapefruit_ModDeBuff.Description
+	}
+
+	Roguelike_Grapes_ModBuff: {
+		DisplayName: Roguelike_ Grapes_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Grapes_ModBuff.Description
+	}
+
+	Roguelike_GrilledSquirrel_ModBuff: {
+		DisplayName: Roguelike_ Grilled Squirrel_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_GrilledSquirrel_ModBuff.Description
+	}
+
+	Roguelike_Hotdog_ModBuff: {
+		DisplayName: Roguelike_ Hotdog_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Hotdog_ModBuff.Description
+	}
+
+	Roguelike_IceCream_ModBuff: {
+		DisplayName: Roguelike_ Ice Cream_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_IceCream_ModBuff.Description
+	}
+
+	Roguelike_JojaCola_Buff: {
+		DisplayName: Roguelike_ Joja Cola_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_JojaCola_Buff.Description
+	}
+
+	Roguelike_Lemon_Buff: {
+		DisplayName: Roguelike_ Lemon_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Lemon_Buff.Description
+	}
+
+	Roguelike_Lemonade_ModBuff: {
+		DisplayName: Roguelike_ Lemonade_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Lemonade_ModBuff.Description
+	}
+
+	Roguelike_LobsterTail_ModBuff: {
+		DisplayName: Roguelike_ Lobster Tail_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_LobsterTail_ModBuff.Description
+	}
+
+	Roguelike_Mango_Buff: {
+		DisplayName: Roguelike_ Mango_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Mango_Buff.Description
+	}
+
+	Roguelike_Mango_ModBuff: {
+		DisplayName: Roguelike_ Mango_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Mango_ModBuff.Description
+	}
+
+	Roguelike_Marshmallow_ModBuff: {
+		DisplayName: Roguelike_ Marshmallow_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Marshmallow_ModBuff.Description
+	}
+
+	Roguelike_Milkshake_Buff: {
+		DisplayName: Roguelike_ Milkshake_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Milkshake_Buff.Description
+	}
+
+	Roguelike_MonsterLasagna_ModBuff: {
+		DisplayName: Roguelike_ Monster Lasagna_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_MonsterLasagna_ModBuff.Description
+	}
+
+	Roguelike_Nachos_ModBuff: {
+		DisplayName: Roguelike_ Nachos_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Nachos_ModBuff.Description
+	}
+
+	Roguelike_PadThai_ModBuff: {
+		DisplayName: Roguelike_ Pad Thai_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_PadThai_ModBuff.Description
+	}
+
+	Roguelike_Peach_Buff: {
+		DisplayName: Roguelike_ Peach_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Peach_Buff.Description
+	}
+
+	Roguelike_PeachSangria_Buff: {
+		DisplayName: Roguelike_ Peach Sangria_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_PeachSangria_Buff.Description
+	}
+
+	Roguelike_Pho_ModBuff: {
+		DisplayName: Roguelike_ Pho_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Pho_ModBuff.Description
+	}
+
+	Roguelike_PinaColada_ModBuff: {
+		DisplayName: Roguelike_ Pina Colada_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_PinaColada_ModBuff.Description
+	}
+
+	Roguelike_Pineapple_Buff: {
+		DisplayName: Roguelike_ Pineapple_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Pineapple_Buff.Description
+	}
+
+	Roguelike_Pizza_ModBuff: {
+		DisplayName: Roguelike_ Pizza_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Pizza_ModBuff.Description
+	}
+
+	Roguelike_Plum_ModBuff: {
+		DisplayName: Roguelike_ Plum_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Plum_ModBuff.Description
+	}
+
+	Roguelike_Pomegranate_ModBuff: {
+		DisplayName: Roguelike_ Pomegranate_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Pomegranate_ModBuff.Description
+	}
+
+	Roguelike_PotatoChips_ModBuff: {
+		DisplayName: Roguelike_ Potato Chips_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_PotatoChips_ModBuff.Description
+	}
+
+	Roguelike_PrismaticPunch_ModBuff: {
+		DisplayName: Roguelike_ Prismatic Punch_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_PrismaticPunch_ModBuff.Description
+	}
+
+	Roguelike_PumpkinPie_ModBuff: {
+		DisplayName: Roguelike_ Pumpkin Pie_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_PumpkinPie_ModBuff.Description
+	}
+
+	Roguelike_Rambuten_Buff: {
+		DisplayName: Roguelike_ Rambuten_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Rambuten_Buff.Description
+	}
+
+	Roguelike_RoastedBird_ModBuff: {
+		DisplayName: Roguelike_ Roasted Bird_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_RoastedBird_ModBuff.Description
+	}
+
+	Roguelike_RoastedDuck_ModBuff: {
+		DisplayName: Roguelike_ Roasted Duck_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_RoastedDuck_ModBuff.Description
+	}
+
+	Roguelike_Sashimi_Buff: {
+		DisplayName: Roguelike_ Sashimi_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Sashimi_Buff.Description
+	}
+
+	Roguelike_SauteedFrogLegs_ModBuff: {
+		DisplayName: Roguelike_ Sauteed Frog Legs_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_SauteedFrogLegs_ModBuff.Description
+	}
+
+	Roguelike_SeafoodDinner_Buff: {
+		DisplayName: Roguelike_ Seafood Dinner_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_SeafoodDinner_Buff.Description
+	}
+
+	Roguelike_ShrimpPoBoy_Buff: {
+		DisplayName: Roguelike_ Shrimp Po Boy_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ShrimpPoBoy_Buff.Description
+	}
+
+	Roguelike_ShuckedOyster_ModBuff: {
+		DisplayName: Roguelike_ Shucked Oyster_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_ShuckedOyster_ModBuff.Description
+	}
+
+	Roguelike_SmoothieOfDarkness_ModBuff: {
+		DisplayName: Roguelike_ Smoothie Of Darkness_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_SmoothieOfDarkness_ModBuff.Description
+	}
+
+	Roguelike_SpicyPepper_Buff: {
+		DisplayName: Roguelike_ Spicy Pepper_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_SpicyPepper_Buff.Description
+	}
+
+	Roguelike_Starfruit_ModBuff: {
+		DisplayName: Roguelike_ Starfruit_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Starfruit_ModBuff.Description
+	}
+
+	Roguelike_Steak_Buff: {
+		DisplayName: Roguelike_ Steak_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Steak_Buff.Description
+	}
+
+	Roguelike_SugarCookie_ModBuff: {
+		DisplayName: Roguelike_ Sugar Cookie_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_SugarCookie_ModBuff.Description
+	}
+
+	Roguelike_Teacup_Buff: {
+		DisplayName: Roguelike_ Teacup_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_Teacup_Buff.Description
+	}
+
+	Roguelike_TropicalSmoothie_ModBuff: {
+		DisplayName: Roguelike_ Tropical Smoothie_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.Roguelike_TropicalSmoothie_ModBuff.Description
 	}
 }
 
@@ -2539,3 +2972,5 @@ Biomes: {
 		TownNPCDialogueName: the Duke Biome
 	}
 }
+
+"Keybinds.Weapon action.DisplayName": Weapon action

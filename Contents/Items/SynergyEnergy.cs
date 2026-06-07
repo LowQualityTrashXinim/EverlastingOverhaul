@@ -33,12 +33,10 @@ namespace EverlastingOverhaul.Contents.Items {
 		public Item itemOld = null;
 		public int ItemTypeOld = 0;
 		public bool acc_SynergyEnergy = false;
-		public bool IsTheItemInQuestionASynergyItem = false;
 		public bool JustSwitched = false;
 		public override void ResetEffects() {
 			acc_SynergyEnergy = false;
 			Item item = Player.HeldItem;
-			IsTheItemInQuestionASynergyItem = item.ModItem is SynergyModItem;
 			if (item.type == ItemID.None) {
 				return;
 			}
@@ -47,7 +45,7 @@ namespace EverlastingOverhaul.Contents.Items {
 					ItemTypeCurrent = item.type; 
                     if (itemOld != null)
                     {
-                        Player.GetModPlayer<WeaponEffect_ModPlayer>().Add_WeaponEffect(itemOld.GetGlobalItem<GlobalItemHandle>().OutroEffect_type);
+                        Player.GetModPlayer<OutroEffect_ModPlayer>().Add_OutroEffect(itemOld.GetGlobalItem<GlobalItemHandle>().OutroEffect_type);
                     }
                     itemOld = item;
 					JustSwitched = true;
@@ -58,12 +56,9 @@ namespace EverlastingOverhaul.Contents.Items {
 		public override void PostUpdate() {
 			JustSwitched = false;
 		}
-		public bool CompareOldvsNewItemType => ItemTypeCurrent != ItemTypeOld || IsTheItemInQuestionASynergyItem;
+		public bool CompareOldvsNewItemType => ItemTypeCurrent != ItemTypeOld;
 		public override void ModifyWeaponDamage(Item item, ref StatModifier damage) {
 			if (!CompareOldvsNewItemType) {
-				if (item.ModItem is SynergyModItem) {
-					damage = damage.CombineWith(Player.GetModPlayer<PlayerStatsHandle>().SynergyDamage);
-				}
 				return;
 			}
 			if (acc_SynergyEnergy) {

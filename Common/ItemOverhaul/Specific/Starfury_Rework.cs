@@ -1,42 +1,80 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
 using EverlastingOverhaul.Common.Systems;
 using EverlastingOverhaul.Common.Utils;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.ItemOverhaul.Specific;
-public class Roguelike_Starfury : GlobalItem {
-	public override void SetDefaults(Item entity) {
-		if (entity.type == ItemID.Starfury) {
-			entity.damage += 5;
-		}
-	}
-	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-		if (item.type == ItemID.Starfury) {
-			ModUtils.AddTooltip(ref tooltips, new(Mod, "Roguelike_TinBow", ModUtils.LocalizationText("RoguelikeRework", item.Name)));
-		}
-	}
-	public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-		if (item.type != ItemID.Starfury) {
-			return;
-		}
-		int counter = player.GetModPlayer<Roguelike_Starfury_ModPlayer>().Starfury_Counter;
-		if (player.GetModPlayer<Roguelike_Starfury_ModPlayer>().PerfectStrike) {
-			counter = 300;
-		}
-		if (counter >= 150) {
-			type = ModContent.ProjectileType<Roguelike_Starfury_Projectile>();
-			damage += counter / 5;
-			damage *= 5;
-		}
-		player.GetModPlayer<Roguelike_Starfury_ModPlayer>().Starfury_Counter = -player.itemAnimationMax;
-	}
+public class Roguelike_Starfury : GlobalItem
+{
+    public override bool AppliesToEntity(Item entity, bool lateInstantiation)
+    {
+        return entity.type == ItemID.Starfury;
+    }
+    public override void SetDefaults(Item entity)
+    {
+        entity.damage += 5;
+    }
+    public static readonly WeaponProgress progress = new()
+    {
+
+    };
+    public override void SetStaticDefaults()
+    {
+        progress.Set_Progress(150 / 300f, 165 / 300f, new Color(255, 10, 100));
+    }
+    public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+    {
+        ModUtils.AddTooltip(ref tooltips, new(Mod, "Roguelike_TinBow", ModUtils.LocalizationText("RoguelikeRework", item.Name)));
+    }
+    public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+    {
+        int counter = player.GetModPlayer<Roguelike_Starfury_ModPlayer>().Starfury_Counter;
+        if (player.GetModPlayer<Roguelike_Starfury_ModPlayer>().PerfectStrike)
+        {
+            counter = 300;
+        }
+        if (counter >= 150)
+        {
+            type = ModContent.ProjectileType<Roguelike_Starfury_Projectile>();
+            damage += counter / 5;
+            damage *= 5;
+        }
+        player.GetModPlayer<Roguelike_Starfury_ModPlayer>().Starfury_Counter = -player.itemAnimationMax;
+    }
+    public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+    {
+        if (OutroEffect_ModPlayer.Check_IntroEffect(player, item.type))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Vector2 pos = position.Add(0, 700) + Main.rand.NextVector2Circular(400, 200);
+                Projectile proj = Projectile.NewProjectileDirect(source, pos, (Main.MouseWorld - pos).SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(12, 15), ProjectileID.Starfury, damage, knockback, player.whoAmI);
+                proj.tileCollide = false;
+                proj.extraUpdates = 2;
+            }
+        }
+        return true;
+    }
+    public override void HoldItem(Item item, Player player)
+    {
+        if (OutroEffect_ModPlayer.Check_ValidForIntroEffect(player))
+        {
+            OutroEffect_ModPlayer.Set_IntroEffect(player, item.type, ModUtils.ToSecond(4));
+        }
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.SetWeaponProgress(progress);
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.barProgress = player.GetModPlayer<Roguelike_Starfury_ModPlayer>().Starfury_Counter / 300f;
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.gradientA = Color.Orange;
+        ModContent.GetInstance<UniversalSystem>().defaultUI.WeaponBar.gradientB = Color.Yellow;
+    }
 }
 public class Roguelike_Starfury_ModPlayer : ModPlayer {
 	public int Starfury_Counter = 0;

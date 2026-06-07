@@ -1,5 +1,4 @@
 ﻿using EverlastingOverhaul.Common.Utils;
-using EverlastingOverhaul.Contents.Items.Weapon.RangeSynergyWeapon.Unforgiving;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -104,10 +103,6 @@ internal class RoguelikeGlobalProjectile : GlobalProjectile
                 flame.velocity = projectile.velocity * -.1f;
                 flame.position += Main.rand.NextVector2Circular(8, 8);
                 flame.scale = Main.rand.NextFloat(.8f, 1.1f);
-            }
-            if (projectile.timeLeft % 10 == 0)
-            {
-                Projectile.NewProjectile(projectile.GetSource_FromAI(), projectile.Center + Main.rand.NextVector2Circular(12, 12), Vector2.Zero, ModContent.ProjectileType<Roguelike_SpiritFlame>(), (int)(projectile.damage * .7f), 2, projectile.owner);
             }
         }
         if (VelocityMultiplier != 0)

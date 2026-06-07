@@ -1,35 +1,40 @@
 CobaltSword:
 	'''
+	Intro effect: You do a additional very long straight slash for 3s
 	Swing are accompany with cobalt slash
 	Wait 2.5s to unleash fury of slash
 	Wait additional 2.5s to increase fury of slash damage
-	Striking at perfect moment will make fury of slash deal maximum damage
+	Striking at perfect moment will make fury of slash
+	deal maximum damage and create more slashes
 	'''
 CopperBow:
 	'''
+	Intro effect: Shoot out additional 3 thunder shots.
+	Shoot out a additional thunder shot
 	Wait 1.5s to shoot out a burst of thunder shots
 	Wait additional 1s to increases shot amount by 15
-	Shoot out a additional thunder shot
 	Arrow shot from this bow have 15% chance to explode into electric sphere
 	'''
 Starfury:
 	'''
+	Intro effect: Summon additional 3 star down toward your cursor
 	Wait 2.5s to summon a bigger fallen star from the sky ( 5.0x weapon damage )
 	Wait additional 2.5s to increase the base damage of fallen star
 	Striking at perfect moment will deal maximum damage without the need of waiting
 	'''
 PhoenixBlaster:
 	'''
+	Intro effect: Every shot is accompany with flamelash dealing 100% weapon damage for 6s
+	Every 5th shot shoot out a flamelash deal 34% weapon damage
+	Shot from this gun deal extra 10 fixed damage on target that is on fire
 	Wait 1.5s to shoot out a phoenix deal 3.0x weapon damage
 	Wait additional 1.5s to shoot out flame lash projectile deal .34x weapon damage
-	Every 5th shot shoot out a flame lash projectile
-	Shot from this gun deal extra 10 fixed damage on target that is on fire
 	'''
 ChlorophyteClaymore:
 	'''
-	Shoot out a bouncy chlorophyte orb that each time it bounces creates a chlorophyte bolt
+	Shoot out a bouncy chlorophyte orb that each time it bounces creates a spore cloud
 	Wait 2.5s to create a slash that deal 3x damage
-	Wait additional 1.6s to shoot out chlorophyte bolts along with the slash
+	Wait additional 1.5s to shoot out chlorophyte orb along with the slash
 	Striking at perfect moment will multiply damage by 2x and attack as if you waited
 	'''
 WoodenBow:
@@ -41,18 +46,17 @@ WoodenBow:
 	'''
 TinBow:
 	'''
+	Intro effect: shoot additional 1 - 3 tin bolt for 4s
 	Shoot a additional tin ore
 	Wait 2s to shoot down 3 tin bolt from the sky deal 2x weapon damage
 	Wait additional 2s to rain down more tin bolt
-	When tin bolt are spawned, there is a 1 in 3 chance to spawn additional tin ore
-	Falling tin ore deal 2.5x weapon damage
 	'''
 BoneSword:
 	'''
 	Every 5th swing summon a fast cursed skull
 	Striking enemy will shoot out a piercing bone upward
 	Wait 1s to deal 1.2x damage and summon arch of 3 cursed skull
-	Wait additional 2s to instead deal 1.5x damage
+	Wait additional 2s to deal 1.5x damage instead of 1.2x damage
 	Striking at perfect moment will make your attacks as if you waited
 	'''
 ShortSword:
@@ -68,6 +72,7 @@ HeatRay:
 	'''
 Musket:
 	'''
+	Intro effect: Replaced shot with high velocity bullet and +10 base damage for 3s
 	Wait 1s to guarantee the next shot always be critical
 	Wait additional 2s to increases critical damage of next shot by 150%
 	'''
@@ -93,6 +98,25 @@ BroadSword:
 	'''
 	Alt-click to guard against any attack which reduce 95% of damage
 	Wait 1s to deal 3x damage and increases critical strike chance by 30%
+	While on guard, getting hit will instantly fill up the charge !
+	'''
+CopperBroadSword:
+	'''
+	Intro effect: Swing will release a short circut discharge toward your cursor for 9s
+	Striking will have a chance to make target release a electric shots
+	While at full charge, striking enemy will releases electic shots
+	'''
+IceBlade:
+	'''
+	Intro effect: When attack, additional slash is accommpany for 7s
+	After waiting 2s, the next strike releases bunch of frost strike and weapon deal 4x damage
+	Frost strike after a short while will explode dealing damage to nearby enemy
+	and releases bunch of ice shard
+	'''
+Revolver:
+	'''
+	Every 6th shot, throw out a revolver that bounce off enemy and tile
+	The thrown revolver on hit enemy or tile will shoot out bullet constantly
 	'''
 OreBow:
 	'''
@@ -147,6 +171,13 @@ TacticalShotgun:
 	Have 25% to quickly shoot another round
 	Have 50% to shoot more bullet
 	'''
+ZombieArm:
+	'''
+	Heal user for 1 to 3 on hit
+	Hitting enemey inflict Rotting for 3s
+	While helding the weapon, on getting hit will do a counter attack
+	Will get revive while helding this weapon but will break the weapon
+	'''
 MechanicalLens:
 	'''
 	Increases critical strike damage by 55%
@@ -194,4 +225,486 @@ FeralCraws:
 	Increases attack speed by 5%
 	Increases attack speed the lower your health is ( up to maximum of 15% )
 	'''
+AdhesiveBandage:
+	'''
+	Increases maximum health by 10%
+	After getting hit, regenerate your taken wound 
+	The wound healing can't exceed 100 damage
+	'''
+Blindfold:
+	'''
+	Increases damage by 40% and crit damage by 100%
+	Permanent obstructed debuff
+	'''
+Bezoar:
+	'''
+	Decreases player debuff duration by 20%
+	Increases player debuff inflict duration by 50%
+	Increases debuff damage by 12%
+	'''
+ArmorPolish:
+	'''
+	Increases 10 defenses for every pieces that player is wearing
+	If player wear full pieces of armor:
+	Increases player defenses and damage reduction by 5%
+	'''
+FastClock:
+	'''
+	Decreases weapon enchantment cool down by 50%
+	[Not available in sub mod]
+	Increases weapon attack speed by 15%
+	'''
+Nazar:
+	'''
+	Decreases debuff duration by 50%
+	Hitting enemey will inflicted Curses for 7 to 15s
+	Cursed enemy will deal 75% less damage
+	'''
 InvisibilityPotion: Increases critical damage by 15% and critical strike chance by 5%
+Apple:
+	'''
+	+20% damage if over 75% HP
+	35% discount Nurse
+	'''
+AppleJuice:
+	'''
+	+7% dmg; 25% discount Nurse
+	+17% synergy dmg; +1.5 knockback
+	'''
+Banana:
+	'''
+	+13% non-critical strikes
+	7% chance to double projectile
+	'''
+BlackCurrent:
+	'''
+	+75 maxMP; +25% MP regen
+	2.5% to inflict Slow
+	'''
+BloodOrange:
+	'''
+	+40 maxHP; +25% HP regen
+	5% to inflict Bleeding
+	'''
+Cherry:
+	'''
+	+10% DR; +3 thorns
+	200% thorns explosion when hit
+	'''
+Coconut:
+	'''
+	+20% first strike damage
+	+4 defence; +7 DR
+	'''
+Elderberry:
+	'''
+	+9% ranged; +21% crit DMG
+	+17% to not consume ammo
+	'''
+BloodyMoscato:
+	'''
+	+2 life steal; + 30% heal effective
+	Give weapon imbue Ichor
+	+2 defence; +3 thorns
+	'''
+CartonofMilk:
+	'''
+	+1 defence for every 25HP
+	5% to inflict Broken Armor
+	'''
+JojaCola:
+	'''
+	+13% ranged; +9% crit chance
+	-8% defence; huge spread
+	'''
+Peach:
+	'''
+	+23% skill damage
+	+14% energy recharge
+	[Not available in sub mod]
+	'''
+PeachSangria:
+	'''
+	+250 energy cap; +17% skill dmg
+	+13 energy regen; +15% skill duration
+	[Not available in sub mod]
+	'''
+Pineapple:
+	'''
+	+7 thorns; +12% thorns
+	-5 defence
+	'''
+Rambutan:
+	'''
+	+1 life steal; +15% heal effective
+	+3 defence; +7% thorns
+	'''
+SpicyPepper:
+	'''
+	+13% melee speed; +9% attack speed
+	Grant weapon imbue Fire
+	-7 defence
+	'''
+Lemon:
+	'''
+	+25% debuff time inflict; +0.5 kB
+	weapon releases a small explosion on hit
+	explosion deal 45% weapon damage
+	'''
+Grapefruit:
+	'''
+	Have rare chance to spawns grape fruit during fighting
+	Collecting grape fruit will make strike inflict DoT debuff
+	Effect cap out at 32; stack have a decay rate of 10s
+	'''
+Plum:
+	'''
+	Have 7% chance on striking enemey or 50% when hit by a enemy:
+	-2.5s on random debuff and +1s on random buff
+	'''
+Marshmallow:
+	'''
+	1.17x life regen; 1,21x mana regen
+	0.87x buff time; 1.35x debuff time
+	'''
+Apricot:
+	'''
+	+4% food effects
+	[Not available in sub mod]
+	0.93x debuff time;
+	1.06x buff effects;
+	'''
+Pomegranate:
+	'''
+	+40 max mana; +160 tmp mana
+	5% to inflict On Fire debuff for 3s
+	'''
+BunnyStew:
+	'''
+	23% mov, mining, placement speed
+	offers weak dash, weak double jump
+	'''
+CookedMarshmallow:
+	'''
+	+3 flat life regen; 1.52x buff time;
+	+3 mana regen; 0.7x debuff time
+	'''
+FrozenBananaDaiquiri:
+	'''
+	7% damage; 10% crit damage; 3% crit chance
+	7% to not ammo; immunity to fire
+	'''
+FruitJuice:
+	'''
+	+150 temp life; +2 life regen;
+	+2 def; +5% damage; +2% crit chance
+	+5% melee speed; +20% move speed; +5% mining speed
+	'''
+FruitSalad:
+	'''
+	+50 temp life; +5 flat life regen;
+	+2 def; +5% damage; +2% crit chance
+	+5% melee speed; +20% move speed; +5% mining speed
+	'''
+GrilledSquirrel:
+	'''
+	+6% movement speed ; +12% jump boost; fall distance are increased
+	while using a hook: +16% crit chance; 3.5% dodge
+	'''
+Lemonade:
+	'''
+	+0.25 invincibility; +13% true dmg;
+	+13% debuff time inflict; +1.25 kB
+	'''
+PinaColada:
+	'''
+	+50% first strike damage;
+	+9 DR; +11% thorns
+	'''
+PotatoChips:
+	'''
+	+25% summon; +1.5 minion kB
+	-15% melee; -20% atk speed
+	'''
+PumpkinPie:
+	'''
+	+9 def; 7 DR; on getting hurt: Releases a explosion 
+	damage of the explosion based on your defenses
+	Have a 5s cool down between explosion
+	'''
+RoastedBird:
+	'''
+	+35% flight; While flying:
+	1.23x first strike; +5 dodge chance 
+	'''
+SauteedFrogLegs:
+	'''
+	+35% jump; +15% speed;
+	+7% dodge chance
+	'''
+SmoothieofDarkness:
+	'''
+	+24% magic and ranged damage;
+	Range and magic attack inflicted cursed flame
+	-10% crit chance
+	'''
+TropicalSmoothie:
+	'''
+	+100 energy cap; +19% skill dmg;
+	-17% skill duration;
+	[Not available in sub mod]
+	+55% thorns;
+	'''
+BananaSplit:
+	'''
+	+25% non-critical strikes;
+	14% chance double projectile;
+	+1.25% def/s when hit (max 50%)
+	'''
+ChickenNugget:
+	'''
+	1.25x skill damage
+	0.45x skill duration
+	0.35x energy recharge
+	[Not available in sub mod]
+	'''
+ChocolateChipCookie:
+	'''
+	every 10s spawn stationary cookies;
+	when clicking on cookie:
+	+10 heal; +10% dmg, crit and crit dmg for 12s
+	'''
+Coffee:
+	'''
+	+21% jump boost,movement speed 
+	+7% melee speed
+	Increases movement acceleration and de-acceleraion
+	'''
+DragonFruit:
+	'''
+	+60 max HP; +7 defence;
+	during flight: striking enemy have
+	10% inflict Withered Armor
+	'''
+FriedEgg:
+	'''
+	'+12% synergy dmg, +20% melee, ranged dmg;
+	on hit with melee and ranged:
+	+1% synergy dmg (max 30%)
+	'''
+Fries:
+	'''
+	+1 minion slots; +1 sentries;
+	+16% summon; +35% whip damage; 
+	+1.4 minion kB
+	'''
+Grapes:
+	'''
+	Reduce melee, range damage by 10%
+	35% of summon damage deal true damage
+	minion and its projectile have 10% to dealt 2nd strike
+	'''
+IceCream:
+	'''
+	+180 max mana; +220 temp mana;
+	+0.2 rapid mana; 1.12x magic
+	+50% mana cost
+	'''
+MonsterLasagna:
+	'''
+	40 maximum health and 80 maximum mana
+	+2 life steal and 30% heal effective
+	attacking have 1% to infclit Shadowflame on enemy
+	'''
+Nachos:
+	'''
+	+20% non-critical strike melee, 
+	range and magic damage; +25% move speed
+	+5 DR; +15% summoner damage
+	'''
+StarFruit:
+	'''
+	'+0.33s invincibility;
+	+15% magic dmg; -20% mana cost;
+	+50% mana regeneration
+	'''
+BowlofSoup:
+	'''
+	+1 extra life, +4 defense, +10% damage, 
+	+4% crit chance, +15% mining speed
+	+10% melee speed, +40% move speed
+	'''
+FroggleBunwich:
+	'''
+	+125% jump; 32% speed;
+	offers dash ability;
+	+17% dodge chance
+	'''
+PadThai:
+	'''
+	+420 energy cap; +25% energy recharge;
+	+34% skill duration; +32% energy regen
+	[Not available in sub mod]
+	'''
+Pho:
+	'''
+	+550 temporary energy; +37% energy regen
+	[Not available in sub mod]
+	+1s temporary life, mana lifetime
+	+110 temporary life; +220 temporary mana; 
+	1.12x HP, MP regen; 
+	'''
+PrismaticPunch:
+	'''
+	+0.43s invincibility; +9 defence;
+	+18% magic dmg; -27% mana cost;
+	Player take 60% less damage and do a counter attack
+	Counter attack will also releases several nebula fist (CD: 5s)
+	'''
+RoastedDuck:
+	'''
+	+75% flight; while flying or in liquid:
+	1.65x direct strike; +20 dodge chance;
+	Your weapon inflict Cursed Flames
+	'''
+Bacon:
+	'''
+	During moving, you accumulate a stack
+	after reaching 100 stacks, next attack +200% damage
+	15% dodge chance, 25% velocity added to thorns
+	'''
+BBQRibs:
+	'''
+	1.2x melee; 15% nearby heart when hit
+	while dealing damage: +1 def (CD:1s) (max 50); 
+	25% gained def contribute to life regen
+	'''
+GingerbreadCookie:
+	'''
+	1.2x magic, 15% mana star on impact;
+	+15s debuff inflict; +400 temp mana
+	'''
+Hotdog:
+	'''
+	Attacking have 5% to deal extra strike
+	extra strike deal 20% weapon damage and
+	is counted as pure damage, +10% true damage
+	'''
+SugarCookie:
+	'''
+	+30% mov; +20% jump boost
+	Damage is increased by 40% velocity; 
+	-25% crit rate; shooting became inaccurate
+	'''
+ApplePie:
+	'''
+	immunity to Chilled; +10% damage reduction;
+	upon killing a enemy heal 5% maximum health
+	'''
+ChristmasPudding:
+	'''
+	+0.2s invincibility; +5 DR; -50% debuff time
+	Have 15% chance to halve incoming damage
+	Grant 65% knock back resistance
+	'''
+GoldenDelight:
+	'''
+	+10% crit chance; +35 crit dmg;
+	Reduce 5-50% taken damage
+	Inflicts Midas for 5-9s
+	'''
+Pizza:
+	'''
+	'+1 minion slots; +1 sentries;
+	+20% summon; +30% summon tag;
+	+3 minion kB; -25% atk speed
+	'''
+LobsterTail:
+	'''
+	When you get hit, do a counter attack (CD:2s)
+	Counter attack deal 500% damage based on taken damage
+	Above effect is enhanced when player are either wet or in water
+	'''
+ShuckedOyster:
+	'''
+	gain 15 fishing power; 10 defenses
+	100% water breathing; 15% mov speed while in water
+	On hit,increases defenses by 20 for 2s ( CD 5s )
+	'''
+Mango:
+	'''
+	Spawn small Mango every 3s around player:
+	Collecting Mango will increases 10% skill damage
+	max out at 5 stacks; each stack have 15s of decay
+	[Not available in sub mod]
+	'''
+CookedFish:
+	'''
+	+10 fishing power
+	Increases 15% dmg and movement speed
+	Increases defenses by 5 and life regen by 2
+	'''
+Teacup:
+	'''
+	+9% placement, mining speed;
+	+2 range; -10% spawn rate
+	+10% crit chance and 25% crit dmg
+	'''
+CreamSoda:
+	'''
+	Every 5s since drink this, spawn a small cream soda nearby
+	Upon picking up the small cream soda, gain following:
+	1s invincibility and 5 life
+	'''
+ShrimpPoBoy:
+	'''
+	Attacking have 1% chance to spawns very big fish
+	The fish deal 120 damage + 40% weapon damage
+	There can only 1 fish be active at the time
+	'''
+CookedShrimp:
+	'''
+	every 5s: summons ghost shrimp
+	upon killing ghost shrimp, its launched toward 
+	nearest enemy, explode dealing 50 + 20% weapon damage
+	Work
+	in
+	progress
+	'''
+Escargot:
+	'''
+	+20 defenses, +20% damage reduction,
+	-90% jump boost,-40% movement speed,
+	-60% attack speed
+	'''
+Sashimi:
+	'''
+	+13 fishing power;
+	+10 damage, 2% crit chance, 25% crit damage;
+	while in water, lava: 25% HP regen; 35% mov, place spd
+	'''
+SeafoodDinner:
+	'''
+	+0.4 luck; +25 fishing power;
+	+2.5 knockback; -25% spawn rate
+	+20 defense and +5% damage reduction
+	'''
+Steak:
+	'''
+	Increases melee damage by 25%, melee crit chance by 10,
+	melee crit damage by 50% and 10 life regen
+	Decreases magic and range damage by 90%
+	'''
+Milkshake:
+	'''
+	Dealing damage will sometime spawn milkshake
+	Collecting milkshake will accomulate shake point
+	Reaching 10 points, next attack will drop a ice tortoise
+	'''
+Spagetti:
+	'''
+	Due to spagetti code, the following "feature" may occur:
+	Become invincible for 5s, Instant life heal,
+	gain 300% attack speed, random item may drop nearby
+	or this buff end immediately
+	'''

@@ -1,9 +1,4 @@
-﻿using EverlastingOverhaul.Common.Graphics;
-using EverlastingOverhaul.Common.Graphics.AnimationSystems;
-using EverlastingOverhaul.Common.Graphics.Primitives;
-using EverlastingOverhaul.Common.Graphics.Structs.QuadStructs;
-using EverlastingOverhaul.Common.Graphics.Structs.TrailStructs;
-using EverlastingOverhaul.Common.Systems;
+﻿using EverlastingOverhaul.Common.Systems;
 using EverlastingOverhaul.Common.Systems.ObjectSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +11,11 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EverlastingOverhaul.Common.ItemOverhaul;
+using EverlastingOverhaul.Common.Graphics;
+using EverlastingOverhaul.Common.Graphics.AnimationSystems;
+using EverlastingOverhaul.Common.Graphics.Structs.QuadStructs;
+using EverlastingOverhaul.Common.Graphics.Structs.TrailStructs;
+using EverlastingOverhaul.Common.Graphics.Primitives;
 
 namespace EverlastingOverhaul.Common.NPCsOverhaul.Bosses.EyeofCuthulu;
 public class EyeofCuthulu : NPCReworkerFSM {

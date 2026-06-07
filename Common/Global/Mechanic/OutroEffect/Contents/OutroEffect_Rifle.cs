@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global.Mechanic.OutroEffect.Contents;
-internal class OutroEffect_Rifle : WeaponEffect {
+internal class OutroEffect_Rifle : OutroEffect {
 	public override void SetStaticDefaults() {
 		Duration = ModUtils.ToSecond(30);
 	}

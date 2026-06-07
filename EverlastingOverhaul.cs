@@ -31,13 +31,11 @@ public class ModItemLib : ModSystem
             ItemID.HeroShield};
     public static HashSet<Item> List_Weapon { get; private set; }
     public static HashSet<int> MinionPetMountBuff { get; private set; }
-    public static List<Item> SynergyItem { get; private set; }
     public override void OnModLoad()
     {
         List_Weapon = new();
         MinionPetMountBuff = new();
         FireDeBuff = new();
-        SynergyItem = new();
     }
     public override void OnModUnload()
     {
@@ -45,7 +43,6 @@ public class ModItemLib : ModSystem
         IsPoisonBuff = null;
         List_Weapon = null;
         MinionPetMountBuff = null;
-        SynergyItem = null;
     }
     public override void PostSetupContent()
     {
@@ -66,10 +63,6 @@ public class ModItemLib : ModSystem
                     }
                 }
                 List_Weapon.Add(item);
-            }
-            if (item.ModItem is SynergyModItem)
-            {
-                SynergyItem.Add(item);
             }
         }
     }

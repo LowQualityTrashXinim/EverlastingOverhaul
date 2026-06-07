@@ -31,6 +31,7 @@ public class PlayerStatsHandle : ModPlayer
     public StatModifier UpdateManaMax = new StatModifier();
     public StatModifier UpdateManaRegen = new StatModifier();
     public StatModifier UpdateDefenseBase = new StatModifier();
+    public StatModifier ThornAoE = new StatModifier();
     public StatModifier UpdateThorn = new StatModifier();
     public StatModifier UpdateDefEff = new StatModifier();
     public StatModifier UpdateMinion = new StatModifier();
@@ -83,8 +84,10 @@ public class PlayerStatsHandle : ModPlayer
     /// This is the count down, by default it set to 1s
     /// </summary>
     public int LifeSteal_CoolDown = 60;
-    public int Rapid_LifeRegen = 0;
-    public int Rapid_ManaRegen = 0;
+    public float Rapid_LifeRegen = 0;
+    public float Rapid_ManaRegen = 0;
+    public float Rapid_CacheLife;
+    public float Rapid_CacheMana;
     public int Debuff_LifeStruct = 0;
     /// <summary>
     /// This only work if no where in the code don't uses <see cref="NPC.HitModifiers.DisableCrit"/><br/>
@@ -99,6 +102,10 @@ public class PlayerStatsHandle : ModPlayer
     public int TemporaryLife_Counter = 0;
     public int TemporaryLife_Limit = 0;
     public int TemporaryLife_CounterLimit = 120;
+    public int TemporaryMana = 0;
+    public int TemporaryMana_Counter = 0;
+    public int TemporaryMana_Limit = 0;
+    public int TemporaryMana_CounterLimit = 120;
     public int NPC_HitCount = 0;
     public float ItemRangeMultiplier = 1;
     /// <summary>
@@ -107,13 +114,21 @@ public class PlayerStatsHandle : ModPlayer
     /// </summary>
     public float AugmentationChance = 0;
     /// <summary>
-    /// Uses for enchantment cool down effect
+    /// True damage will always deal damage to enemy regardless of defense or DR
     /// </summary>
-    public StatModifier EnchantmentCoolDown = StatModifier.Default;
+    public StatModifier TrueDamage = StatModifier.Default;
     /// <summary>
     /// This percentage damage will always deal NPC% health as true damage
     /// </summary>
     public float PercentageDamage = 0;
+    /// <summary>
+    /// Use this to increase the amount of first strike player can hit on NPC
+    /// </summary>
+    public int HitCountIgnore = 0;
+    public float TrueDamage_Melee = 0;
+    public float TrueDamage_Range = 0;
+    public float TrueDamage_Magic = 0;
+    public float TrueDamage_Summon = 0;
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         if (LifeSteal_CoolDownCounter <= 0 && LifeSteal.Additive > 0 && LifeSteal.ApplyTo(1) > 0)
@@ -133,10 +148,23 @@ public class PlayerStatsHandle : ModPlayer
         if (UpdateThorn.ApplyTo(1) > 0)
         {
             NPC.HitInfo newhitinfo = new();
-            newhitinfo.Damage = (int)UpdateThorn.ApplyTo(hurtInfo.Damage);
+            newhitinfo.Damage = (int)(UpdateThorn - 1).ApplyTo(hurtInfo.Damage);
             newhitinfo.Crit = false;
             newhitinfo.DamageType = DamageClass.Default;
             Player.StrikeNPCDirect(npc, newhitinfo);
+            float distance = ThornAoE.ApplyTo(1);
+            if (distance > 0)
+            {
+                Player.Center.LookForHostileNPC(out List<NPC> npclist, distance);
+                foreach (var target in npclist)
+                {
+                    if (target.whoAmI == npc.whoAmI)
+                    {
+                        continue;
+                    }
+                    Player.StrikeNPCDirect(target, newhitinfo);
+                }
+            }
         }
         HitTakenCounter++;
         DmgTaken += (ulong)hurtInfo.Damage;
@@ -158,6 +186,7 @@ public class PlayerStatsHandle : ModPlayer
             modifiers.DisableCrit();
         }
     }
+    public StatModifier SummonTagDamage = StatModifier.Default;
     public StatModifier UpdateCritDamage = new StatModifier();
     public StatModifier Melee_CritDamage = StatModifier.Default;
     public StatModifier Range_CritDamage = StatModifier.Default;
@@ -172,6 +201,7 @@ public class PlayerStatsHandle : ModPlayer
     public StatModifier RangeAtkSpeed = StatModifier.Default;
     public StatModifier MagicAtkSpeed = StatModifier.Default;
     public StatModifier SummonAtkSpeed = StatModifier.Default;
+    public StatModifier WingUpTime = new StatModifier();
     public bool Get_DidPlayerDodge = false;
     public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
     {
@@ -221,8 +251,58 @@ public class PlayerStatsHandle : ModPlayer
         }
         if (HasDebuff)
             modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(DebuffDamage * count);
-        modifiers.FinalDamage.Flat = target.lifeMax * PercentageDamage;
+        if (modifiers.DamageType == DamageClass.Melee)
+        {
+            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Melee_CritDamage);
+            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Melee_NonCritDmg);
+            TrueDamage_Melee = Math.Clamp(TrueDamage_Melee, 0, 1f);
+            TransferStatsModifier(ref modifiers.SourceDamage, ref modifiers.FinalDamage, TrueDamage_Melee);
+        }
+        else if (modifiers.DamageType == DamageClass.Ranged)
+        {
+            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Range_CritDamage);
+            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Range_NonCritDmg);
+            TrueDamage_Melee = Math.Clamp(TrueDamage_Range, 0, 1f);
+            TransferStatsModifier(ref modifiers.SourceDamage, ref modifiers.FinalDamage, TrueDamage_Range);
+        }
+        else if (modifiers.DamageType == DamageClass.Magic)
+        {
+            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Magic_CritDamage);
+            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Magic_NonCritDmg);
+            TrueDamage_Melee = Math.Clamp(TrueDamage_Magic, 0, 1f);
+            TransferStatsModifier(ref modifiers.SourceDamage, ref modifiers.FinalDamage, TrueDamage_Magic);
+        }
+        else if (modifiers.DamageType == DamageClass.Summon)
+        {
+            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Summon_CritDamage);
+            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Summon_NonCritDmg);
+            TrueDamage_Melee = Math.Clamp(TrueDamage_Summon, 0, 1f);
+            TransferStatsModifier(ref modifiers.SourceDamage, ref modifiers.FinalDamage, TrueDamage_Summon);
+        }
+        modifiers.FlatBonusDamage += SummonTagDamage.ApplyTo(modifiers.FlatBonusDamage.Value) - modifiers.FlatBonusDamage.Value;
+
         modifiers.ModifyHitInfo += Modifiers_ModifyHitInfo;
+        modifiers.FinalDamage = modifiers.FinalDamage.CombineWith(TrueDamage);
+    }
+    private void TransferStatsModifier(ref StatModifier stat1, ref StatModifier stat2, float percentage)
+    {
+        if (percentage >= 1)
+        {
+            stat2 = stat2.CombineWith(stat1);
+            stat1 = StatModifier.Default - 1;
+        }
+        else
+        {
+            stat2 = new(stat2.Additive + stat1.Additive * percentage,
+                stat2.Multiplicative + stat1.Multiplicative * percentage,
+                stat2.Flat + stat1.Flat * percentage,
+                stat2.Base + stat1.Base * percentage);
+            percentage = 1 - percentage;
+            stat1 = new(stat1.Additive * percentage,
+                stat1.Multiplicative * percentage,
+                stat1.Flat * percentage,
+                stat1.Base * percentage);
+        }
     }
     public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
     {
@@ -259,8 +339,14 @@ public class PlayerStatsHandle : ModPlayer
     }
     public override void PostUpdate()
     {
-        Player.statLife = Math.Clamp(Player.statLife + Rapid_LifeRegen, 1, Player.statLifeMax2);
-        Player.statMana = Math.Clamp(Player.statMana + Rapid_ManaRegen, 0, Player.statManaMax2);
+        Rapid_CacheLife += Rapid_LifeRegen;
+        Rapid_CacheMana += Rapid_ManaRegen;
+        int life = (int)Rapid_CacheLife;
+        int mana = (int)Rapid_CacheMana;
+        Player.statLife = Math.Clamp(Player.statLife + life, 1, Player.statLifeMax2);
+        Player.statMana = Math.Clamp(Player.statMana + mana, 0, Player.statManaMax2);
+        Rapid_CacheLife -= life;
+        Rapid_CacheMana -= mana;
     }
     public override void UpdateLifeRegen()
     {
@@ -275,6 +361,14 @@ public class PlayerStatsHandle : ModPlayer
     {
         TemporaryLife_Limit += limit;
         TemporaryLife_CounterLimit += counterlimit;
+    }
+    public void Set_TemporaryMana(int limit, int counterlimit)
+    {
+        TemporaryMana_Limit += limit;
+        if (TemporaryMana_CounterLimit < counterlimit)
+        {
+            TemporaryMana_CounterLimit = counterlimit;
+        }
     }
     public float CurrentMinionAmount = 0;
     public int CappedHealthAmount = -1;
@@ -315,6 +409,11 @@ public class PlayerStatsHandle : ModPlayer
         Player.statDefense.FinalMultiplier *= UpdateDefenseBase.Multiplicative;
         Player.DefenseEffectiveness *= UpdateDefEff.ApplyTo(Player.DefenseEffectiveness.Value);
 
+        TrueDamage_Melee = 0;
+        TrueDamage_Range = 0;
+        TrueDamage_Magic = 0;
+        TrueDamage_Summon = 0;
+
         Player.maxMinions = (int)UpdateMinion.ApplyTo(Player.maxMinions);
         Player.maxTurrets = (int)UpdateSentry.ApplyTo(Player.maxTurrets);
 
@@ -329,7 +428,17 @@ public class PlayerStatsHandle : ModPlayer
             TemporaryLife_Limit = 0;
             TemporaryLife_CounterLimit = 0;
         }
-
+        if (TemporaryMana > 0)
+        {
+            if (++TemporaryMana_Counter >= TemporaryMana_CounterLimit)
+            {
+                TemporaryMana--;
+                TemporaryMana_Counter = 0;
+            }
+            TemporaryMana = Math.Clamp(TemporaryMana, 0, TemporaryMana_Limit);
+            TemporaryMana_Limit = 0;
+            TemporaryMana_CounterLimit = 0;
+        }
         if (CappedHealthAmount == -1)
         {
             Player.statLifeMax2 = Math.Clamp((int)Math.Ceiling(UpdateHPMax.ApplyTo(Player.statLifeMax2) + TemporaryLife), 1, int.MaxValue);
@@ -369,7 +478,8 @@ public class PlayerStatsHandle : ModPlayer
         UpdateManaRegen = StatModifier.Default;
         UpdateDefenseBase = StatModifier.Default;
         UpdateDefEff = StatModifier.Default;
-        UpdateThorn = StatModifier.Default - 1;
+        UpdateThorn = StatModifier.Default;
+        ThornAoE = StatModifier.Default - 1;
         DebuffTime = StatModifier.Default;
         BuffTime = StatModifier.Default;
         DebuffBuffTime = StatModifier.Default;
@@ -382,6 +492,7 @@ public class PlayerStatsHandle : ModPlayer
         Iframe = StatModifier.Default;
         LifeSteal = StatModifier.Default - 1;
         DirectItemDamage = StatModifier.Default;
+        WingUpTime = StatModifier.Default;
         DodgeChance = 0;
         DodgeTimer = 44;
         successfullyKillNPCcount = 0;
@@ -392,7 +503,8 @@ public class PlayerStatsHandle : ModPlayer
         Rapid_ManaRegen = 0;
         ItemRangeMultiplier = 1;
         Reset_ShootRequest();
-
+        PercentageDamage = 0;
+        TrueDamage = StatModifier.Default;
         AlwaysCritValue = 0;
     }
     /// <summary>
@@ -705,12 +817,6 @@ public class PlayerStatsHandle : ModPlayer
             default:
                 return DamageClass.Default;
         }
-    }
-    public static int WE_CoolDown(Player player, int cooldown)
-    {
-        PlayerStatsHandle handle = player.GetModPlayer<PlayerStatsHandle>();
-        float newcooldown = handle.EnchantmentCoolDown.ApplyTo(cooldown);
-        return (int)Math.Max(Math.Ceiling(newcooldown), 0);
     }
     public Dictionary<string, ConditionApproved> SecondLife = new();
     public static void SetSecondLifeCondition(Player player, string context, bool condition)

@@ -32,8 +32,8 @@ internal class Roguelike_VenusMagnum : GlobalItem {
 		}
 	}
 	public override void HoldItem(Item item, Player player) {
-		if (WeaponEffect_ModPlayer.Check_ValidForIntroEffect(player) && player.Check_SwitchedWeapon(item.type)) {
-			WeaponEffect_ModPlayer.Set_IntroEffect(player, item.type, ModUtils.ToSecond(9));
+		if (OutroEffect_ModPlayer.Check_ValidForIntroEffect(player) && player.Check_SwitchedWeapon(item.type)) {
+            OutroEffect_ModPlayer.Set_IntroEffect(player, item.type, ModUtils.ToSecond(9));
 		}
 	}
 	public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
@@ -53,7 +53,7 @@ internal class Roguelike_VenusMagnum : GlobalItem {
 				Projectile.NewProjectile(source, position, velocity.Vector2RotateByRandom(30) * Main.rand.NextFloat(.56f, 1f), ProjectileID.SporeCloud, (int)(damage * .43f) + 10, knockback, player.whoAmI);
 			}
 		}
-		if (WeaponEffect_ModPlayer.Check_IntroEffect(player, item.type)) {
+		if (OutroEffect_ModPlayer.Check_IntroEffect(player, item.type)) {
 			Projectile.NewProjectile(source, position, velocity.Vector2RotateByRandom(30) * Main.rand.NextFloat(.56f, 1f), ProjectileID.ChlorophyteBullet, (int)(damage * .33f) + 10, knockback, player.whoAmI);
 			Projectile.NewProjectile(source, position, velocity.Vector2RotateByRandom(30) * Main.rand.NextFloat(.56f, 1f), ProjectileID.SporeCloud, (int)(damage * .43f) + 10, knockback, player.whoAmI);
 		}

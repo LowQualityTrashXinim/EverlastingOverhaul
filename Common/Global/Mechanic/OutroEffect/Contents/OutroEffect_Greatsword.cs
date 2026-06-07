@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global.Mechanic.OutroEffect.Contents;
-internal class OutroEffect_Greatsword : WeaponEffect {
+internal class OutroEffect_Greatsword : OutroEffect {
 	public override void SetStaticDefaults() {
 		Duration = ModUtils.ToSecond(30);
 	}
@@ -19,12 +19,12 @@ internal class OutroEffect_Greatsword : WeaponEffect {
 	}
 	public override void ModifyHitItem(Player player, NPC npc, ref NPC.HitModifiers mod) {
 		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.Greatsword].Contains(player.HeldItem.type)) {
-			mod.SourceDamage += npc.life * .01f;
+			mod.SourceDamage.Flat += npc.life * .01f;
 		}
 	}
 	public override void ModifyHitProj(Player player, Projectile proj, NPC npc, ref NPC.HitModifiers mod) {
 		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.Greatsword].Contains(proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType)) {
-			mod.SourceDamage += npc.life * .01f;
+			mod.SourceDamage.Flat += npc.life * .01f;
 		}
 	}
 }

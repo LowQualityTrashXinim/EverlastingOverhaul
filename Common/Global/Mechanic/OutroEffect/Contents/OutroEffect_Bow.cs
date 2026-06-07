@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 
 namespace EverlastingOverhaul.Common.Global.Mechanic.OutroEffect.Contents;
-internal class OutroEffect_Bow : WeaponEffect {
+internal class OutroEffect_Bow : OutroEffect {
 	public override void SetStaticDefaults() {
 		Duration = ModUtils.ToSecond(30);
 	}

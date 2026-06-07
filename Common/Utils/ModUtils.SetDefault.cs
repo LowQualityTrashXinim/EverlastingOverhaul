@@ -148,9 +148,9 @@ namespace EverlastingOverhaul.Common.Utils {
 				globalitem.CriticalDamage = critDmg;
 			}
 		}
-        public static void Set_ItemOutroEffect<T>(this Item item) where T : WeaponEffect
+        public static void Set_ItemOutroEffect<T>(this Item item) where T : OutroEffect
         {
-            item.GetGlobalItem<GlobalItemHandle>().OutroEffect_type = WeaponEffect.GetWeaponEffectType<T>();
+            item.GetGlobalItem<GlobalItemHandle>().OutroEffect_type = OutroEffect.GetOutroEffectType<T>();
         }
         /// <summary>
         /// This will work for most vanilla accessory, however item effect such as follow will not work :<br/>
@@ -261,6 +261,12 @@ public static class Roguelike_DamageClass
     /// Vanilla summoner re-implementation that have crit enable
     /// </summary>
     public static DamageClass Summon => new Roguelike_SummonDamageClass();
+    /// <summary>
+    /// This is mod custom damage class<br/>
+    /// Not to be confused with True damage, this damage class will take all of vanilla damage modifier<br/>
+    /// And then calculated the damage to be increased.
+    /// </summary>
+    public static DamageClass Pure => new Roguelike_SummonDamageClass();
 }
 public class Roguelike_SummonDamageClass : VanillaDamageClass
 {
@@ -277,4 +283,13 @@ public class Roguelike_SummonDamageClass : VanillaDamageClass
         }
     }
     public override bool GetPrefixInheritance(DamageClass damageClass) => damageClass == Magic;
+}
+public class Roguelike_PureDamageClass : VanillaDamageClass
+{
+    protected override string LangKey => "Pure";
+    public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
+    {
+        return StatInheritanceData.Full;
+    }
+    public override bool GetPrefixInheritance(DamageClass damageClass) => damageClass == Default;
 }

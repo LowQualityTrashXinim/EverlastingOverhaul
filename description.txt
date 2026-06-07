@@ -5,6 +5,6 @@ The mod will be updated whenever everlasting mod made changes toward vanilla ite
 Join our discord server !
 https://discord.gg/rTz73n2KR2
 
-Update 0.0.18.1:
-- Introduced this mod series of weapon named "Synergy weapon"
-- Temporary made "Synergy weapon" craftable for play testing purpose
+Update 0.0.19.5:
+- Removed synergy weapon because it is a test.
+- Rework bunch of foods, some of the food won't have effects.

@@ -1,11 +1,17 @@
 ﻿using EverlastingOverhaul.Texture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.UI;
 
 namespace EverlastingOverhaul.Common.Utils
 {
     public static partial class ModUtils
     {
+        public static void UISetWidthHeight(this UIElement ui, float width, float height)
+        {
+            ui.Width.Pixels = width;
+            ui.Height.Pixels = height;
+        }
         public static Rectangle GetSource(this Texture2D texture, int verticalFrames, int index)
         {
             int frameHeight = texture.Height / verticalFrames;

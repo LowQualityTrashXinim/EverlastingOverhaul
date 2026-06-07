@@ -297,8 +297,10 @@ CopperArmor: {
 		'''
 	SetBonus:
 		'''
+		Immunity to Electrified
 		25% increased movement speed
-		Hitting enemies 50 times, or 25 in the rain grants 5 seconds of Overcharged
+		Hitting enemies 50 times, or 25 during the rain 
+		grants 5 seconds of Overcharged
 		'''
 }
 
@@ -350,19 +352,24 @@ SilverArmor: {
 TungstenArmor: {
 	Head:
 		'''
-		6% ranged damage
-		3% critical strike chance
+		-5% movement speed
+		-10% jump boost
 		'''
-	Body: 6% melee damage and magic damage
+	Body:
+		'''
+		-20% movement speed
+		-30% jump boost
+		'''
 	Leg:
 		'''
-		6% summon damage
-		8% movement speed
+		-15% movement speed
+		-20% jump boost
 		'''
 	SetBonus:
 		'''
-		31% movement speed
-		Gain a buff that rotate damage increases after 10s
+		Due to the heaviness of your armor, you fall a lot faster
+		Immunity to knockback
+		You can't take more than 100 damage
 		'''
 }
 
