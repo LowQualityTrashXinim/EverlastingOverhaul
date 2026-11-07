@@ -224,9 +224,9 @@ namespace EverlastingOverhaul.Common.Utils
         /// <returns></returns>
         public static bool CheckFirstStrike(this NPC npc)
         {
-            if (npc.TryGetGlobalNPC(out RoguelikeGlobalNPC roguelike))
+            if (npc.TryGetGlobalNPC(out EverlastingOverhaulGlobalNPC EverlastingOverhaul))
             {
-                return roguelike.HitCount <= 0;
+                return EverlastingOverhaul.HitCount <= 0;
             }
             return false;
         }

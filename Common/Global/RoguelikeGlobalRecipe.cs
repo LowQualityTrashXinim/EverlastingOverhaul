@@ -6,7 +6,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global;
-internal class RoguelikeGlobalRecipe : ModSystem
+internal class EverlastingOverhaulGlobalRecipe : ModSystem
 {
     public override void AddRecipes()
     {

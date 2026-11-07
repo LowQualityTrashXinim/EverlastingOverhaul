@@ -7,7 +7,7 @@ namespace EverlastingOverhaul.Common.Utils
 {
     public static partial class ModUtils
     {
-        public static Vector2 RoguelikeSpread(Vector2 velocity, float SpreadAmount, float AdditionalSpread = 0, float AdditionalMulti = 1)
+        public static Vector2 EverlastingOverhaulSpread(Vector2 velocity, float SpreadAmount, float AdditionalSpread = 0, float AdditionalMulti = 1)
         {
             if (AdditionalMulti == 0)
             {
@@ -111,7 +111,7 @@ namespace EverlastingOverhaul.Common.Utils
         }
         /// <summary>
         /// Short hand for <see cref="Utils.RotatedByRandom(Vector2, double)"/>
-        /// If weapon are affected by spread modifier then use method provide in BossRush.Common.RoguelikeChange.RangerOverhaulPlayer
+        /// If weapon are affected by spread modifier then use method provide in BossRush.Common.EverlastingOverhaulChange.RangerOverhaulPlayer
         /// </summary>
         /// <param name="Vec2ToRotate"></param>
         /// <param name="ToRadians"></param>

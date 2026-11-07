@@ -8,18 +8,18 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_ShuckedOyster : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_ShuckedOyster : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.ShuckedOyster;
 	public override int LifeAmount() => 20;
 	public override int ManaAmount() => 40;
 	public override int CoolDownBetweenUse() => 120;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_ShuckedOyster_ModBuff>(), ModUtils.ToMinute(7));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_ShuckedOyster_ModBuff>(), ModUtils.ToMinute(7));
 	}
 }
-public class Roguelike_ShuckedOyster_ModBuff : FoodItemTier1 {
+public class EverlastingOverhaul_ShuckedOyster_ModBuff : FoodItemTier1 {
 	public override int TypeID => ItemID.ShuckedOyster;
 	public override void Update(Player player, ref int buffIndex) {
 		player.breathEffectiveness += 1;
@@ -30,7 +30,7 @@ public class Roguelike_ShuckedOyster_ModBuff : FoodItemTier1 {
 		player.ModPlayerStats().UpdateDefenseBase.Base += 10;
 	}
 }
-public class Roguelike_ShuckedOyster_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_ShuckedOyster_ModPlayer : ModPlayer {
 	public bool ShuckedOyster = false;
 	public int CoolDown = 0;
 	public int Duration = 0;

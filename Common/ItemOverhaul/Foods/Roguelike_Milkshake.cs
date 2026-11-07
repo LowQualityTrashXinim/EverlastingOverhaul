@@ -13,27 +13,27 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Milkshake : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Milkshake : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Milkshake;
 	public override int ManaAmount() => 375;
 	public override int CoolDownBetweenUse() => 420;
 	public override byte Tier() => 2;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(2.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_Milkshake_Buff>(), ModUtils.ToMinute(37));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Milkshake_Buff>(), ModUtils.ToMinute(37));
 	}
 }
-public class Roguelike_Milkshake_Buff : FoodItemTier3 {
+public class EverlastingOverhaul_Milkshake_Buff : FoodItemTier3 {
 	public override int TypeID => ItemID.Milkshake;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_Milkshake_ModPlayer>().Milkshake = true;
+		player.GetModPlayer<EverlastingOverhaul_Milkshake_ModPlayer>().Milkshake = true;
 		if (player.buffTime[buffIndex] <= 0) {
-			player.GetModPlayer<Roguelike_Milkshake_ModPlayer>().Stack = 0;
+			player.GetModPlayer<EverlastingOverhaul_Milkshake_ModPlayer>().Stack = 0;
 		}
 	}
 }
-public class Roguelike_Milkshake_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_Milkshake_ModPlayer : ModPlayer {
 	public bool Milkshake = false;
 	public int Stack = 0;
 	public override void ResetEffects() {
@@ -42,22 +42,22 @@ public class Roguelike_Milkshake_ModPlayer : ModPlayer {
 	public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
 		if (Milkshake) {
 			if (Main.rand.NextBool(20)) {
-				Item.NewItem(Player.GetSource_OnHit(target), target.Center, ModContent.ItemType<Roguelike_Milkshake_Pickup>());
+				Item.NewItem(Player.GetSource_OnHit(target), target.Center, ModContent.ItemType<EverlastingOverhaul_Milkshake_Pickup>());
 			}
 			if (Stack >= 10) {
 				Stack -= 10;
-				Projectile.NewProjectile(Player.GetSource_OnHit(target), target.Center.Add(0, 500), Vector2.Zero, ModContent.ProjectileType<Roguelike_Milkshake_ModProjectile>(),
+				Projectile.NewProjectile(Player.GetSource_OnHit(target), target.Center.Add(0, 500), Vector2.Zero, ModContent.ProjectileType<EverlastingOverhaul_Milkshake_ModProjectile>(),
 					400 + Player.GetWeaponDamage(Player.HeldItem), 1, Player.whoAmI, target.whoAmI);
 			}
 		}
 	}
 }
-public class Roguelike_Milkshake_Pickup : ModItem {
+public class EverlastingOverhaul_Milkshake_Pickup : ModItem {
 	public override string Texture => ModUtils.GetVanillaTexture<Item>(ItemID.Milkshake);
 	public override void SetDefaults() {
 	}
 	public override bool OnPickup(Player player) {
-		player.GetModPlayer<Roguelike_Milkshake_ModPlayer>().Stack++;
+		player.GetModPlayer<EverlastingOverhaul_Milkshake_ModPlayer>().Stack++;
 		return false;
 	}
 	public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) {
@@ -70,7 +70,7 @@ public class Roguelike_Milkshake_Pickup : ModItem {
 		return false;
 	}
 }
-public class Roguelike_Milkshake_ModProjectile : ModProjectile {
+public class EverlastingOverhaul_Milkshake_ModProjectile : ModProjectile {
 	public override string Texture => ModUtils.GetVanillaTexture<NPC>(NPCID.IceTortoise);
 	public override void SetDefaults() {
 		Projectile.width = Projectile.height = 50;

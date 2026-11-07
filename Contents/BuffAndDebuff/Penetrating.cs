@@ -11,6 +11,6 @@ internal class Penetrating : ModBuff {
 		this.BossRushSetDefaultDeBuff();
 	}
 	public override void Update(NPC npc, ref int buffIndex) {
-		npc.GetGlobalNPC<RoguelikeGlobalNPC>().StatDefense.Base -= 10;
+		npc.GetGlobalNPC<EverlastingOverhaulGlobalNPC>().StatDefense.Base -= 10;
 	}
 }

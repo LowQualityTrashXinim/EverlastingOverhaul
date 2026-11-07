@@ -158,7 +158,7 @@ namespace EverlastingOverhaul.Common.Utils
         {
             if (dust.active)
             {
-                RoguelikeGlobalDust.Dust[dust.dustIndex].entityToFollow = entity;
+                EverlastingOverhaulGlobalDust.Dust[dust.dustIndex].entityToFollow = entity;
             }
         }
         /// <summary>
@@ -166,13 +166,13 @@ namespace EverlastingOverhaul.Common.Utils
         /// </summary>
         /// <param name="dust"></param>
         /// <returns></returns>
-        public static Roguelike_Dust Dust_GetDust(this Dust dust)
+        public static EverlastingOverhaul_Dust Dust_GetDust(this Dust dust)
         {
             if (!dust.active)
             {
-                return RoguelikeGlobalDust.DeadDust;
+                return EverlastingOverhaulGlobalDust.DeadDust;
             }
-            return RoguelikeGlobalDust.Dust[dust.dustIndex];
+            return EverlastingOverhaulGlobalDust.Dust[dust.dustIndex];
         }
         public static bool IsAnyVanillaBossAlive()
         {
@@ -776,7 +776,7 @@ public class SpriteTracker
         TimeLeft = time;
     }
 }
-public class Roguelike_UIImage : UIImage
+public class EverlastingOverhaul_UIImage : UIImage
 {
     public bool Hide = false;
     public bool Highlight = false;
@@ -813,7 +813,7 @@ public class Roguelike_UIImage : UIImage
         OriginalColor = HighlightColor;
         HighlightColor = origin;
     }
-    public Roguelike_UIImage(Asset<Texture2D> texture) : base(texture)
+    public EverlastingOverhaul_UIImage(Asset<Texture2D> texture) : base(texture)
     {
         innerTex = texture.Value;
         OriginalColor = Color;

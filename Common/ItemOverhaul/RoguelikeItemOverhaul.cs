@@ -22,7 +22,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
     /// This is where we should modify vanilla item simple<br/>
     /// Any complex rework should be put into their own file
     /// </summary>
-    public class RoguelikeItemOverhaul : GlobalItem
+    public class EverlastingOverhaulItemOverhaul : GlobalItem
     {
         public override void SetDefaults(Item entity)
         {
@@ -170,7 +170,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         {
             var player = Main.LocalPlayer;
             var modplayer = player.GetModPlayer<GlobalItemPlayer>();
-            //We are using name format RoguelikeOverhaul_+ item name
+            //We are using name format EverlastingOverhaulOverhaul_+ item name
             TooltipLine line;
             switch (item.type)
             {
@@ -179,25 +179,25 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
                 case ItemID.IceBoomerang:
                 case ItemID.Flamarang:
                 case ItemID.Shroomerang:
-                    line = new(Mod, "RoguelikeOverhaul_Boomerang", "Reduce enemy's defenses by 10 on hit");
+                    line = new(Mod, "EverlastingOverhaulOverhaul_Boomerang", "Reduce enemy's defenses by 10 on hit");
                     tooltips.Add(line);
                     break;
             }
             if (item.type == ItemID.Sandgun)
             {
-                tooltips.Add(new TooltipLine(Mod, "RoguelikeOverhaul_Sandgun", "Sand projectile no longer spawn upon kill"));
+                tooltips.Add(new TooltipLine(Mod, "EverlastingOverhaulOverhaul_Sandgun", "Sand projectile no longer spawn upon kill"));
             }
             else if (item.type == ItemID.NightVisionHelmet)
             {
-                tooltips.Add(new TooltipLine(Mod, "RoguelikeOverhaul_NightVisionHelmet", "Increases range damage by 1.1x"));
+                tooltips.Add(new TooltipLine(Mod, "EverlastingOverhaulOverhaul_NightVisionHelmet", "Increases range damage by 1.1x"));
             }
             else if (item.type == ItemID.ObsidianRose || item.type == ItemID.ObsidianSkullRose)
             {
-                tooltips.Add(new TooltipLine(Mod, "RoguelikeOverhaul_ObsidianRose", "Grant immunity to OnFire debuff !"));
+                tooltips.Add(new TooltipLine(Mod, "EverlastingOverhaulOverhaul_ObsidianRose", "Grant immunity to OnFire debuff !"));
             }
             else if (item.type == ItemID.GolemFist)
             {
-                tooltips.Add(new TooltipLine(Mod, "RoguelikeOverhaul_GolemFist",
+                tooltips.Add(new TooltipLine(Mod, "EverlastingOverhaulOverhaul_GolemFist",
                     "On every 3rd hit on the same enemy, deal extra 150% damage and do a small sun explosion"));
             }
         }
@@ -264,11 +264,11 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         }
         private void OnHitNPC_WoodBow(Projectile proj, NPC target)
         {
-            if (proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType == ItemID.AshWoodBow && Main.rand.NextBool(4))
+            if (proj.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().Source_ItemType == ItemID.AshWoodBow && Main.rand.NextBool(4))
             {
                 target.AddBuff(BuffID.OnFire, ModUtils.ToSecond(2));
             }
-            if (proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType == ItemID.BorealWoodBow && Main.rand.NextBool(4))
+            if (proj.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().Source_ItemType == ItemID.BorealWoodBow && Main.rand.NextBool(4))
             {
                 target.AddBuff(BuffID.Frostburn, ModUtils.ToSecond(2));
             }
@@ -296,7 +296,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
             }
         }
     }
-    public class RoguelikeOverhaul_ModSystem : ModSystem
+    public class EverlastingOverhaulOverhaul_ModSystem : ModSystem
     {
         public static HashSet<int> ItemThatSubsTo_MeleeOverhaul = new();
         public override void Load()

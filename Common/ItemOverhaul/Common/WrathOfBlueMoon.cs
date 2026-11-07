@@ -9,22 +9,22 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Common;
-internal class Roguelike_WrathOfBlueMoon : GlobalItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Common;
+internal class EverlastingOverhaul_WrathOfBlueMoon : GlobalItem {
 	public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
 		if (item.type == ItemID.Muramasa) {
 			target.AddBuff<WrathOfBlueMoon>(ModUtils.ToSecond(3));
 		}
 	}
 }
-public class Roguelike_WrathOfBlueMoon_Projectile : GlobalProjectile {
+public class EverlastingOverhaul_WrathOfBlueMoon_Projectile : GlobalProjectile {
 	public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) {
-		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.WrathOfBlueMoon].Contains(projectile.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType)) {
+		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.WrathOfBlueMoon].Contains(projectile.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().Source_ItemType)) {
 			target.AddBuff<WrathOfBlueMoon>(ModUtils.ToSecond(5));
 		}
 	}
 }
-public class Roguelike_WrathOfBlueMoon_GlobalNPC : GlobalNPC {
+public class EverlastingOverhaul_WrathOfBlueMoon_GlobalNPC : GlobalNPC {
 	public override bool InstancePerEntity => true;
 	public int WrathOfBlueMoon = 0;
 	public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers) {
@@ -78,7 +78,7 @@ internal class WrathOfBlueMoon : ModBuff {
 	public override void Update(NPC npc, ref int buffIndex) {
 		npc.lifeRegen -= 15;
 		if (npc.buffTime[buffIndex] <= 0) {
-			npc.GetGlobalNPC<Roguelike_WrathOfBlueMoon_GlobalNPC>().WrathOfBlueMoon = 0;
+			npc.GetGlobalNPC<EverlastingOverhaul_WrathOfBlueMoon_GlobalNPC>().WrathOfBlueMoon = 0;
 		}
 	}
 }

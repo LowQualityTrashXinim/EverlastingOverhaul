@@ -9,18 +9,18 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Grapefruit : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Grapefruit : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Grapefruit;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(3);
 	public override int ManaAmount() => 75;
 	public override int EnergyAmount() => 25;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = 120;
-		SetBuff(item, ModContent.BuffType<Roguelike_Grapefruit_ModBuff>(), ModUtils.ToMinute(5));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Grapefruit_ModBuff>(), ModUtils.ToMinute(5));
 	}
 }
-public class Roguelike_Grapefruit_ModBuff : FoodItemTier1 {
+public class EverlastingOverhaul_Grapefruit_ModBuff : FoodItemTier1 {
 	public override int TypeID => ItemID.Grapefruit;
 	public override void Update(Player player, ref int buffIndex) {
 		player.GetModPlayer<Rogulike_Grapefruit_ModPlayer>().Grapefruit = true;
@@ -50,33 +50,33 @@ public class Rogulike_Grapefruit_ModPlayer : ModPlayer {
 		if (!Grapefruit) {
 			return;
 		}
-		target.AddBuff(ModContent.BuffType<Roguelike_Grapefruit_ModDeBuff>(), ModUtils.ToSecond(Main.rand.Next(3, 10)));
-		target.GetGlobalNPC<RoguelikeGlobalNPC>().Grapefruit = Grapefruit_Stack;
+		target.AddBuff(ModContent.BuffType<EverlastingOverhaul_Grapefruit_ModDeBuff>(), ModUtils.ToSecond(Main.rand.Next(3, 10)));
+		target.GetGlobalNPC<EverlastingOverhaulGlobalNPC>().Grapefruit = Grapefruit_Stack;
 		if (Main.rand.NextBool(5)) {
-			Item.NewItem(item.GetSource_OnHit(target), target.Hitbox, ModContent.ItemType<Roguelike_Grapefruit_Item>());
+			Item.NewItem(item.GetSource_OnHit(target), target.Hitbox, ModContent.ItemType<EverlastingOverhaul_Grapefruit_Item>());
 		}
 	}
 	public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone) {
 		if (!Grapefruit) {
 			return;
 		}
-		target.AddBuff(ModContent.BuffType<Roguelike_Grapefruit_ModDeBuff>(), ModUtils.ToSecond(Main.rand.Next(3, 10)));
-		target.GetGlobalNPC<RoguelikeGlobalNPC>().Grapefruit = Grapefruit_Stack;
+		target.AddBuff(ModContent.BuffType<EverlastingOverhaul_Grapefruit_ModDeBuff>(), ModUtils.ToSecond(Main.rand.Next(3, 10)));
+		target.GetGlobalNPC<EverlastingOverhaulGlobalNPC>().Grapefruit = Grapefruit_Stack;
 		if (Main.rand.NextBool(20)) {
-			Item.NewItem(proj.GetSource_OnHit(target), target.Hitbox, ModContent.ItemType<Roguelike_Grapefruit_Item>());
+			Item.NewItem(proj.GetSource_OnHit(target), target.Hitbox, ModContent.ItemType<EverlastingOverhaul_Grapefruit_Item>());
 		}
 	}
 }
-public class Roguelike_Grapefruit_ModDeBuff : ModBuff {
+public class EverlastingOverhaul_Grapefruit_ModDeBuff : ModBuff {
 	public override string Texture => ModTexture.EMPTYDEBUFF;
 	public override void SetStaticDefaults() {
 		this.BossRushSetDefaultDeBuff();
 	}
 	public override void Update(NPC npc, ref int buffIndex) {
-		npc.lifeRegen -= npc.GetGlobalNPC<RoguelikeGlobalNPC>().Grapefruit + 1;
+		npc.GetGlobalNPC<EverlastingOverhaulGlobalNPC>().Poison_Inner.Base = npc.GetGlobalNPC<EverlastingOverhaulGlobalNPC>().Grapefruit + 1;
 	}
 }
-public class Roguelike_Grapefruit_Item : ModItem {
+public class EverlastingOverhaul_Grapefruit_Item : ModItem {
 	public override string Texture => ModUtils.GetVanillaTexture<Item>(ItemID.Grapefruit);
 	public override void SetDefaults() {
 	}

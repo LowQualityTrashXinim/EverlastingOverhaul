@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global;
-internal class RoguelikeBuffOverhaul : GlobalBuff {
+internal class EverlastingOverhaulBuffOverhaul : GlobalBuff {
 	public override void SetStaticDefaults() {
 		//I am unsure why this is set to true
 		Main.debuff[BuffID.Campfire] = false;
@@ -17,7 +17,7 @@ internal class RoguelikeBuffOverhaul : GlobalBuff {
 		Main.debuff[BuffID.Sunflower] = false;
 	}
 	public override void Update(int type, NPC npc, ref int buffIndex) {
-		RoguelikeGlobalNPC globalnpc = npc.GetGlobalNPC<RoguelikeGlobalNPC>();
+		EverlastingOverhaulGlobalNPC globalnpc = npc.GetGlobalNPC<EverlastingOverhaulGlobalNPC>();
 		if (type == BuffID.Electrified) {
 			int lifelose = 22;
 			if (npc.velocity != Microsoft.Xna.Framework.Vector2.Zero) {
@@ -43,7 +43,7 @@ internal class RoguelikeBuffOverhaul : GlobalBuff {
 	}
 	public override void Update(int type, Player player, ref int buffIndex) {
 		if (type == BuffID.Frostburn) {
-			if (player.GetModPlayer<RoguelikeArmorPlayer>().ActiveArmor.Equals(ArmorLoader.GetModArmor("BorealwoodArmor"))) {
+			if (player.GetModPlayer<EverlastingOverhaulArmorPlayer>().ActiveArmor.Equals(ArmorLoader.GetModArmor("BorealwoodArmor"))) {
 				PlayerStatsHandle.AddStatsToPlayer(player, PlayerStats.RegenHP, Base: 35);
 			}
 		}
@@ -58,7 +58,7 @@ internal class RoguelikeBuffOverhaul : GlobalBuff {
 		}
 	}
 }
-public class RoguelikeOverhaul_Buff_ModPlayer : ModPlayer {
+public class EverlastingOverhaulOverhaul_Buff_ModPlayer : ModPlayer {
 	public override bool FreeDodge(Player.HurtInfo info) {
 		if (!Player.immune && Player.HasBuff(BuffID.Invisibility) && Main.rand.NextBool(15)) {
 			Player.AddImmuneTime(info.CooldownCounter, 60);

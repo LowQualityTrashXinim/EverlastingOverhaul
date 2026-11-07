@@ -6,8 +6,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_CreamSoda : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_CreamSoda : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.CreamSoda;
 	public override int LifeAmount() => 90;
 	public override int ManaAmount() => 140;
@@ -15,16 +15,16 @@ internal class Roguelike_CreamSoda : GlobalFoodItem {
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(1.75f);
-		SetBuff(item, ModContent.BuffType<Roguelike_CreamSoda_Buff>(), ModUtils.ToMinute(14));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_CreamSoda_Buff>(), ModUtils.ToMinute(14));
 	}
 }
-public class Roguelike_CreamSoda_Buff : FoodItemTier2 {
+public class EverlastingOverhaul_CreamSoda_Buff : FoodItemTier2 {
 	public override int TypeID => ItemID.CreamSoda;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_CreamSoda_ModPlayer>().CreamSoda = true;
+		player.GetModPlayer<EverlastingOverhaul_CreamSoda_ModPlayer>().CreamSoda = true;
 	}
 }
-public class Roguelike_CreamSoda_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_CreamSoda_ModPlayer : ModPlayer {
 	public bool CreamSoda = false;
 	public int Timer = 0;
 	public override void ResetEffects() {
@@ -34,13 +34,13 @@ public class Roguelike_CreamSoda_ModPlayer : ModPlayer {
 		if (CreamSoda) {
 			if (++Timer > 300) {
 				Timer = 0;
-				Item.NewItem(Player.GetSource_FromThis(), Player.Center + Main.rand.NextVector2CircularEdge(500, 500), ModContent.ItemType<Roguelike_CreamSoda_Pickup>());
+				Item.NewItem(Player.GetSource_FromThis(), Player.Center + Main.rand.NextVector2CircularEdge(500, 500), ModContent.ItemType<EverlastingOverhaul_CreamSoda_Pickup>());
 				//Spawn a soda pickable here
 			}
 		}
 	}
 }
-public class Roguelike_CreamSoda_Pickup : ModItem {
+public class EverlastingOverhaul_CreamSoda_Pickup : ModItem {
 	public override string Texture => ModUtils.GetVanillaTexture<Item>(ItemID.CreamSoda);
 	public override void SetDefaults() {
 	}

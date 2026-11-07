@@ -3,23 +3,23 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Plum : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Plum : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Plum;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(3.75f);
 	public override int LifeAmount() => 41;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(1.25f);
-		SetBuff(item, ModContent.BuffType<Roguelike_Plum_ModBuff>(), ModUtils.ToMinute(6));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Plum_ModBuff>(), ModUtils.ToMinute(6));
 	}
 }
-public class Roguelike_Plum_ModBuff : FoodItemTier1 {
+public class EverlastingOverhaul_Plum_ModBuff : FoodItemTier1 {
 	public override int TypeID => ItemID.Plum;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_Plum_ModPlayer>().Plum = true;
+		player.GetModPlayer<EverlastingOverhaul_Plum_ModPlayer>().Plum = true;
 	}
 }
-public class Roguelike_Plum_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_Plum_ModPlayer : ModPlayer {
 	public bool Plum = false;
 	public override void ResetEffects() {
 		Plum = false;

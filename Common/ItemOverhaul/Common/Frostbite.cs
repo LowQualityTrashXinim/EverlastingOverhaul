@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Common;
+namespace EverlastingOverhaul.Common .ItemOverhaul.Common;
 public class Frostbite_ModPlayer : ModPlayer {
 	public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone) {
 		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.Frostbite].Contains(item.type)) {
@@ -14,7 +14,7 @@ public class Frostbite_ModPlayer : ModPlayer {
 		}
 	}
 	public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone) {
-		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.Frostbite].Contains(proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType)) {
+		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.Frostbite].Contains(proj.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().Source_ItemType)) {
 			target.AddBuff<Frostbite>(ModUtils.ToSecond(5));
 		}
 	}
@@ -63,7 +63,8 @@ public class Frostbite : ModBuff {
 		this.BossRushSetDefaultDeBuff();
 	}
 	public override void Update(NPC npc, ref int buffIndex) {
-		npc.GetGlobalNPC<RoguelikeGlobalNPC>().VelocityMultiplier -= .34f;
+		if(!npc.boss)
+		npc.GetGlobalNPC<EverlastingOverhaulGlobalNPC>().VelocityMultiplier -= .34f;
 		if (npc.buffTime[buffIndex] <= 0) {
 			Frostbite_GlobalNPC global = npc.GetGlobalNPC<Frostbite_GlobalNPC>();
 			global.Frostbite_Stack = 0;

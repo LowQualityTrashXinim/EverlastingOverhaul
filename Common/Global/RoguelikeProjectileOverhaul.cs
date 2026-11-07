@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global;
-internal class RoguelikeProjectileOverhaul : GlobalProjectile {
+internal class EverlastingOverhaulProjectileOverhaul : GlobalProjectile {
 	public override void SetDefaults(Projectile entity) {
 		if (entity.type == ProjectileID.ChlorophyteOrb) {
 			entity.penetrate = 1;

@@ -4,17 +4,17 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_CookedMarshmallow : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_CookedMarshmallow : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.CookedMarshmallow;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(2);
 	public override int EnergyAmount() => 142;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(1.25f);
-		SetBuff(item, ModContent.BuffType<Roguelike_CookedMarshmallow_ModBuff>(), ModUtils.ToMinute(4.5f));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_CookedMarshmallow_ModBuff>(), ModUtils.ToMinute(4.5f));
 	}
 }
-public class Roguelike_CookedMarshmallow_ModBuff : FoodItemTier1 {
+public class EverlastingOverhaul_CookedMarshmallow_ModBuff : FoodItemTier1 {
 	public override int TypeID => ItemID.CookedMarshmallow;
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle handler = player.ModPlayerStats();

@@ -77,6 +77,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         public float ShaderOffSetLength = 0;
         public Vector2 scaleWarp = Vector2.One;
         public bool Ignore_AttackSpeed = false;
+        public float OffSetFromHand = 0;
         /// <summary>
         /// This will temporary disable attack animation during player item animation active
         /// </summary>
@@ -105,14 +106,14 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         public override void UseItemHitbox(Item item, Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
             //Since we are using entirely new collision detection, we no longer need this
-            if (RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item))
+            if (EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(item))
             {
                 ModUtils.ModifyProjectileDamageHitbox(ref hitbox, player, item.width, item.height);
             }
         }
         public override bool? CanMeleeAttackCollideWithNPC(Item item, Rectangle meleeAttackHitbox, Player player, NPC target)
         {
-            if (RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item))
+            if (EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(item))
             {
                 float extra = 0;
                 if (target.boss)
@@ -195,7 +196,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         }
         public override bool? CanAutoReuseItem(Item item, Player player)
         {
-            if (RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item) && player.ItemAnimationActive)
+            if (EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(item) && player.ItemAnimationActive)
             {
                 ModdedUseStyle(item, player);
             }
@@ -203,7 +204,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         }
         public override bool CanUseItem(Item item, Player player)
         {
-            if (RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item) && player.ItemAnimationActive)
+            if (EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(item) && player.ItemAnimationActive)
             {
                 ModdedUseStyle(item, player);
                 StartRotation = player.itemRotation;
@@ -218,7 +219,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
             }
             if (item.type == player.HeldItem.type || item.type == Main.mouseItem.type)
             {
-                if (RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item))
+                if (EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(item))
                 {
                     if (player.itemAnimation <= AnimationEndTime && player.altFunctionUse != 2)
                     {
@@ -604,7 +605,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
         {
             var item = Player.HeldItem;
-            if (!RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item) || item.noMelee)
+            if (!EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(item) || item.noMelee)
             {
                 return;
             }
@@ -633,7 +634,7 @@ namespace EverlastingOverhaul.Common.ItemOverhaul
         public override void PostUpdate()
         {
             var item = Player.HeldItem;
-            if (!RoguelikeOverhaul_ModSystem.Optimized_CheckItem(item))
+            if (!EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(item))
             {
                 return;
             }

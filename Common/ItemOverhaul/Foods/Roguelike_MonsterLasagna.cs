@@ -4,8 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_MonsterLasagna : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_MonsterLasagna : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.MonsterLasagna;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(9);
 	public override int LifeAmount() => 80;
@@ -13,10 +13,10 @@ internal class Roguelike_MonsterLasagna : GlobalFoodItem {
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(5.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_MonsterLasagna_ModBuff>(), ModUtils.ToMinute(23));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_MonsterLasagna_ModBuff>(), ModUtils.ToMinute(23));
 	}
 }
-public class Roguelike_MonsterLasagna_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_MonsterLasagna_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.MonsterLasagna;
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle handler = player.ModPlayerStats();
@@ -24,10 +24,10 @@ public class Roguelike_MonsterLasagna_ModBuff : FoodItemTier2 {
 		handler.UpdateManaMax.Base += 80;
 		handler.LifeSteal.Base += 2;
 		handler.HealEffectiveness += .3f;
-		player.GetModPlayer<Roguelike_MonsterLasagna_ModPlayer>().MonsterLasagna = true;
+		player.GetModPlayer<EverlastingOverhaul_MonsterLasagna_ModPlayer>().MonsterLasagna = true;
 	}
 }
-public class Roguelike_MonsterLasagna_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_MonsterLasagna_ModPlayer : ModPlayer {
 	public bool MonsterLasagna = false;
 	public override void ResetEffects() {
 		MonsterLasagna = false;

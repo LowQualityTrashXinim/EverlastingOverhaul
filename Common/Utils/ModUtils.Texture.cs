@@ -1,6 +1,7 @@
 ﻿using EverlastingOverhaul.Texture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace EverlastingOverhaul.Common.Utils
@@ -47,6 +48,11 @@ namespace EverlastingOverhaul.Common.Utils
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+        }
+        public static void Draw_SetUpToDrawGlowAdditive(SpriteBatch spriteBatch)
+        {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
         }
         public static void Draw_ResetToNormal(SpriteBatch spriteBatch)
         {

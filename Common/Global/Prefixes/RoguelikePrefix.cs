@@ -5,7 +5,7 @@ using Terraria.Utilities;
 using EverlastingOverhaul.Common.Systems;
 
 namespace EverlastingOverhaul.Common.Global.Prefixes;
-internal class RoguelikePrefix : GlobalItem {
+internal class EverlastingOverhaulPrefix : GlobalItem {
 	public override bool? PrefixChance(Item item, int pre, UnifiedRandom rand) {
 		if (pre == -2 || pre == -1) {
 
@@ -16,7 +16,7 @@ internal class RoguelikePrefix : GlobalItem {
 		return base.ChoosePrefix(item, rand);
 	}
 }
-public class RoguelikePrefixSystem : ModSystem {
+public class EverlastingOverhaulPrefixSystem : ModSystem {
 	public override void Load() {
 		On_Item.TryGetPrefixStatMultipliersForItem += On_Item_TryGetPrefixStatMultipliersForItem;
 	}

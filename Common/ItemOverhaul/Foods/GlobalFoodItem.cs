@@ -10,7 +10,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
 public abstract class GlobalFoodItem : GlobalItem {
 	public sealed override bool AppliesToEntity(Item entity, bool lateInstantiation) {
 		ItemID.Sets.CanBeQuickusedOnGamepad[entity.type] = false;
@@ -21,6 +21,10 @@ public abstract class GlobalFoodItem : GlobalItem {
 	public virtual int LifeAmount() => 0;
 	public virtual int ManaAmount() => 0;
 	public virtual int EnergyAmount() => 0;
+	/// <summary>
+	/// When setting tier, it is best to always decreases the tier you want to set by 1
+	/// </summary>
+	/// <returns></returns>
 	public virtual byte Tier() => 0;
 	public void SetBuff(Item item, int type, int time) {
 		item.buffType = type;
@@ -38,7 +42,7 @@ public abstract class GlobalFoodItem : GlobalItem {
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
 		string tooltip = OverrideBasicTooltip();
 		if (string.IsNullOrEmpty(tooltip)) {
-			ModUtils.AddTooltip(ref tooltips, new(Mod, "", ModUtils.LocalizationText("RoguelikeRework", item.Name)));
+			ModUtils.AddTooltip(ref tooltips, new(Mod, "", ModUtils.LocalizationText("EverlastingOverhaulRework", item.Name)));
 		}
 		else {
 			ModUtils.AddTooltip(ref tooltips, new(Mod, "", tooltip));
@@ -93,6 +97,8 @@ public abstract class GlobalFoodItem : GlobalItem {
 		if (Mana > 0) {
 			player.ManaHeal(Mana);
 		}
+		if (Energy > 0) {
+		}
 		Player_FoodPlayer(player).SetFoodBuff(item.type, Tier());
 		OnConsumeFood(item, player);
 		player.AddBuff(ModContent.BuffType<FoodCoolDown>(), CoolDownBetweenUse() + player.itemAnimationMax);
@@ -142,7 +148,7 @@ public abstract class BaseFoodBuff : ModBuff {
 			}
 			buffName = item.Name + $" [Tier {tier}]";
 			if (!OverrideTooltip) {
-				tip = ModUtils.LocalizationText("RoguelikeRework", item.Name);
+				tip = ModUtils.LocalizationText("EverlastingOverhaulRework", item.Name);
 			}
 		}
 	}

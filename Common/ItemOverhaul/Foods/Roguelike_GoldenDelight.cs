@@ -3,26 +3,26 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_GoldenDelight : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_GoldenDelight : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.GoldenDelight;
 	public override int LifeAmount() => 250;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(30);
 	public override byte Tier() => 2;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(10);
-		SetBuff(item, ModContent.BuffType<Roguelike_GoldenDelight_ModBuff>(), ModUtils.ToMinute(60));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_GoldenDelight_ModBuff>(), ModUtils.ToMinute(60));
 	}
 }
-public class Roguelike_GoldenDelight_ModBuff : FoodItemTier3 {
+public class EverlastingOverhaul_GoldenDelight_ModBuff : FoodItemTier3 {
 	public override int TypeID => ItemID.GoldenDelight;
 	public override void Update(Player player, ref int buffIndex) {
 		player.ModPlayerStats().UpdateCritDamage += .35f;
 		player.GetCritChance(DamageClass.Magic) += 10;
-		player.GetModPlayer<Roguelike_GoldenDelight_ModPlayer>().GoldenDelight = true;
+		player.GetModPlayer<EverlastingOverhaul_GoldenDelight_ModPlayer>().GoldenDelight = true;
 	}
 }
-public class Roguelike_GoldenDelight_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_GoldenDelight_ModPlayer : ModPlayer {
 	public bool GoldenDelight = false;
 	public override void ResetEffects() {
 		GoldenDelight = false;

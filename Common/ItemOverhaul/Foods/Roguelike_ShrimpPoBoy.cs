@@ -6,24 +6,24 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_ShrimpPoBoy : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_ShrimpPoBoy : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.ShrimpPoBoy;
 	public override int LifeAmount() => 120;
 	public override int CoolDownBetweenUse() => 360;
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(4.25f);
-		SetBuff(item, ModContent.BuffType<Roguelike_ShrimpPoBoy_Buff>(), ModUtils.ToMinute(21));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_ShrimpPoBoy_Buff>(), ModUtils.ToMinute(21));
 	}
 }
-public class Roguelike_ShrimpPoBoy_Buff : FoodItemTier2 {
+public class EverlastingOverhaul_ShrimpPoBoy_Buff : FoodItemTier2 {
 	public override int TypeID => ItemID.ShrimpPoBoy;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_ShrimpPoBoy_ModPlayer>().ShrimpPoBoy = true;
+		player.GetModPlayer<EverlastingOverhaul_ShrimpPoBoy_ModPlayer>().ShrimpPoBoy = true;
 	}
 }
-public class Roguelike_ShrimpPoBoy_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_ShrimpPoBoy_ModPlayer : ModPlayer {
 	public bool ShrimpPoBoy = false;
 	public override void ResetEffects() {
 		ShrimpPoBoy = false;
@@ -38,13 +38,13 @@ public class Roguelike_ShrimpPoBoy_ModPlayer : ModPlayer {
 		if (!ShrimpPoBoy) {
 			return;
 		}
-		int projtype = ModContent.ProjectileType<Roguelike_ShrimpPoBoy_ModProjectile>();
+		int projtype = ModContent.ProjectileType<EverlastingOverhaul_ShrimpPoBoy_ModProjectile>();
 		if (Main.rand.NextFloat() <= .01f && Player.ownedProjectileCounts[projtype] < 1) {
-			Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Main.rand.NextVector2RectangleEdge(1, 1), ModContent.ProjectileType<Roguelike_ShrimpPoBoy_ModProjectile>(), 120 + Player.GetWeaponDamage(Player.HeldItem), 1, Player.whoAmI);
+			Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Main.rand.NextVector2RectangleEdge(1, 1), ModContent.ProjectileType<EverlastingOverhaul_ShrimpPoBoy_ModProjectile>(), 120 + Player.GetWeaponDamage(Player.HeldItem), 1, Player.whoAmI);
 		}
 	}
 }
-public class Roguelike_ShrimpPoBoy_ModProjectile : ModProjectile {
+public class EverlastingOverhaul_ShrimpPoBoy_ModProjectile : ModProjectile {
 	public override string Texture => ModUtils.GetVanillaTexture<NPC>(NPCID.Shark);
 	public override void SetDefaults() {
 		Projectile.width = 48;

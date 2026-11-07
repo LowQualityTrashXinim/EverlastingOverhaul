@@ -220,7 +220,7 @@ namespace EverlastingOverhaul.Common.NPCsOverhaul.Bosses.DukeFishorn
         public override bool IsBiomeActive(Player player)
         {
             DisableWorldBackgroundElements();
-            return true;
+            return false;
         }
 
         public static void DisableWorldBackgroundElements()

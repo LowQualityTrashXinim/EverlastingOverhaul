@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global;
-class RoguelikeGlobalDust : ModSystem
+class EverlastingOverhaulGlobalDust : ModSystem
 {
     public override void Load()
     {
@@ -27,7 +27,7 @@ class RoguelikeGlobalDust : ModSystem
         //		continue;
         //	}
         //	Dust dustEntity = dust[i].Dust;
-        //	Roguelike_Dust modDust = dust[i];
+        //	EverlastingOverhaul_Dust modDust = dust[i];
         //	if (modDust.gfxOffY != 0) {
         //		dustEntity.position.Y += modDust.gfxOffY;
         //	}
@@ -44,7 +44,7 @@ class RoguelikeGlobalDust : ModSystem
         //		continue;
         //	}
         //	Dust dustEntity = dust[i].Dust;
-        //	Roguelike_Dust modDust = dust[i];
+        //	EverlastingOverhaul_Dust modDust = dust[i];
         //	if (modDust.gfxOffY != 0) {
         //		dustEntity.position.Y -= modDust.gfxOffY;
         //	}
@@ -54,10 +54,10 @@ class RoguelikeGlobalDust : ModSystem
     /// Use this to set trail length
     /// </summary>
     public static int[] TrailLength = DustID.Sets.Factory.CreateIntSet(10);
-    public static Roguelike_Dust DeadDust => ModContent.GetInstance<RoguelikeGlobalDust>().deaddust;
-    public Roguelike_Dust deaddust = new();
-    public static Roguelike_Dust[] Dust => ModContent.GetInstance<RoguelikeGlobalDust>().dust;
-    public Roguelike_Dust[] dust = new Roguelike_Dust[6001];
+    public static EverlastingOverhaul_Dust DeadDust => ModContent.GetInstance<EverlastingOverhaulGlobalDust>().deaddust;
+    public EverlastingOverhaul_Dust deaddust = new();
+    public static EverlastingOverhaul_Dust[] Dust => ModContent.GetInstance<EverlastingOverhaulGlobalDust>().dust;
+    public EverlastingOverhaul_Dust[] dust = new EverlastingOverhaul_Dust[6001];
     public override void PreUpdateDusts()
     {
         if (dust.Length != Main.dust.Length)
@@ -132,7 +132,7 @@ class RoguelikeGlobalDust : ModSystem
     }
 
 }
-public class Roguelike_Dust : ICloneable
+public class EverlastingOverhaul_Dust : ICloneable
 {
     public Dust Dust = null;
     /// <summary>
@@ -172,16 +172,16 @@ public class Roguelike_Dust : ICloneable
     }
 }
 
-public class Roguelike_Dust_ModDust3x3 : ModDust
+public class EverlastingOverhaul_Dust_ModDust3x3 : ModDust
 {
     public override sealed string Texture => ModTexture.dust_3x3;
 }
 
-public class Roguelike_Dust_ModDust5x5T1 : ModDust
+public class EverlastingOverhaul_Dust_ModDust5x5T1 : ModDust
 {
     public override sealed string Texture => ModTexture.dust_5x5Type1;
 }
-public class Roguelike_Dust_ModDust5x5T2 : ModDust
+public class EverlastingOverhaul_Dust_ModDust5x5T2 : ModDust
 {
     public override sealed string Texture => ModTexture.dust_5x5Type2;
 }

@@ -3,8 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_ChristmasPudding : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_ChristmasPudding : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.ChristmasPudding;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(12.5f);
 	public override int LifeAmount() => 80;
@@ -13,10 +13,10 @@ internal class Roguelike_ChristmasPudding : GlobalFoodItem {
 	public override byte Tier() => 2;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(3.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_ChristmasPudding_ModBuff>(), ModUtils.ToMinute(45));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_ChristmasPudding_ModBuff>(), ModUtils.ToMinute(45));
 	}
 }
-public class Roguelike_ChristmasPudding_ModBuff : FoodItemTier3 {
+public class EverlastingOverhaul_ChristmasPudding_ModBuff : FoodItemTier3 {
 	public override int TypeID => ItemID.ChristmasPudding;
 	public override void Update(Player player, ref int buffIndex) {
 		player.ModPlayerStats().Iframe.Base += ModUtils.ToSecond(.2f);
@@ -24,7 +24,7 @@ public class Roguelike_ChristmasPudding_ModBuff : FoodItemTier3 {
 		player.ModPlayerStats().DebuffBuffTime -= .5f;
 	}
 }
-public class Roguelike_ChristmasPudding_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_ChristmasPudding_ModPlayer : ModPlayer {
 	public bool ChristmasPudding = false;
 	public override void ResetEffects() {
 		ChristmasPudding = false;

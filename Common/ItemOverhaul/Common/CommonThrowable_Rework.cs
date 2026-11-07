@@ -4,8 +4,8 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Common;
-internal class Roguelike_CommonThrowable : GlobalItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Common;
+internal class EverlastingOverhaul_CommonThrowable : GlobalItem {
 	public override bool AppliesToEntity(Item entity, bool lateInstantiation) {
 		return TerrariaArrayID.SpecialPreBoss.Contains(entity.type) || TerrariaArrayID.Special.Contains(entity.type);
 	}

@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EverlastingOverhaul.Common.Utils;
-using EverlastingOverhaul.Common.ItemOverhaul.ArmorOverhaul.RoguelikeArmorSet;
+using EverlastingOverhaul.Common.ItemOverhaul.ArmorOverhaul.ArmorSet;
 
 namespace EverlastingOverhaul.Contents.Projectiles;
 internal class LeafProjectile : ModProjectile {

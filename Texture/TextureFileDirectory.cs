@@ -17,7 +17,7 @@
         public const string EMPTYCARD = CommonTextureStringPattern + "EmptyCard";
         public const string SUPPILESDROP = CommonTextureStringPattern + "SuppliesDrop";
         public const string FOURSTAR = CommonTextureStringPattern + "FourStar";
-        public const string Perlinnoise = CommonTextureStringPattern + "roguelikePerlinNoise";
+        public const string Perlinnoise = CommonTextureStringPattern + "EverlastingOverhaulPerlinNoise";
         public const string Arrow_Left = CommonTextureStringPattern + "UI/LeftArrow";
         public const string Arrow_Right = CommonTextureStringPattern + "UI/RightArrow";
         public const string PingpongGradient = CommonTextureStringPattern + "PingpongGradient";

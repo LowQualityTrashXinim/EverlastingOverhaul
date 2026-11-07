@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.General;
+using EverlastingOverhaul.Common.Systems;
 
 namespace EverlastingOverhaul.Common.Global
 {
@@ -22,7 +23,7 @@ namespace EverlastingOverhaul.Common.Global
 		public bool Press_Shift = false;
 		public bool Pressed_Shift = false;
 		public bool Shift_Option() {
-			if (ModContent.GetInstance<RogueLikeConfig>().HoldShift) {
+			if (ModContent.GetInstance<EverlastingOverhaulConfig>().HoldShift) {
 				return Hold_Shift;
 			}
 			else {
@@ -68,6 +69,7 @@ namespace EverlastingOverhaul.Common.Global
             Main.NewText("This mod will only focus on overhauling vanilla weapon to Everlasting balancing");
             Main.NewText("Expect many weapon to be terribly broken or unbalanced");
             Main.NewText("We are looking for playtester for this mod so if you think you are up to the task, join our discord server !");
+            ModContent.GetInstance<UniversalSystem>().userInterface.SetState(ModContent.GetInstance<UniversalSystem>().defaultUI);
         }
 		public override void PreUpdate() {
 			if (starterItem == null) {

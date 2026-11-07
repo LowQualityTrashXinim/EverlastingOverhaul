@@ -3,29 +3,29 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Pomegranate : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Pomegranate : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Pomegranate;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(2.75f);
 	public override int ManaAmount() => 90;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(2.25f);
-		SetBuff(item, ModContent.BuffType<Roguelike_Pomegranate_ModBuff>(), ModUtils.ToMinute(8));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Pomegranate_ModBuff>(), ModUtils.ToMinute(8));
 	}
 	public override void OnConsumeFood(Item item, Player player) {
 		player.ModPlayerStats().Set_TemporaryMana(160, 120);
 		player.ModPlayerStats().TemporaryMana += 160;
 	}
 }
-public class Roguelike_Pomegranate_ModBuff : FoodItemTier1 {
+public class EverlastingOverhaul_Pomegranate_ModBuff : FoodItemTier1 {
 	public override int TypeID => ItemID.Pomegranate;
 	public override void Update(Player player, ref int buffIndex) {
 		player.ModPlayerStats().UpdateManaMax.Base += 40;
 		player.ModPlayerStats().Set_TemporaryMana(160, 120);
-		player.GetModPlayer<Roguelike_Pomegranate_ModPlayer>().Pomegranate = true;
+		player.GetModPlayer<EverlastingOverhaul_Pomegranate_ModPlayer>().Pomegranate = true;
 	}
 }
-public class Roguelike_Pomegranate_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_Pomegranate_ModPlayer : ModPlayer {
 	public bool Pomegranate = false;
 	public override void ResetEffects() {
 		Pomegranate = false;

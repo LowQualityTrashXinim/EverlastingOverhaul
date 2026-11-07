@@ -1,29 +1,106 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using EverlastingOverhaul.Common.Systems.ReviveSystem;
+using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Contents.Items.Weapon;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using EverlastingOverhaul.Common.Utils;
-using EverlastingOverhaul.Common.Systems.ObjectSystem;
-using Steamworks;
-using EverlastingOverhaul.Contents.Items.Weapon;
 
 namespace EverlastingOverhaul.Common.Global;
 /// <summary>
 /// Offer powerful stats modify tool<br/>
-/// Direct stats increases is much more efficient than using <see cref="AddStatsToPlayer(PlayerStats, StatModifier, float, float)"/> or any of the relate<br/>
+/// Direct stats increases is much more efficient than using <see cref="AddStatsToPlayer(PlayerStats, StatModifier)"/> or any of the relate<br/>
 /// Due to some system uses <see cref="PlayerStats"/> so the above must be uses for ease of access
 /// </summary>
-public class PlayerStatsHandle : ModPlayer
+public partial class PlayerStatsHandle : ModPlayer
 {
+    public bool Unnerfed = false;
+    public bool Unnerfed2 = false;
+    public bool DisableNegativeArtifact = false;
     public string CurrentDashType = "";
+    public bool CanDropSynergyEnergy = true;
+    public bool LootboxCanDropSpecialPotion = false;
+    public float ChanceLootDrop = 0;
+    public StatModifier ChanceDropModifier = new();
+
+    public StatModifier DropModifier = new();
+    public bool Get_DidPlayerDodge = false;
+
+    //This is inner modifier ( aka amount modifier to x stuff )
+    /// <summary>
+    /// Use this if it is a always update item
+    /// </summary>
+    public int WeaponAmountAddition { get; set; } = 0;
+    /// <summary>
+    /// Use this if it is a always update item
+    /// </summary>
+    public int PotionTypeAmountAddition { get; set; } = 0;
+    /// <summary>
+    /// Use this if it is a always update item
+    /// </summary>
+    public int PotionNumberAmountAddition { get; set; } = 0;
+    //Do not touch this
+    public int weaponAmount;
+    public int potionTypeAmount;
+    public int potionNumAmount;
+
+    /// <summary>
+    /// Use this if you gonna always update it
+    /// </summary>
+    public float UpdateMeleeChanceMutilplier = 0;
+    /// <summary>
+    /// Use this if you gonna always update it
+    /// </summary>
+    public float UpdateRangeChanceMutilplier = 0;
+    /// <summary>
+    /// Use this if you gonna always update it
+    /// </summary>
+    public float UpdateMagicChanceMutilplier = 0;
+    /// <summary>
+    /// Use this if you gonna always update it
+    /// </summary>
+    public float UpdateSummonChanceMutilplier = 0;
+    public int ModifyGetAmount(int baseValue, bool Disable_Chance = false)
+    {
+        int amount = (int)Math.Round(DropModifier.ApplyTo(baseValue));
+        if (!Disable_Chance && Main.rand.NextFloat() <= ChanceLootDrop)
+        {
+            amount += (int)Math.Round(ChanceDropModifier.ApplyTo(baseValue));
+        }
+        if (amount <= 0)
+        {
+            return 1;
+        }
+        return amount;
+    }
+    /// <summary>
+    /// This must be called before using any of the following
+    /// <br/><see cref="weaponAmount"/>
+    /// <br/><see cref="potionTypeAmount"/>
+    /// <br/><see cref="potionNumAmount"/>
+    /// </summary>
+    public void GetAmount(bool Modify = true)
+    {
+        weaponAmount = 1;
+        potionTypeAmount = 1;
+        potionNumAmount = 2;
+        if (Modify)
+        {
+            weaponAmount = Math.Clamp(ModifyGetAmount(weaponAmount + WeaponAmountAddition), 1, 200);
+            potionTypeAmount = ModifyGetAmount(potionTypeAmount + PotionTypeAmountAddition);
+            potionNumAmount = ModifyGetAmount(potionNumAmount + PotionNumberAmountAddition);
+        }
+        else
+        {
+            weaponAmount = Math.Clamp(ModifyGetAmount(weaponAmount + WeaponAmountAddition, !Modify), 1, 200);
+            potionTypeAmount = ModifyGetAmount(potionTypeAmount + PotionTypeAmountAddition, !Modify);
+            potionNumAmount = ModifyGetAmount(potionNumAmount + PotionNumberAmountAddition, !Modify);
+        }
+    }
     public StatModifier UpdateMovement = new StatModifier();
     public StatModifier UpdateJumpBoost = new StatModifier();
     public StatModifier UpdateHPMax = new StatModifier();
@@ -36,6 +113,7 @@ public class PlayerStatsHandle : ModPlayer
     public StatModifier UpdateDefEff = new StatModifier();
     public StatModifier UpdateMinion = new StatModifier();
     public StatModifier UpdateSentry = new StatModifier();
+    public StatModifier WingUpTime = new StatModifier();
     /// <summary>
     /// This is the debuff buff time modifier for NPC<br/>
     /// this modifier will modify the duration of debuff on NPC<br/>
@@ -57,7 +135,9 @@ public class PlayerStatsHandle : ModPlayer
     public StatModifier DebuffDamage = new StatModifier();
     public StatModifier SynergyDamage = new StatModifier();
     public StatModifier Iframe = new StatModifier();
+    public StatModifier SkillDuration = new();
     public StatModifier DirectItemDamage = new();
+    public StatModifier OnKillHealing = new StatModifier();
     public float Hostile_ProjectileVelocityAddition = 0;
     //public float LuckIncrease = 0; 
     /// <summary>
@@ -69,13 +149,14 @@ public class PlayerStatsHandle : ModPlayer
     /// <summary>
     /// This is the universal dodge timer
     /// </summary>
-    public int DodgeTimer = 44;
+    public int DodgeTimer = 66;
     /// <summary>
     /// This is a universal life steal that work depend on weapon damage <br/>
     /// This have a forced cool down so that it is not OP <br/>
     /// The cool down are made public and free to be modify cause fun
     /// </summary>
-    public StatModifier LifeSteal = StatModifier.Default - 1;
+    public StatModifier LifeSteal = StatModifier.Default;
+    public StatModifier DamageTaken = StatModifier.Default;
     /// <summary>
     /// This is the public count cool down of <see cref="LifeSteal"/>
     /// </summary>
@@ -86,8 +167,6 @@ public class PlayerStatsHandle : ModPlayer
     public int LifeSteal_CoolDown = 60;
     public float Rapid_LifeRegen = 0;
     public float Rapid_ManaRegen = 0;
-    public float Rapid_CacheLife;
-    public float Rapid_CacheMana;
     public int Debuff_LifeStruct = 0;
     /// <summary>
     /// This only work if no where in the code don't uses <see cref="NPC.HitModifiers.DisableCrit"/><br/>
@@ -109,46 +188,42 @@ public class PlayerStatsHandle : ModPlayer
     public int NPC_HitCount = 0;
     public float ItemRangeMultiplier = 1;
     /// <summary>
-    /// This chance will decay for each success roll <br/>
-    /// For direct adding augmentation but still random use <code>AugmentsPlayer.SafeRequest_AddAugments(float chance, int limit, bool decayable)</code>
+    /// Uses for enchantment cool down effect
     /// </summary>
-    public float AugmentationChance = 0;
+    public StatModifier EnchantmentCoolDown = StatModifier.Default;
     /// <summary>
-    /// True damage will always deal damage to enemy regardless of defense or DR
+    /// This is used for food value<br/>
+    /// this value will increases food value before applying to player<br/>
+    /// Only applied to food that actually use this mechanic.
     /// </summary>
-    public StatModifier TrueDamage = StatModifier.Default;
-    /// <summary>
-    /// This percentage damage will always deal NPC% health as true damage
-    /// </summary>
-    public float PercentageDamage = 0;
-    /// <summary>
-    /// Use this to increase the amount of first strike player can hit on NPC
-    /// </summary>
-    public int HitCountIgnore = 0;
-    public float TrueDamage_Melee = 0;
-    public float TrueDamage_Range = 0;
-    public float TrueDamage_Magic = 0;
-    public float TrueDamage_Summon = 0;
+    public StatModifier FoodValue = StatModifier.Default;
+    public List<int> WhoAmI_Projectile = new();
+    public float Chance_ToInstantKill = 0;
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
-        if (LifeSteal_CoolDownCounter <= 0 && LifeSteal.Additive > 0 && LifeSteal.ApplyTo(1) > 0)
+        if (LifeSteal_CoolDownCounter <= 0 && LifeSteal.ApplyTo(0) > 0)
         {
-            Player.Heal((int)Math.Ceiling(LifeSteal.ApplyTo(hit.Damage)));
+            int caculated = (int)Math.Ceiling((LifeSteal - 1).ApplyTo(hit.Damage));
+            if (caculated > 0)
+            {
+                Player.Heal(caculated);
+            }
+            else
+            {
+                if (LifeSteal.Base > 0)
+                {
+                    Player.Heal((int)Math.Ceiling(LifeSteal.Base * LifeSteal.Multiplicative + LifeSteal.Flat));
+                }
+            }
             LifeSteal_CoolDownCounter = LifeSteal_CoolDown;
         }
     }
-    public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
-    {
-        int ItemTypeSource = proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType;
-    }
-    public int HitTakenCounter = 0;
-    public ulong DmgTaken = 0;
     public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
     {
         if (UpdateThorn.ApplyTo(1) > 0)
         {
             NPC.HitInfo newhitinfo = new();
-            newhitinfo.Damage = (int)(UpdateThorn - 1).ApplyTo(hurtInfo.Damage);
+            newhitinfo.Damage = (int)((UpdateThorn - 1).ApplyTo(hurtInfo.Damage) + UpdateThorn.ApplyTo(0));
             newhitinfo.Crit = false;
             newhitinfo.DamageType = DamageClass.Default;
             Player.StrikeNPCDirect(npc, newhitinfo);
@@ -166,17 +241,18 @@ public class PlayerStatsHandle : ModPlayer
                 }
             }
         }
-        HitTakenCounter++;
-        DmgTaken += (ulong)hurtInfo.Damage;
-    }
-    public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
-    {
-        HitTakenCounter++;
-        DmgTaken += (ulong)hurtInfo.Damage;
     }
     public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
     {
-        modifiers.SourceDamage.CombineWith(DirectItemDamage);
+        if (Chance_ToInstantKill > 0)
+        {
+            if (Main.rand.NextFloat() <= Chance_ToInstantKill)
+            {
+                modifiers.SetInstantKill();
+                return;
+            }
+        }
+        modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(DirectItemDamage);
         if (AlwaysCritValue > 0)
         {
             modifiers.SetCrit();
@@ -185,8 +261,8 @@ public class PlayerStatsHandle : ModPlayer
         {
             modifiers.DisableCrit();
         }
+        modifiers.FinalDamage.Flat += target.lifeMax * PercentageDamage;
     }
-    public StatModifier SummonTagDamage = StatModifier.Default;
     public StatModifier UpdateCritDamage = new StatModifier();
     public StatModifier Melee_CritDamage = StatModifier.Default;
     public StatModifier Range_CritDamage = StatModifier.Default;
@@ -201,56 +277,55 @@ public class PlayerStatsHandle : ModPlayer
     public StatModifier RangeAtkSpeed = StatModifier.Default;
     public StatModifier MagicAtkSpeed = StatModifier.Default;
     public StatModifier SummonAtkSpeed = StatModifier.Default;
-    public StatModifier WingUpTime = new StatModifier();
-    public bool Get_DidPlayerDodge = false;
+    public StatModifier PiercingDamage = StatModifier.Default;
+    /// <summary>
+    /// True damage will always deal damage to enemy regardless of defense or DR
+    /// </summary>
+    public StatModifier TrueDamage = StatModifier.Default;
+    /// <summary>
+    /// This percentage damage will always deal NPC% health as true damage
+    /// </summary>
+    public float PercentageDamage = 0;
+    public float HealthDamage = 0;
+    /// <summary>
+    /// Use this to increase the amount of first strike player can hit on NPC
+    /// </summary>
+    public int HitCountIgnore = 0;
+    public float TrueDamage_Melee = 0;
+    public float TrueDamage_Range = 0;
+    public float TrueDamage_Magic = 0;
+    public float TrueDamage_Summon = 0;
     public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
     {
+        if (Chance_ToInstantKill > 0)
+        {
+            if (Main.rand.NextFloat() <= Chance_ToInstantKill)
+            {
+                modifiers.SetInstantKill();
+                return;
+            }
+        }
         var item = Player.HeldItem;
         if (item.TryGetGlobalItem(out GlobalItemHandle globalitem))
         {
             modifiers.CritDamage += globalitem.CriticalDamage;
         }
-        modifiers.CritDamage = modifiers.CritDamage.CombineWith(UpdateCritDamage);
-        modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(NonCriticalDamage);
-        if (modifiers.DamageType == DamageClass.Melee)
-        {
-            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Melee_CritDamage);
-            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Melee_NonCritDmg);
-        }
-        else if (modifiers.DamageType == DamageClass.Ranged)
-        {
-            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Range_CritDamage);
-            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Range_NonCritDmg);
-        }
-        else if (modifiers.DamageType == DamageClass.Magic)
-        {
-            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Magic_CritDamage);
-            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Magic_NonCritDmg);
-        }
-        else if (modifiers.DamageType == DamageClass.Summon)
-        {
-            modifiers.CritDamage = modifiers.CritDamage.CombineWith(Summon_CritDamage);
-            modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(Summon_NonCritDmg);
-        }
-        if (target.GetGlobalNPC<RoguelikeGlobalNPC>().HitCount <= 0)
+        EverlastingOverhaulGlobalNPC global = target.GetGlobalNPC<EverlastingOverhaulGlobalNPC>();
+        if (global.HitCount <= HitCountIgnore)
         {
             modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(UpdateFullHPDamage);
         }
-        bool HasDebuff = false; int count = 0;
-        for (int i = 0; i < target.buffType.Length; i++)
+        if (global.Amount_CurrentDebuffInflicted > 0)
         {
-            if (target.buffType[i] <= 0)
+            if (DebuffDamage.ApplyTo(1) != 1)
             {
-                continue;
-            }
-            if (Main.debuff[target.buffType[i]])
-            {
-                HasDebuff = true;
-                count++;
+                DebuffDamage *= 1 + global.Amount_CurrentDebuffInflicted * 0.1f;
+                modifiers.SourceDamage.Base += DebuffDamage.ApplyTo(Player.GetWeaponDamage(item));
             }
         }
-        if (HasDebuff)
-            modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(DebuffDamage * count);
+        modifiers.CritDamage = modifiers.CritDamage.CombineWith(UpdateCritDamage);
+        modifiers.NonCritDamage = modifiers.NonCritDamage.CombineWith(NonCriticalDamage);
+
         if (modifiers.DamageType == DamageClass.Melee)
         {
             modifiers.CritDamage = modifiers.CritDamage.CombineWith(Melee_CritDamage);
@@ -282,6 +357,11 @@ public class PlayerStatsHandle : ModPlayer
         modifiers.FlatBonusDamage += SummonTagDamage.ApplyTo(modifiers.FlatBonusDamage.Value) - modifiers.FlatBonusDamage.Value;
 
         modifiers.ModifyHitInfo += Modifiers_ModifyHitInfo;
+
+        if (modifiers.DamageType == Roguelike_DamageClass.True)
+        {
+            modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(TrueDamage);
+        }
         modifiers.FinalDamage = modifiers.FinalDamage.CombineWith(TrueDamage);
     }
     private void TransferStatsModifier(ref StatModifier stat1, ref StatModifier stat2, float percentage)
@@ -307,7 +387,7 @@ public class PlayerStatsHandle : ModPlayer
     public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
     {
         int value = AlwaysCritValue;
-        if (proj.TryGetGlobalProjectile(out RoguelikeGlobalProjectile globalProj))
+        if (proj.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile globalProj))
         {
             value += globalProj.SetCrit;
         }
@@ -318,6 +398,14 @@ public class PlayerStatsHandle : ModPlayer
         else if (value < 0)
         {
             modifiers.DisableCrit();
+        }
+        if (!proj.minion && proj.penetrate > 1 || proj.penetrate == -1)
+        {
+            proj.damage = (int)PiercingDamage.ApplyTo(proj.damage);
+        }
+        if (!proj.minion && !proj.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().IsFromMinion || Unnerfed)
+        {
+            modifiers.FinalDamage.Flat += target.lifeMax * PercentageDamage;
         }
     }
     private void Modifiers_ModifyHitInfo(ref NPC.HitInfo info)
@@ -330,12 +418,54 @@ public class PlayerStatsHandle : ModPlayer
     }
     public override bool FreeDodge(Player.HurtInfo info)
     {
+        HasDodgeInThisInstance = info.Dodgeable;
         if (Main.rand.NextFloat() <= DodgeChance)
         {
+            Player.immune = true;
             Player.AddImmuneTime(info.CooldownCounter, DodgeTimer);
+            HasDodgeInThisInstance = true;
             return true;
         }
         return base.FreeDodge(info);
+    }
+    public float Rapid_CacheLife;
+    public float Rapid_CacheMana;
+    public bool ReviveCurse = false;
+    public override void PreUpdate()
+    {
+        for (int i = 0; i < Player.inventory.Length; i++)
+        {
+            Item item = Player.inventory[i];
+            if (item == null)
+            {
+                continue;
+            }
+            if (item.IsAir)
+            {
+                continue;
+            }
+            item.GetGlobalItem<GlobalItemHandle>().InventoryWhoAmI = i;
+        }
+        if (Player.chest <= -1 || Player.chest >= Main.chest.Length)
+        {
+            return;
+        }
+        Chest chest = Main.chest[Player.chest];
+        foreach (var item in chest.item)
+        {
+            if (item == null)
+            {
+                continue;
+            }
+            if (item.IsAir)
+            {
+                continue;
+            }
+            if (item.TryGetGlobalItem(out GlobalItemHandle handler))
+            {
+                handler.InventoryWhoAmI = -1;
+            }
+        }
     }
     public override void PostUpdate()
     {
@@ -351,16 +481,11 @@ public class PlayerStatsHandle : ModPlayer
     public override void UpdateLifeRegen()
     {
         Player.lifeRegen = (int)UpdateHPRegen.ApplyTo(Player.lifeRegen);
+        UpdateHPRegen = StatModifier.Default;
     }
     public void Add_ExtraLifeWeapon(Item item)
     {
-        if (!listItem.Contains(item))
-            listItem.Add(item);
-    }
-    public void Set_TemporaryLife(int limit, int counterlimit)
-    {
-        TemporaryLife_Limit += limit;
-        TemporaryLife_CounterLimit += counterlimit;
+        Player.GetModPlayer<RevivePlayer>().ReviveConsumables.Add(item);
     }
     public void Set_TemporaryMana(int limit, int counterlimit)
     {
@@ -370,14 +495,74 @@ public class PlayerStatsHandle : ModPlayer
             TemporaryMana_CounterLimit = counterlimit;
         }
     }
+    public void Set_TemporaryLife(int limit, int counterlimit)
+    {
+        TemporaryLife_Limit += limit;
+        if (TemporaryLife_CounterLimit < counterlimit)
+        {
+            TemporaryLife_CounterLimit = counterlimit;
+        }
+    }
+    public StatModifier SummonTagDamage = StatModifier.Default;
     public float CurrentMinionAmount = 0;
+
     public int CappedHealthAmount = -1;
+    /// <summary>
+    /// Easy check to see did player just healed
+    /// </summary>
+    /// <returns></returns>
+    public bool Check_Heal()
+    {
+        if (Healed)
+        {
+            Healed = false;
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// This field is a easier way to check whenever a player has Healed, however you better refer to <see cref="Check_Heal"/>
+    /// </summary>
+    public bool Healed = false;
+
+    public const short Default_RelicActivationCap = 10;
+    public byte Healed_timeSinceLastHeal = 0;
+    /// <summary>
+    /// This text right here is a quick note on how to use this field<br/>
+    /// <br/>
+    /// If you are implementing a dodge mechanic and want that dodge mechanic to sync across the mod to enable special implemention of on dodge effect, then please add this in your <see cref="ModPlayer.FreeDodge(Player.HurtInfo)"/> or <see cref="ModPlayer.ConsumableDodge(Player.HurtInfo)"/> <br/>
+    /// After that in <see cref="ModPlayer.PostUpdate"/> write your special effect dodge in the hook and add in this check
+    /// </summary>
+    public bool HasDodgeInThisInstance = false;
     public override void ResetEffects()
     {
         if (!Player.active)
         {
             return;
         }
+        for (int i = WhoAmI_Projectile.Count - 1; i >= 0; i--)
+        {
+            int whoAmI = WhoAmI_Projectile[i];
+            if (whoAmI < 0 || whoAmI >= Main.maxProjectiles)
+            {
+                WhoAmI_Projectile.RemoveAt(i);
+                continue;
+            }
+            Projectile projectile = Main.projectile[whoAmI];
+            if (projectile == null)
+            {
+                WhoAmI_Projectile.RemoveAt(i);
+                continue;
+            }
+            if (!projectile.active || projectile.timeLeft <= 0)
+            {
+                WhoAmI_Projectile.RemoveAt(i);
+                continue;
+            }
+        }
+        Unnerfed = false;
+        Unnerfed2 = false;
+        DisableNegativeArtifact = false;
         if (Healed_timeSinceLastHeal == 0)
         {
             Healed = false;
@@ -386,7 +571,12 @@ public class PlayerStatsHandle : ModPlayer
         {
             Healed_timeSinceLastHeal = (byte)Math.Clamp(Healed_timeSinceLastHeal - 1, byte.MinValue, byte.MaxValue);
         }
-        CurrentDashType = string.Empty;
+        HasDodgeInThisInstance = false;
+        CurrentDashType = "";
+        if (!Player.immune)
+        {
+            Get_DidPlayerDodge = false;
+        }
         CurrentMinionAmount = 0;
         for (int i = 0; i < Main.projectile.Length; i++)
         {
@@ -394,10 +584,6 @@ public class PlayerStatsHandle : ModPlayer
             {
                 CurrentMinionAmount += Main.projectile[i].minionSlots;
             }
-        }
-        if (!Player.immune)
-        {
-            Get_DidPlayerDodge = false;
         }
         synchronize_Counter = ModUtils.Safe_SwitchValue(synchronize_Counter, 216000);
         Player.moveSpeed = UpdateMovement.ApplyTo(Player.moveSpeed);
@@ -421,13 +607,14 @@ public class PlayerStatsHandle : ModPlayer
         {
             if (++TemporaryLife_Counter >= TemporaryLife_CounterLimit)
             {
-                TemporaryLife -= 1;
+                TemporaryLife--;
                 TemporaryLife_Counter = 0;
             }
             TemporaryLife = Math.Clamp(TemporaryLife, 0, TemporaryLife_Limit);
             TemporaryLife_Limit = 0;
             TemporaryLife_CounterLimit = 0;
         }
+
         if (TemporaryMana > 0)
         {
             if (++TemporaryMana_Counter >= TemporaryMana_CounterLimit)
@@ -439,16 +626,21 @@ public class PlayerStatsHandle : ModPlayer
             TemporaryMana_Limit = 0;
             TemporaryMana_CounterLimit = 0;
         }
-        if (CappedHealthAmount == -1)
+        if (CappedHealthAmount == -1 || Unnerfed2)
         {
+            if (ReviveCurse)
+            {
+                UpdateHPMax -= .2f;
+            }
             Player.statLifeMax2 = Math.Clamp((int)Math.Ceiling(UpdateHPMax.ApplyTo(Player.statLifeMax2) + TemporaryLife), 1, int.MaxValue);
         }
         else
         {
             Player.statLifeMax2 = Math.Clamp((int)Math.Ceiling(UpdateHPMax.ApplyTo(Player.statLifeMax2) + TemporaryLife), 1, CappedHealthAmount);
         }
+        Unnerfed2 = false;
         CappedHealthAmount = -1;
-        Player.statManaMax2 = Math.Clamp((int)UpdateManaMax.ApplyTo(Player.statManaMax2), 1, int.MaxValue);
+        Player.statManaMax2 = Math.Clamp((int)UpdateManaMax.ApplyTo(Player.statManaMax2) + TemporaryMana, 1, int.MaxValue);
 
         UpdateCritDamage = StatModifier.Default;
         Melee_CritDamage = StatModifier.Default;
@@ -461,6 +653,7 @@ public class PlayerStatsHandle : ModPlayer
         Range_NonCritDmg = StatModifier.Default;
         Magic_NonCritDmg = StatModifier.Default;
         Summon_NonCritDmg = StatModifier.Default;
+        SummonTagDamage = StatModifier.Default;
 
         MeleeAtkSpeed = StatModifier.Default;
         RangeAtkSpeed = StatModifier.Default;
@@ -474,12 +667,11 @@ public class PlayerStatsHandle : ModPlayer
         UpdateJumpBoost = StatModifier.Default;
         UpdateHPMax = StatModifier.Default;
         UpdateManaMax = StatModifier.Default;
-        UpdateHPRegen = StatModifier.Default;
         UpdateManaRegen = StatModifier.Default;
         UpdateDefenseBase = StatModifier.Default;
         UpdateDefEff = StatModifier.Default;
-        UpdateThorn = StatModifier.Default;
         ThornAoE = StatModifier.Default - 1;
+        UpdateThorn = StatModifier.Default;
         DebuffTime = StatModifier.Default;
         BuffTime = StatModifier.Default;
         DebuffBuffTime = StatModifier.Default;
@@ -487,45 +679,73 @@ public class PlayerStatsHandle : ModPlayer
         ShieldHealth = StatModifier.Default;
         AttackSpeed = StatModifier.Default;
         HealEffectiveness = StatModifier.Default;
-        DebuffDamage = StatModifier.Default;
+        DebuffDamage = StatModifier.Default - 1;
         SynergyDamage = StatModifier.Default;
         Iframe = StatModifier.Default;
-        LifeSteal = StatModifier.Default - 1;
+        LifeSteal = StatModifier.Default;
+        SkillDuration = StatModifier.Default;
         DirectItemDamage = StatModifier.Default;
+        EnchantmentCoolDown = StatModifier.Default;
+        DamageTaken = StatModifier.Default;
+        OnKillHealing = StatModifier.Default - 1;
+        PiercingDamage = StatModifier.Default;
         WingUpTime = StatModifier.Default;
         DodgeChance = 0;
         DodgeTimer = 44;
         successfullyKillNPCcount = 0;
         LifeSteal_CoolDown = 60;
+        Chance_ToInstantKill = 0;
         LifeSteal_CoolDownCounter = ModUtils.CountDown(LifeSteal_CoolDownCounter);
         ModifyHit_Before_Crit = false;
         Rapid_LifeRegen = 0;
         Rapid_ManaRegen = 0;
         ItemRangeMultiplier = 1;
-        Reset_ShootRequest();
-        PercentageDamage = 0;
-        TrueDamage = StatModifier.Default;
-        AlwaysCritValue = 0;
-    }
-    /// <summary>
-    /// Easy check to see did player just healed
-    /// </summary>
-    /// <returns></returns>
-    public bool Check_Heal()
-    {
-        if (Healed)
-        {
-            Healed = false;
-            return true;
-        }
-        return false;
-    }
-    /// <summary>
-    /// This field is a easier way to check whenever a player has Healed, however you better refer to <see cref="Check_Heal"/>
-    /// </summary>
-    public bool Healed = false;
-    public byte Healed_timeSinceLastHeal = 0;
 
+        Reset_ShootRequest();
+        ScatterShot = 0;
+
+        RelicActivation = RelicPoint <= Default_RelicActivationCap;
+        RelicPoint = 0;
+
+        PercentageDamage = 0;
+        HealthDamage = 0;
+        TrueDamage = StatModifier.Default;
+
+        DropModifier = StatModifier.Default;
+        ChanceDropModifier = StatModifier.Default;
+        FoodValue = StatModifier.Default;
+        ChanceLootDrop = 0;
+        WeaponAmountAddition = 0;
+        PotionTypeAmountAddition = 0;
+        PotionNumberAmountAddition = 0;
+        UpdateMeleeChanceMutilplier = 1;
+        UpdateRangeChanceMutilplier = 1;
+        UpdateMagicChanceMutilplier = 1;
+        UpdateSummonChanceMutilplier = 1;
+
+        CanDropSynergyEnergy = false;
+        LootboxCanDropSpecialPotion = false;
+
+        AlwaysCritValue = 0;
+
+
+        Hostile_ProjectileVelocityAddition = 0;
+        HitTakenEffectivenessCoolDown = ModUtils.CountDown(HitTakenEffectivenessCoolDown);
+        if (HitTakenEffectivenessCoolDown <= 0 && HitTakenEffectiveness > 0)
+        {
+            HitTakenEffectiveness -= .1f;
+            if (HitTakenEffectiveness < 0)
+            {
+                HitTakenEffectiveness = 0;
+            }
+        }
+    }
+
+    public override void PreUpdateBuffs()
+    {
+    }
+    public bool RelicActivation = true;
+    public int RelicPoint = 0;
     /// <summary>
     /// This value will do a smarter handling of whenever or not should a critical strike be guaranteed or disable<br/>
     /// If this value is <![CDATA[>]]> 0 then the hit will always be critical<br/>
@@ -555,37 +775,17 @@ public class PlayerStatsHandle : ModPlayer
         }
         return MathF.Round(global.ApplyTo(useSpeed), 2);
     }
-    public List<Item> listItem = new();
-    public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genDust, ref PlayerDeathReason damageSource)
+    public float HitTakenEffectiveness = 0;
+    public int HitTakenEffectivenessCoolDown = 0;
+    public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
     {
-        foreach (var chance in Chance_SecondLife.Values)
-        {
-            if (Main.rand.NextFloat() <= chance.ChanceValue)
-            {
-                chance.ApprovedConditionPass();
-                return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genDust, ref damageSource);
-            }
-        }
-        foreach (var chance in SecondLife.Values)
-        {
-            if (chance.Condition)
-            {
-                chance.ApprovedConditionPass();
-                return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genDust, ref damageSource);
-            }
-        }
-        if (listItem != null && listItem.Count > 0)
-        {
-            int typeItem = listItem[0].type;
-            ModObject modobject = ModObject.NewModObject(Player.Center, Vector2.Zero, ModObject.GetModObjectType<AccessoryVisualModObject>());
-            AccessoryVisualModObject accobject = (AccessoryVisualModObject)modobject;
-            accobject.AccType = typeItem;
-            listItem[0].TurnToAir();
-            listItem.RemoveAt(0);
-            Player.Heal(Player.statLifeMax2 / 2);
-            return false;
-        }
-        return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genDust, ref damageSource);
+        modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(DamageTaken);
+        modifiers.SourceDamage += HitTakenEffectiveness;
+    }
+    public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
+    {
+        modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(DamageTaken);
+        modifiers.SourceDamage += HitTakenEffectiveness;
     }
     /// <summary>
     /// This should be uses in always update code
@@ -678,6 +878,15 @@ public class PlayerStatsHandle : ModPlayer
             case PlayerStats.HealEffectiveness:
                 HealEffectiveness = HealEffectiveness.CombineWith(StatMod);
                 break;
+            //case PlayerStats.EnergyCap:
+            //    Player.ModSkillPlayer().EnergyCapacity = Player.ModSkillPlayer().EnergyCapacity.CombineWith(StatMod);
+            //    break;
+            //case PlayerStats.EnergyRecharge:
+            //    Player.ModSkillPlayer().EnergyRecharge = Player.ModSkillPlayer().EnergyRecharge.CombineWith(StatMod);
+            //    break;
+            //case PlayerStats.EnergyRechargeCap:
+            //    Player.ModSkillPlayer().RechargeEnergyCap = Player.ModSkillPlayer().RechargeEnergyCap.CombineWith(StatMod);
+            //    break;
             case PlayerStats.FullHPDamage:
                 UpdateFullHPDamage = UpdateFullHPDamage.CombineWith(StatMod);
                 break;
@@ -690,6 +899,9 @@ public class PlayerStatsHandle : ModPlayer
             case PlayerStats.Iframe:
                 Iframe = Iframe.CombineWith(StatMod);
                 break;
+            //case PlayerStats.SkillDuration:
+            //    SkillDuration = SkillDuration.CombineWith(StatMod);
+            //    break;
             case PlayerStats.DebuffDurationInflict:
                 DebuffTime = DebuffTime.CombineWith(StatMod);
                 break;
@@ -720,6 +932,24 @@ public class PlayerStatsHandle : ModPlayer
             case PlayerStats.SummonNonCritDmg:
                 Summon_NonCritDmg = Summon_NonCritDmg.CombineWith(StatMod);
                 break;
+            //case PlayerStats.LootDropIncrease:
+            //    DropModifier = DropModifier.CombineWith(StatMod);
+            //    break;
+            //case PlayerStats.TrueDamage:
+            //    TrueDamage = TrueDamage.CombineWith(StatMod);
+            //    break;
+            case PlayerStats.MeleeAtkSpeed:
+                MeleeAtkSpeed = MeleeAtkSpeed.CombineWith(StatMod);
+                break;
+            case PlayerStats.RangeAtkSpeed:
+                RangeAtkSpeed = RangeAtkSpeed.CombineWith(StatMod);
+                break;
+            case PlayerStats.MagicAtkSpeed:
+                MagicAtkSpeed = MagicAtkSpeed.CombineWith(StatMod);
+                break;
+            case PlayerStats.SummonAtkSpeed:
+                SummonAtkSpeed = SummonAtkSpeed.CombineWith(StatMod);
+                break;
             default:
                 break;
         }
@@ -729,6 +959,7 @@ public class PlayerStatsHandle : ModPlayer
     public int request_ShootSpreadExtra { get; private set; } = 0;
     public float request_AngleSpread { get; private set; } = 0;
     public float request_VelocityChange { get; private set; } = 0;
+    public int ScatterShot = 0;
     public void Request_ShootExtra(int extra, float angle)
     {
         request_ShootExtra += extra;
@@ -818,134 +1049,42 @@ public class PlayerStatsHandle : ModPlayer
                 return DamageClass.Default;
         }
     }
-    public Dictionary<string, ConditionApproved> SecondLife = new();
-    public static void SetSecondLifeCondition(Player player, string context, bool condition)
+    public static int WE_CoolDown(Player player, int cooldown)
     {
-        var modplayer = player.GetModPlayer<PlayerStatsHandle>();
-        if (modplayer.SecondLife.ContainsKey(context))
-        {
-            modplayer.SecondLife[context].ChangeCondition(condition);
-        }
-        else
-        {
-            modplayer.SecondLife.Add(context, new(condition));
-        }
+        PlayerStatsHandle handle = player.GetModPlayer<PlayerStatsHandle>();
+        float newcooldown = handle.EnchantmentCoolDown.ApplyTo(cooldown);
+        return (int)Math.Max(Math.Ceiling(newcooldown), 0);
     }
-    public static bool GetSecondLife(Player player, string context)
+    public bool Hide = false;
+    public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
-        var modplayer = player.GetModPlayer<PlayerStatsHandle>();
-        if (modplayer.SecondLife.ContainsKey(context))
+        if (Hide)
         {
-            if (modplayer.SecondLife[context].Approved)
-            {
-                modplayer.SecondLife[context].DeApproved();
-                return true;
-            }
+            Hide = false;
+            drawInfo.hideEntirePlayer = true;
+            drawInfo.stealth = 1f;
+            drawInfo.colorDisplayDollSkin = drawInfo.legsGlowColor = drawInfo.armGlowColor = drawInfo.bodyGlowColor = drawInfo.headGlowColor = drawInfo.colorLegs = drawInfo.colorShoes = drawInfo.colorPants = drawInfo.colorUnderShirt = drawInfo.colorShirt = drawInfo.colorBodySkin = drawInfo.colorHead = drawInfo.colorHair = drawInfo.colorEyes = drawInfo.colorEyeWhites = drawInfo.colorArmorLegs = drawInfo.colorArmorBody = drawInfo.colorArmorHead = Color.Transparent;
+            drawInfo.itemColor = Color.Transparent;
+            Player.immuneAlpha = 255;
         }
-        return false;
-    }
-    public Dictionary<string, ConditionApproved> Chance_SecondLife = new();
-    public static void Set_Chance_SecondLifeCondition(Player player, string context, float chance)
-    {
-        var modplayer = player.GetModPlayer<PlayerStatsHandle>();
-        if (modplayer.Chance_SecondLife.ContainsKey(context))
-        {
-            modplayer.Chance_SecondLife[context].SetChanceValue(chance);
-        }
-        else
-        {
-            modplayer.Chance_SecondLife.Add(context, new(chance));
-        }
-    }
-    public static bool Get_Chance_SecondLife(Player player, string context)
-    {
-        var modplayer = player.GetModPlayer<PlayerStatsHandle>();
-        if (modplayer.Chance_SecondLife.ContainsKey(context))
-        {
-            if (modplayer.Chance_SecondLife[context].Approved)
-            {
-                modplayer.Chance_SecondLife[context].DeApproved();
-                return true;
-            }
-        }
-        return false;
     }
 }
-public class AccessoryVisualModObject : ModObject
+public class PlayerStatsHandle_GlobalNPC : GlobalNPC
 {
-    public int AccType = -1;
-    public int alpha = 255;
-    public override void SetDefaults()
+    public override void OnKill(NPC npc)
     {
-        timeLeft = 120;
-    }
-    public override void AI()
-    {
-        velocity = -Vector2.UnitY * 2;
-        alpha = (int)MathHelper.Lerp(0, 255, timeLeft / 120f);
-    }
-    public override void Draw(SpriteBatch spritebatch)
-    {
-        if (AccType < 0)
+        int playerIndex = npc.lastInteraction;
+        if (!Main.player[playerIndex].active || Main.player[playerIndex].dead)
         {
-            return;
+            playerIndex = npc.FindClosestPlayer();
         }
-        float opacity = alpha / 255f;
-        Main.instance.LoadItem(AccType);
-        Texture2D texture = TextureAssets.Item[AccType].Value;
-        Vector2 origin = texture.Size() * .5f;
-        Vector2 drawPos = position - Main.screenPosition + origin;
-        Color color = new Color(255, 255, 255, 0) * opacity;
-        color.A = (byte)alpha;
-        spritebatch.Draw(texture, drawPos, null, color, 0, origin, 1f, SpriteEffects.None, 0);
-    }
-}
-/// <summary>
-/// This is for the second life mechanic
-/// </summary>
-public class ConditionApproved
-{
-    public bool Condition = false;
-    public bool Approved = false;
-    public float ChanceValue = 0f;
-    public ConditionApproved()
-    {
-        Condition = false;
-        Approved = false;
-        ChanceValue = 0;
-    }
-    public ConditionApproved(bool condition)
-    {
-        Condition = condition;
-        Approved = false;
-        ChanceValue = 0;
-    }
-    public ConditionApproved(float chance)
-    {
-        Condition = false;
-        Approved = false;
-        ChanceValue = chance;
-    }
-    public void SetChanceValue(float chance)
-    {
-        ChanceValue = chance;
-    }
-    public void ChangeCondition(bool condition)
-    {
-        Condition = condition;
-    }
-    public void ApprovedConditionPass()
-    {
-        Approved = true;
-    }
-    public void DeApproved()
-    {
-        Approved = false;
-    }
-    public void Reset()
-    {
-        Condition = false;
-        Approved = false;
+        var player = Main.player[playerIndex];
+        StatModifier modifier = player.ModPlayerStats().OnKillHealing;
+        float healamount = modifier.ApplyTo(1);
+        if (modifier.ApplyTo(1) > 0)
+        {
+            player.Heal((int)healamount);
+        }
     }
 }
 public class PlayerStatsHandleSystem : ModSystem
@@ -954,6 +1093,8 @@ public class PlayerStatsHandleSystem : ModSystem
     {
         On_NPC.AddBuff += HookBuffTimeModify;
         On_Player.AddBuff += IncreasesPlayerBuffTime;
+        On_Player.DelBuff += On_Player_DelBuff;
+        On_NPC.DelBuff += On_NPC_DelBuff;
         On_Player.Heal += On_Player_Heal;
         On_Player.AddImmuneTime += On_Player_AddImmuneTime;
         On_Projectile.NewProjectile_IEntitySource_Vector2_Vector2_int_int_float_int_float_float_float += On_Projectile_NewProjectile_IEntitySource_Vector2_Vector2_int_int_float_int_float_float_float;
@@ -964,6 +1105,27 @@ public class PlayerStatsHandleSystem : ModSystem
         On_Player.GetItemGrabRange += On_Player_GetItemGrabRange;
         On_NPC.HitModifiers.GetDamage += HitModifiers_GetDamage;
         On_Player.Hurt_PlayerDeathReason_int_int_bool_bool_bool_int_bool_float += On_Player_Hurt_PlayerDeathReason_int_int_bool_bool_bool_int_bool_float;
+        On_Player.GetWingStats += On_Player_GetWingStats;
+        On_Player.StrikeNPCDirect += On_Player_StrikeNPCDirect;
+    }
+    private void On_Player_StrikeNPCDirect(On_Player.orig_StrikeNPCDirect orig, Player self, NPC npc, NPC.HitInfo hit)
+    {
+        if (npc.boss)
+        {
+            hit.Knockback = 0;
+        }
+        orig(self, npc, hit);
+    }
+
+    private WingStats On_Player_GetWingStats(On_Player.orig_GetWingStats orig, Player self, int wingID)
+    {
+        if (self.TryGetModPlayer(out PlayerStatsHandle modplayer))
+        {
+            WingStats statsSimulated = orig(self, wingID);
+            statsSimulated.FlyTime = (int)modplayer.WingUpTime.ApplyTo(statsSimulated.FlyTime);
+            return statsSimulated;
+        }
+        return orig(self, wingID);
     }
     private double On_Player_Hurt_PlayerDeathReason_int_int_bool_bool_bool_int_bool_float(On_Player.orig_Hurt_PlayerDeathReason_int_int_bool_bool_bool_int_bool_float orig, Player self, PlayerDeathReason damageSource, int Damage, int hitDirection, bool pvp, bool quiet, bool Crit, int cooldownCounter, bool dodgeable, float armorPenetration)
     {
@@ -974,6 +1136,19 @@ public class PlayerStatsHandleSystem : ModSystem
         }
         return dmg;
     }
+    private void On_NPC_DelBuff(On_NPC.orig_DelBuff orig, NPC self, int buffIndex)
+    {
+        orig(self, buffIndex);
+    }
+
+    private void On_Player_DelBuff(On_Player.orig_DelBuff orig, Player self, int b)
+    {
+        if (b < self.buffType.Length)
+        {
+            orig(self, b);
+        }
+    }
+
     private int HitModifiers_GetDamage(On_NPC.HitModifiers.orig_GetDamage orig, ref NPC.HitModifiers self, float baseDamage, bool crit, bool damageVariation, float luck)
     {
         int fixedDamage = 0;
@@ -1103,9 +1278,8 @@ public class PlayerStatsHandleSystem : ModSystem
 
     private void Extra_SpecialMechanic(Player player, Projectile projectile)
     {
-        bool Scatter = false;
-        RoguelikeGlobalProjectile globalhandle;
-        if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global))
+        EverlastingOverhaulGlobalProjectile globalhandle;
+        if (projectile.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global))
         {
             globalhandle = global;
         }
@@ -1117,11 +1291,7 @@ public class PlayerStatsHandleSystem : ModSystem
         {
             return;
         }
-        if (Scatter)
-        {
-            globalhandle.OnKill_ScatterShot += 2;
-        }
-        PlayerStatsHandle handle = null;
+        PlayerStatsHandle handle;
         if (player.TryGetModPlayer(out PlayerStatsHandle hand))
         {
             handle = hand;
@@ -1130,6 +1300,7 @@ public class PlayerStatsHandleSystem : ModSystem
         {
             return;
         }
+        globalhandle.OnKill_ScatterShot += handle.ScatterShot;
         int shootExtra = handle.request_ShootExtra;
         int shootSpread = handle.request_ShootSpreadExtra;
         float angleSpread = handle.request_AngleSpread;
@@ -1148,10 +1319,7 @@ public class PlayerStatsHandleSystem : ModSystem
                     break;
                 }
                 proj.velocity = proj.velocity.Vector2RotateByRandom(angleChange);
-                if (Scatter)
-                {
-                    proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().OnKill_ScatterShot += 2;
-                }
+                proj.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().OnKill_ScatterShot += handle.ScatterShot;
             }
         }
         if (shootSpread > 1)
@@ -1164,10 +1332,7 @@ public class PlayerStatsHandleSystem : ModSystem
                     break;
                 }
                 proj.velocity = proj.velocity.Vector2DistributeEvenlyPlus(shootSpread, angleSpread, i);
-                if (Scatter)
-                {
-                    proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().OnKill_ScatterShot += 2;
-                }
+                proj.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().OnKill_ScatterShot += handle.ScatterShot;
             }
         }
     }
@@ -1195,8 +1360,7 @@ public class PlayerStatsHandleSystem : ModSystem
             }
             else
             {
-                int time = (int)modplayer.DebuffBuffTime.ApplyTo(timeToAdd);
-                orig(self, type, time, quiet, foodHack);
+                orig(self, type, timeToAdd, quiet, foodHack);
             }
         }
         else

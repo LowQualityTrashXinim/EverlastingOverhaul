@@ -4,27 +4,27 @@ using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 using Microsoft.Xna.Framework;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_BunnyStew : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_BunnyStew : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.BunnyStew;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(6.5f);
 	public override int EnergyAmount() => 75;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = 180;
-		SetBuff(item, ModContent.BuffType<Roguelike_BunnyStew_ModBuff>(), ModUtils.ToMinute(7));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_BunnyStew_ModBuff>(), ModUtils.ToMinute(7));
 	}
 }
-public class Roguelike_BunnyStew_ModBuff : FoodItemTier1 {
+public class EverlastingOverhaul_BunnyStew_ModBuff : FoodItemTier1 {
 	public override int TypeID => ItemID.BunnyStew;
 	public override void Update(Player player, ref int buffIndex) {
 		player.pickSpeed += .23f;
 		player.tileSpeed += .23f;
-		player.GetJumpState<Roguelike_BunnyStew_ExtraJump>().Enable();
+		player.GetJumpState<EverlastingOverhaul_BunnyStew_ExtraJump>().Enable();
 		player.ModPlayerStats().UpdateMovement += .23f;
 		player.ModPlayerStats().CurrentDashType = "BunnyStew";
 	}
 }
-public class Roguelike_BunnyStew_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_BunnyStew_ModPlayer : ModPlayer {
 	public bool BunnyStew = false;
 	public override void ResetEffects() {
 		BunnyStew = false;
@@ -85,7 +85,7 @@ public class Roguelike_BunnyStew_ModPlayer : ModPlayer {
 	public int DashDelay = 0;
 	public int DashTimer = 0;
 }
-public class Roguelike_BunnyStew_ExtraJump : ExtraJump {
+public class EverlastingOverhaul_BunnyStew_ExtraJump : ExtraJump {
 	public override Position GetDefaultPosition() => new After(BlizzardInABottle);
 
 	public override float GetDurationMultiplier(Player player) {

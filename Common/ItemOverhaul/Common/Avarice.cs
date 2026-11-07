@@ -3,14 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
 using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Contents.BuffAndDebuff;
 using EverlastingOverhaul.Texture;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Common;
+namespace EverlastingOverhaul.Common .ItemOverhaul.Common;
 public class Avarice_ModPlayer : ModPlayer {
 	public int Avarice_Counter = 0;
 	public readonly int[] Gems = [ItemID.Amethyst, ItemID.Topaz, ItemID.Sapphire, ItemID.Emerald, ItemID.Amber, ItemID.Ruby, ItemID.Diamond];
@@ -42,7 +44,7 @@ public class Avarice_ModPlayer : ModPlayer {
 		}
 	}
 	public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone) {
-		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.Avarice].Contains(proj.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType)) {
+		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.Avarice].Contains(proj.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().Source_ItemType)) {
 			if (Main.rand.NextBool(10)) {
 				Projectile.NewProjectileDirect(Player.GetSource_ItemUse(Player.HeldItem), target.Center + Main.rand.NextVector2CircularEdge(300, 300), Vector2.Zero, ModContent.ProjectileType<Avarice_Projectile>(), hit.Damage, 0, Player.whoAmI, Main.rand.Next(Gems));
 			}

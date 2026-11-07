@@ -6,25 +6,25 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_BananaSplit : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_BananaSplit : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.BananaSplit;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(3);
 	public override int LifeAmount() => 45;
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(1.75f);
-		SetBuff(item, ModContent.BuffType<Roguelike_BananaSplit_ModBuff>(), ModUtils.ToMinute(19));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_BananaSplit_ModBuff>(), ModUtils.ToMinute(19));
 	}
 }
-public class Roguelike_BananaSplit_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_BananaSplit_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.BananaSplit;
 	public override void Update(Player player, ref int buffIndex) {
 		player.ModPlayerStats().NonCriticalDamage += .25f;
-		player.GetModPlayer<Roguelike_BananaSplit_ModPlayer>().BananaSplit = true;
+		player.GetModPlayer<EverlastingOverhaul_BananaSplit_ModPlayer>().BananaSplit = true;
 	}
 }
-public class Roguelike_BananaSplit_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_BananaSplit_ModPlayer : ModPlayer {
 	public bool BananaSplit = false;
 	public int Counter = 0;
 	public override void ResetEffects() {

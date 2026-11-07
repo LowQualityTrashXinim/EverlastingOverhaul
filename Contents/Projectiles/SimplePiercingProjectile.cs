@@ -9,6 +9,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Contents.Projectiles;
+//This projectile is made with the purpose of being reused everywhere and anytime
+//It is expected that dev should read this projectile clearly before using it so to know the AI of the projectile
+
 
 /// <summary>
 /// Ai0 : shoot velocity<br/>
@@ -75,14 +78,14 @@ public class SimplePiercingProjectile : ModProjectile
 /// <summary>
 /// Ai0 : shoot velocity<br/>
 /// Ai1 : time left of a AI, recommend setting it above 0<br/>
-/// Ai2 : Re-adjust scaleX of the projectile
+/// Ai2 : Delay before the slash appear
 /// </summary>
 public class SimplePiercingProjectile2 : ModProjectile
 {
     public Color ProjectileColor = Color.White;
     public override string Texture => ModUtils.GetVanillaTexture<Projectile>(ProjectileID.PiercingStarlight);
-    float InitialScaleXValue = 0f;
-    float InitialScaleYValue = 0f;
+    protected float InitialScaleXValue = 0f;
+    protected float InitialScaleYValue = 0f;
     public float ScaleX = 3f;
     public float ScaleY = 1f;
     public int TimeBeforeActive = 0;
@@ -95,7 +98,11 @@ public class SimplePiercingProjectile2 : ModProjectile
     /// </summary>
     public float ExtraDelay = 0;
     int timeleft_Onspawn = 0;
-    public override void SetDefaults()
+    /// <summary>
+    /// Set this to false if you do not want the scale of projectile become dependant on AI2 timeleft
+    /// </summary>
+    public bool ExcessScaling = true;
+    public override sealed void SetDefaults()
     {
         Projectile.width = Projectile.height = 36;
         Projectile.penetrate = -1;
@@ -105,7 +112,7 @@ public class SimplePiercingProjectile2 : ModProjectile
         Projectile.tileCollide = false;
         Projectile.friendly = true;
     }
-    public override void OnSpawn(IEntitySource source)
+    public override sealed void OnSpawn(IEntitySource source)
     {
         if (Projectile.ai[0] <= 0)
         {
@@ -124,7 +131,7 @@ public class SimplePiercingProjectile2 : ModProjectile
         OffSetFromPlayer = (CenterBefore - Main.player[Projectile.owner].Center).Length();
         PlayerCenterOrigin = Main.player[Projectile.owner].Center;
     }
-    public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+    public override sealed bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
     {
         if (Projectile.ai[2] >= 0)
         {
@@ -132,14 +139,17 @@ public class SimplePiercingProjectile2 : ModProjectile
         }
         Vector2 pointEdgeOfProjectile = Projectile.Center.IgnoreTilePositionOFFSET(Projectile.rotation.ToRotationVector2(), 18 * ScaleX);
         Vector2 pointEdgeOfProjectile2 = Projectile.Center.IgnoreTilePositionOFFSET((Projectile.rotation + MathHelper.Pi).ToRotationVector2(), 18 * ScaleX);
-        return ModUtils.Collision_PointAB_EntityCollide(targetHitbox, pointEdgeOfProjectile, pointEdgeOfProjectile2);
+        Vector2 pointEdgeOfProjectileHeight = Projectile.Center.IgnoreTilePositionOFFSET((Projectile.rotation + MathHelper.PiOver2).ToRotationVector2(), 9 * ScaleY);
+        Vector2 pointEdgeOfProjectile2Height = Projectile.Center.IgnoreTilePositionOFFSET((Projectile.rotation + +MathHelper.PiOver2 + MathHelper.Pi).ToRotationVector2(), 9 * ScaleY);
+        return ModUtils.Collision_PointAB_EntityCollide(targetHitbox, pointEdgeOfProjectile, pointEdgeOfProjectile2)
+        || ModUtils.Collision_PointAB_EntityCollide(targetHitbox, pointEdgeOfProjectileHeight, pointEdgeOfProjectile2Height);
     }
     public override Color? GetAlpha(Color lightColor)
     {
         ProjectileColor.A = 0;
         return ProjectileColor * (Projectile.timeLeft / Projectile.ai[1]);
     }
-    public override void AI()
+    public override sealed void AI()
     {
         if (--Projectile.ai[2] >= 0)
         {
@@ -170,10 +180,18 @@ public class SimplePiercingProjectile2 : ModProjectile
         {
             Projectile.timeLeft = timeleft_Onspawn;
         }
-        ScaleX = InitialScaleXValue * (Projectile.timeLeft / timeleft);
-        ScaleY = InitialScaleYValue * (Projectile.timeLeft / timeleft);
+        if (!ExcessScaling)
+        {
+            ScaleX = InitialScaleXValue * Math.Clamp(Projectile.timeLeft / (float)timeleft_Onspawn, 0, 1f);
+            ScaleY = InitialScaleYValue * Math.Clamp(Projectile.timeLeft / (float)timeleft_Onspawn, 0, 1f);
+        }
+        else
+        {
+            ScaleX = InitialScaleXValue * Projectile.timeLeft / timeleft;
+            ScaleY = InitialScaleYValue * Projectile.timeLeft / timeleft;
+        }
     }
-    public override bool PreDraw(ref Color lightColor)
+    public override sealed bool PreDraw(ref Color lightColor)
     {
         if (Projectile.ai[2] < 0)
         {
@@ -187,57 +205,68 @@ public class SimplePiercingProjectile2 : ModProjectile
         return false;
     }
 }
-internal class StarWarSwordProjectile : ModProjectile
+/// <summary>
+/// Ai0 : shoot velocity<br/>
+/// Ai1 : time left of a AI, recommend setting it above 0<br/>
+/// Ai2 : Re-adjust scaleX of the projectile
+/// </summary>
+public class SimplePiercingProjectile2_Hostile : ModProjectile
 {
-    public override string Texture => ModUtils.GetVanillaTexture<Item>(ItemID.BluePhaseblade);
-    public int ItemTextureID = ItemID.BluePhaseblade;
-    public Color ColorOfSaber = Color.White;
-    public override void SetStaticDefaults()
-    {
-        ProjectileID.Sets.TrailCacheLength[Type] = 50;
-        ProjectileID.Sets.TrailingMode[Type] = 2;
-    }
+    public Color ProjectileColor = Color.White;
+    public override string Texture => ModUtils.GetVanillaTexture<Projectile>(ProjectileID.PiercingStarlight);
+    float InitialScaleXValue = 0f;
+    public float ScaleX = 3f;
     public override void SetDefaults()
     {
-        Projectile.width = 48;
-        Projectile.height = 48;
-        Projectile.timeLeft = ModUtils.ToSecond(.5f) * 30;
-        Projectile.friendly = true;
-        Projectile.tileCollide = false;
+        Projectile.width = Projectile.height = 36;
         Projectile.penetrate = -1;
-        Projectile.extraUpdates = 30;
+        Projectile.timeLeft = 60;
+        Projectile.tileCollide = false;
+        Projectile.friendly = false;
+        Projectile.hostile = true;
+        Projectile.scale = .25f;
+    }
+    public override void OnSpawn(IEntitySource source)
+    {
+        if (Projectile.ai[2] != 0)
+        {
+            ScaleX = Projectile.ai[2];
+        }
+        InitialScaleXValue = ScaleX;
+        if (Projectile.ai[0] <= 0)
+        {
+            Projectile.ai[0] = 1;
+        }
+        Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * Projectile.ai[0];
+        Projectile.rotation = Projectile.velocity.ToRotation();
+        if (Projectile.ai[1] <= 0)
+        {
+            Projectile.ai[1] = 15;
+        }
+        Projectile.timeLeft = (int)Projectile.ai[1];
+    }
+    public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+    {
+        Vector2 pointEdgeOfProjectile = Projectile.Center.IgnoreTilePositionOFFSET(Projectile.rotation.ToRotationVector2(), 18 * ScaleX);
+        Vector2 pointEdgeOfProjectile2 = Projectile.Center.IgnoreTilePositionOFFSET((Projectile.rotation + MathHelper.Pi).ToRotationVector2(), 18 * ScaleX);
+        return ModUtils.Collision_PointAB_EntityCollide(targetHitbox, pointEdgeOfProjectile, pointEdgeOfProjectile2);
+    }
+    public override Color? GetAlpha(Color lightColor)
+    {
+        ProjectileColor.A = 0;
+        return ProjectileColor * (Projectile.timeLeft / Projectile.ai[1]);
     }
     public override void AI()
     {
-        Player player = Main.player[Projectile.owner];
-        float length = Projectile.width * .5f;
-        Projectile.rotation = MathHelper.ToRadians(-Projectile.timeLeft) * 5;
-        if (Projectile.timeLeft <= ModUtils.ToSecond(0.4f) * 30)
-        {
-            Projectile.velocity *= .99f;
-        }
-        Projectile.scale = Math.Clamp(1 * (Projectile.timeLeft / 200f), 0, 1);
-        ColorOfSaber.A = 0;
-        Dust dust = Dust.NewDustDirect(Projectile.Center.PositionOFFSET((Projectile.rotation - MathHelper.PiOver4).ToRotationVector2(), Projectile.width * .7f * Projectile.scale) - Vector2.One * 2.5f, 0, 0, DustID.WhiteTorch, newColor: ColorOfSaber);
-        dust.noGravity = true;
-        dust.velocity = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2() * Main.rand.NextFloat(2, 3);
-    }
-    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-    {
-        target.immune[Projectile.owner] = 5;
+        ScaleX = InitialScaleXValue * (Projectile.timeLeft / (float)Projectile.Get_ProjectileTimeInitial());
     }
     public override bool PreDraw(ref Color lightColor)
     {
-        Main.instance.LoadItem(ItemTextureID);
-        Texture2D texture = TextureAssets.Item[ItemTextureID].Value;
+        Main.instance.LoadProjectile(ProjectileID.PiercingStarlight);
+        Texture2D texture = TextureAssets.Projectile[ProjectileID.PiercingStarlight].Value;
         Vector2 origin = texture.Size() * .5f;
-        for (int k = 0; k < Projectile.oldPos.Length; k++)
-        {
-            Vector2 drawPos = Projectile.position - Main.screenPosition + origin + new Vector2(0f, Projectile.gfxOffY);
-            Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * .5f;
-            color.A = (byte)Projectile.alpha;
-            Main.EntitySpriteDraw(texture, drawPos, null, color, Projectile.oldRot[k], origin, Projectile.scale, SpriteEffects.None, 0);
-        }
+        Vector2 drawPos = Projectile.position - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+        Main.EntitySpriteDraw(texture, drawPos, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, new Vector2(ScaleX, Projectile.scale), SpriteEffects.None, 0);
         return false;
     }
 }

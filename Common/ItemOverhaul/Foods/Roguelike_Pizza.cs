@@ -4,8 +4,8 @@ using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Global;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Pizza : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Pizza : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Pizza;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(45);
 	public override int LifeAmount() => 105;
@@ -14,10 +14,10 @@ internal class Roguelike_Pizza : GlobalFoodItem {
 	public override byte Tier() => 2;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(9);
-		SetBuff(item, ModContent.BuffType<Roguelike_Pizza_ModBuff>(), ModUtils.ToMinute(55));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Pizza_ModBuff>(), ModUtils.ToMinute(55));
 	}
 }
-public class Roguelike_Pizza_ModBuff : FoodItemTier3 {
+public class EverlastingOverhaul_Pizza_ModBuff : FoodItemTier3 {
 	public override int TypeID => ItemID.Pizza;
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle modplayer = player.ModPlayerStats();

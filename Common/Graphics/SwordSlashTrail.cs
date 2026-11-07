@@ -27,7 +27,7 @@ public class SwordSlashTrail : ModSystem {
 	public override void PostAddRecipes() {
 		Stopwatch watch = new();
 		watch.Start();
-		foreach (Item item in ModItemLib.List_Weapon.Where(RoguelikeOverhaul_ModSystem.Optimized_CheckItem)) {
+		foreach (Item item in ModItemLib.List_Weapon.Where(EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem)) {
 			AddColor(item);
 			SetTrailDefaults(item);
 		}
@@ -49,7 +49,7 @@ public class SwordSlashTrail : ModSystem {
 		int id = item.type;
 
 		//why this is here ? since we already done it outside of the loop, no reason to add this
-		//if (!RoguelikeOverhaul_ModSystem.Optimized_CheckItem(ContentSamples.ItemsByType[id]))
+		//if (!EverlastingOverhaulOverhaul_ModSystem.Optimized_CheckItem(ContentSamples.ItemsByType[id]))
 		//	return;
 		//Slight optimization for modded item load
 		if (item.type < ItemID.Count) {

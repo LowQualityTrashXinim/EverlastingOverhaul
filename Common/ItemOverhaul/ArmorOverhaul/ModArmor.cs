@@ -1,12 +1,13 @@
-﻿using Terraria;
-using Terraria.ID;
-using System.Linq;
-using Terraria.ModLoader;
-using Terraria.Localization;
+﻿using Microsoft.Xna.Framework;
 using EverlastingOverhaul.Common.Utils;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace EverlastingOverhaul.Common.ItemOverhaul.ArmorOverhaul;
 public class ArmorLoader : ModSystem
@@ -66,7 +67,7 @@ public class ArmorLoader : ModSystem
 }
 public abstract class PlayerArmorHandle : ModPlayer
 {
-    private RoguelikeArmorPlayer modplayer => Player.GetModPlayer<RoguelikeArmorPlayer>();
+    private EverlastingOverhaulArmorPlayer modplayer => Player.GetModPlayer<EverlastingOverhaulArmorPlayer>();
     public override sealed void PreUpdateMovement()
     {
         if (modplayer.ArmorSetCheck(this))
@@ -131,6 +132,14 @@ public abstract class PlayerArmorHandle : ModPlayer
             Armor_ModifyHitByProjectile(proj, ref modifiers);
         }
     }
+    public override sealed void ModifyManaCost(Item item, ref float reduce, ref float mult)
+    {
+        if (modplayer.ArmorSetCheck(this))
+        {
+            Armor_ModifyManaCost(item, ref reduce, ref mult);
+        }
+    }
+    public virtual void Armor_ModifyManaCost(Item item, ref float reduce, ref float mult) { }
     public virtual void Armor_ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers) { }
     public virtual void Armor_OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) { }
     public override sealed void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
@@ -172,17 +181,8 @@ public abstract class PlayerArmorHandle : ModPlayer
             Armor_ModifyHitNPC(target, ref modifiers);
         }
     }
-    public override sealed void ModifyManaCost(Item item, ref float reduce, ref float mult)
-    {
-        if (modplayer.ArmorSetCheck(this))
-        {
-            Armor_ModifyManaCost(item, ref reduce, ref mult);
-        }
-    }
-    public virtual void Armor_ModifyManaCost(Item item, ref float reduce, ref float mult) { }
-
     public virtual void Armor_ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) { }
-    public override void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
+    public override sealed void ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers)
     {
         if (modplayer.ArmorSetCheck(this))
         {
@@ -190,7 +190,7 @@ public abstract class PlayerArmorHandle : ModPlayer
         }
     }
     public virtual void Armor_ModifyHitNPCWithItem(Item item, NPC target, ref NPC.HitModifiers modifiers) { }
-    public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
+    public override sealed void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
     {
         if (modplayer.ArmorSetCheck(this))
         {
@@ -277,12 +277,11 @@ public abstract class ModArmorSet : ModType
     protected int headID;
     protected int legID;
     protected int bodyID;
-
     public ModPlayer modplayer = null;
-    public string SetBonusToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.SetBonus");
-    public string HeadToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.Head");
-    public string BodyToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.Body");
-    public string LegToolTip => Language.GetTextValue($"Mods.EverlastingOverhaul.Armor.{Name}.Leg");
+    public string SetBonusToolTip => ModUtils.LocalizationText("Armor", $"{Name}.SetBonus");
+    public string HeadToolTip => ModUtils.LocalizationText("Armor", $"{Name}.Head");
+    public string BodyToolTip => ModUtils.LocalizationText("Armor", $"{Name}.Body");
+    public string LegToolTip => ModUtils.LocalizationText("Armor", $"{Name}.Leg");
     public bool OverrideOriginalToolTip = false;
     public int HeadID { get => headID; }
     public int BodyID { get => bodyID; }

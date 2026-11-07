@@ -4,8 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_PumpkinPie : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_PumpkinPie : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.PumpkinPie;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(20);
 	public override int LifeAmount() => 60;
@@ -14,18 +14,18 @@ internal class Roguelike_PumpkinPie : GlobalFoodItem {
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(4.25f);
-		SetBuff(item, ModContent.BuffType<Roguelike_PumpkinPie_ModBuff>(), ModUtils.ToMinute(24));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_PumpkinPie_ModBuff>(), ModUtils.ToMinute(24));
 	}
 }
-public class Roguelike_PumpkinPie_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_PumpkinPie_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.PumpkinPie;
 	public override void Update(Player player, ref int buffIndex) {
 		player.ModPlayerStats().UpdateDefenseBase.Base += 9;
 		player.endurance += .07f;
-		player.GetModPlayer<Roguelike_PumpkinPie_ModPlayer>().PumpkinPie = true;
+		player.GetModPlayer<EverlastingOverhaul_PumpkinPie_ModPlayer>().PumpkinPie = true;
 	}
 }
-public class Roguelike_PumpkinPie_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_PumpkinPie_ModPlayer : ModPlayer {
 	public bool PumpkinPie = false;
 	public int Cooldown = 0;
 	public override void ResetEffects() {

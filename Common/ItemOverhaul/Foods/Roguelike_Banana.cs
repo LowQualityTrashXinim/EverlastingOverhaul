@@ -6,25 +6,25 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Banana : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Banana : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Banana;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(5);
 	public override int EnergyAmount() => 80;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(2);
-		SetBuff(item, ModContent.BuffType<Roguelike_Banana_Buff>(), ModUtils.ToSecond(2.5f));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Banana_Buff>(), ModUtils.ToSecond(2.5f));
 	}
 }
-public class Roguelike_Banana_Buff : FoodItemTier1 {
+public class EverlastingOverhaul_Banana_Buff : FoodItemTier1 {
 	public override int TypeID => ItemID.Banana;
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle handler = player.ModPlayerStats();
 		handler.NonCriticalDamage += .13f;
-		player.GetModPlayer<Roguelike_Banana_ModPlayer>().Banana = true;
+		player.GetModPlayer<EverlastingOverhaul_Banana_ModPlayer>().Banana = true;
 	}
 }
-public class Roguelike_Banana_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_Banana_ModPlayer : ModPlayer {
 	public bool Banana = false;
 	public override void ResetEffects() {
 		Banana = false;

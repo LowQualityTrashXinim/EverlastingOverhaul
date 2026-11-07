@@ -1,28 +1,29 @@
 ﻿using EverlastingOverhaul.Common.Global;
 using EverlastingOverhaul.Common.Global.Mechanic.OutroEffect;
 using EverlastingOverhaul.Common.Utils;
+using EverlastingOverhaul.Contents.BuffAndDebuff;
 using EverlastingOverhaul.Texture;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Common;
-internal class Roguelike_FuryOfTheSun : GlobalItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Common;
+internal class EverlastingOverhaul_FuryOfTheSun : GlobalItem {
 	public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
 		if (item.type == ItemID.FieryGreatsword) {
 			target.AddBuff<FuryOfTheSun>(ModUtils.ToSecond(3));
 		}
 	}
 }
-public class Roguelike_FuryOfTheSun_Projectile : GlobalProjectile {
+public class EverlastingOverhaul_FuryOfTheSun_Projectile : GlobalProjectile {
 	public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) {
-		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.FuryOfTheSun].Contains(projectile.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType)) {
+		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.FuryOfTheSun].Contains(projectile.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().Source_ItemType)) {
 			target.AddBuff<FuryOfTheSun>(ModUtils.ToSecond(5));
 		}
 	}
 }
-public class Roguelike_FuryOfTheSun_GlobalNPC : GlobalNPC {
+public class EverlastingOverhaul_FuryOfTheSun_GlobalNPC : GlobalNPC {
 	public override bool InstancePerEntity => true;
 	public int FuryOfTheSun = 0;
 	public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers) {
@@ -90,7 +91,7 @@ internal class FuryOfTheSun : ModBuff {
 			npc.lifeRegen -= 15;
 		}
 		if (npc.buffTime[buffIndex] <= 0) {
-			npc.GetGlobalNPC<Roguelike_FuryOfTheSun_GlobalNPC>().FuryOfTheSun = 0;
+			npc.GetGlobalNPC<EverlastingOverhaul_FuryOfTheSun_GlobalNPC>().FuryOfTheSun = 0;
 		}
 	}
 }

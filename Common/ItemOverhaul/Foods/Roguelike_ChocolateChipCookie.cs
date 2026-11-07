@@ -8,8 +8,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_ChocolateChipCookie : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_ChocolateChipCookie : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.ChocolateChipCookie;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(6);
 	public override int EnergyAmount() => 65;
@@ -17,16 +17,16 @@ internal class Roguelike_ChocolateChipCookie : GlobalFoodItem {
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(2.25f);
-		SetBuff(item, ModContent.BuffType<Roguelike_ChocolateChipCookie_ModBuff>(), ModUtils.ToMinute(13));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_ChocolateChipCookie_ModBuff>(), ModUtils.ToMinute(13));
 	}
 }
-public class Roguelike_ChocolateChipCookie_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_ChocolateChipCookie_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.ChocolateChipCookie;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_ChocolateChipCookie_ModPlayer>().ChocolateChipCookie = true;
+		player.GetModPlayer<EverlastingOverhaul_ChocolateChipCookie_ModPlayer>().ChocolateChipCookie = true;
 	}
 }
-public class Roguelike_ChocolateChipCookie_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_ChocolateChipCookie_ModPlayer : ModPlayer {
 	public bool ChocolateChipCookie = false;
 	public int Timer = 0;
 	public override void ResetEffects() {
@@ -39,11 +39,11 @@ public class Roguelike_ChocolateChipCookie_ModPlayer : ModPlayer {
 		if (++Timer >= 600) {
 			Timer = 0;
 			Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Main.rand.NextVector2Circular(400, 400),
-				Vector2.Zero, ModContent.ProjectileType<Roguelike_ChocolateChipCookie_ModProjectile>(), 0, 0, Player.whoAmI);
+				Vector2.Zero, ModContent.ProjectileType<EverlastingOverhaul_ChocolateChipCookie_ModProjectile>(), 0, 0, Player.whoAmI);
 		}
 	}
 }
-public class Roguelike_ChocolateChipCookie_ModProjectile : ModProjectile {
+public class EverlastingOverhaul_ChocolateChipCookie_ModProjectile : ModProjectile {
 	public override string Texture => ModUtils.GetVanillaTexture<Item>(ItemID.ChocolateChipCookie);
 	public override void SetDefaults() {
 		Projectile.width = Projectile.height = 32;
@@ -54,7 +54,7 @@ public class Roguelike_ChocolateChipCookie_ModProjectile : ModProjectile {
 	public override void AI() {
 		if (Projectile.Center.IsCloseToPosition(Main.MouseWorld, 30) && Main.mouseLeft) {
 			Projectile.Kill();
-			Main.player[Projectile.owner].AddBuff<Roguelike_ChocolateChipCookie_Buff>(ModUtils.ToSecond(12));
+			Main.player[Projectile.owner].AddBuff<EverlastingOverhaul_ChocolateChipCookie_Buff>(ModUtils.ToSecond(12));
 			Main.player[Projectile.owner].Heal(10);
 		}
 		Projectile.rotation += MathHelper.ToRadians(10);
@@ -67,7 +67,7 @@ public class Roguelike_ChocolateChipCookie_ModProjectile : ModProjectile {
 		return false;
 	}
 }
-public class Roguelike_ChocolateChipCookie_Buff : ModBuff {
+public class EverlastingOverhaul_ChocolateChipCookie_Buff : ModBuff {
 	public override string Texture => ModTexture.EMPTYBUFF;
 	public override void SetStaticDefaults() {
 		this.BossRushSetDefaultBuff();

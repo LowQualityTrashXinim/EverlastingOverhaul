@@ -13,7 +13,7 @@ internal class LeadIrradiation : ModBuff {
 	}
 	public override void Update(NPC npc, ref int buffIndex) {
 		npc.lifeRegen -= 50;
-		npc.GetGlobalNPC<RoguelikeGlobalNPC>().StatDefense.Base += 20;
+		npc.GetGlobalNPC<EverlastingOverhaulGlobalNPC>().StatDefense.Base += 20;
 	}
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle handler = player.ModPlayerStats();

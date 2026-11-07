@@ -3,24 +3,24 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_CartonOfMilk : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_CartonOfMilk : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.MilkCarton;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(4);
 	public override int LifeAmount() => 85;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = 90;
-		SetBuff(item, ModContent.BuffType<Roguelike_CartonOfMilk_Buff>(), ModUtils.ToMinute(4));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_CartonOfMilk_Buff>(), ModUtils.ToMinute(4));
 	}
 }
-public class Roguelike_CartonOfMilk_Buff : FoodItemTier1 {
+public class EverlastingOverhaul_CartonOfMilk_Buff : FoodItemTier1 {
 	public override int TypeID => ItemID.MilkCarton;
 	public override void Update(Player player, ref int buffIndex) {
 		player.ModPlayerStats().UpdateDefenseBase.Base += player.statLifeMax2 / 25;
-		player.GetModPlayer<Roguelike_CartonOfMilk_ModPlayer>().MilkCarton = true;
+		player.GetModPlayer<EverlastingOverhaul_CartonOfMilk_ModPlayer>().MilkCarton = true;
 	}
 }
-public class Roguelike_CartonOfMilk_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_CartonOfMilk_ModPlayer : ModPlayer {
 	public bool MilkCarton = false;
 	public override void ResetEffects() {
 		MilkCarton = false;

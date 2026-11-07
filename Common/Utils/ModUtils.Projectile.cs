@@ -30,31 +30,31 @@ namespace EverlastingOverhaul.Common.Utils {
             }
         }
         public static bool Check_ItemTypeSource(this Projectile projectile, int ItemType) {
-			if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global)) {
+			if (projectile.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global)) {
 				return global.Source_ItemType == ItemType;
 			}
 			return false;
 		}
 		public static bool Check_ItemTypeSource<T>(this Projectile projectile) where T : ModItem {
-			if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global)) {
+			if (projectile.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global)) {
 				return global.Source_ItemType == ModContent.ItemType<T>();
 			}
 			return false;
 		}
 		public static bool Check_ProjTypeSource(this Projectile projectile, int ProjType) {
-			if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global)) {
+			if (projectile.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global)) {
 				return global.Source_ProjectileType == ProjType;
 			}
 			return false;
 		}
 		public static bool Check_ProjTypeSource<T>(this Projectile projectile) where T : ModProjectile {
-			if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global)) {
+			if (projectile.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global)) {
 				return global.Source_ProjectileType == ModContent.ProjectileType<T>();
 			}
 			return false;
 		}
 		public static int Get_ProjectileTimeInitial(this Projectile projectile) {
-			if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global)) {
+			if (projectile.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global)) {
 				return global.InitialTimeLeft;
 			}
 			return 1;
@@ -131,7 +131,7 @@ namespace EverlastingOverhaul.Common.Utils {
 			}
 		}
 		public static void Set_ProjectileTravelDistance(this Projectile projectile, float distance) {
-			if (projectile.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global)) {
+			if (projectile.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global)) {
 				global.TravelDistanceBeforeKill = distance;
 			}
 		}

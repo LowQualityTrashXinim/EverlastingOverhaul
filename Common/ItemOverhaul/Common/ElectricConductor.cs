@@ -7,8 +7,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Common;
-public class Roguelike_ElectricConductor_GlobalNPC : GlobalNPC {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Common;
+public class EverlastingOverhaul_ElectricConductor_GlobalNPC : GlobalNPC {
 	public override bool InstancePerEntity => true;
 	public int ElectricConductor = 0;
 	public bool ElectricConductorUpgrade = false;
@@ -32,7 +32,7 @@ public class Roguelike_ElectricConductor_GlobalNPC : GlobalNPC {
 			return;
 		}
 		Player player = Main.player[projectile.owner];
-		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.ElectricConductor].Contains(projectile.GetGlobalProjectile<RoguelikeGlobalProjectile>().Source_ItemType)) {
+		if (OutroEffectSystem.Get_Arr_WeaponTag[(int)WeaponTag.ElectricConductor].Contains(projectile.GetGlobalProjectile<EverlastingOverhaulGlobalProjectile>().Source_ItemType)) {
 			if (npc.HasBuff(BuffID.Electrified)) {
 				ElectricConductorUpgrade = true;
 				ElectricConductor = 0;

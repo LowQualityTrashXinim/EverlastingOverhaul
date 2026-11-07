@@ -100,7 +100,7 @@ internal class UniversalSystem : ModSystem {
 public class DefaultUI : UIState {
 
 	UIImage_OutroEffectShower WeaponEff;
-    public Roguelike_WeaponUIFrame WeaponBar;
+    public EverlastingOverhaul_WeaponUIFrame WeaponBar;
     public override void OnInitialize() {
 		WeaponEff = new();
 		WeaponEff.HAlign = .44f;
@@ -109,7 +109,7 @@ public class DefaultUI : UIState {
         WeaponEff.Height.Pixels = 52;
         Append(WeaponEff);
 
-        WeaponBar = new Roguelike_WeaponUIFrame();
+        WeaponBar = new EverlastingOverhaul_WeaponUIFrame();
         WeaponBar.VAlign = .535f;
         WeaponBar.HAlign = .5f;
         WeaponBar.Width.Set(100, 0);
@@ -128,7 +128,7 @@ public class DefaultUI : UIState {
 /// <summary>
 /// Special kind of UI that most likely only used once through out the mod
 /// </summary>
-public class Roguelike_WeaponUIFrame : UIElement
+public class EverlastingOverhaul_WeaponUIFrame : UIElement
 {
     protected Asset<Texture2D> texture;
     public float barProgress;
@@ -152,7 +152,7 @@ public class Roguelike_WeaponUIFrame : UIElement
             }
         }
     }
-    public Roguelike_WeaponUIFrame()
+    public EverlastingOverhaul_WeaponUIFrame()
     {
         texture = ModContent.Request<Texture2D>(ModTexture.Weapon_FrameUI);
         barFrame = new UIImage(texture); // Frame of our resource bar

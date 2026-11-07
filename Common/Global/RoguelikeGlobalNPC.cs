@@ -1,33 +1,23 @@
 ﻿using EverlastingOverhaul.Common.Utils;
-using EverlastingOverhaul.Contents.BuffAndDebuff;
-using EverlastingOverhaul.Contents.Items.Consumable.Throwable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global;
-internal class RoguelikeGlobalNPC : GlobalNPC
+internal class EverlastingOverhaulGlobalNPC : GlobalNPC
 {
-    public int Grapefruit = 0;
     public override bool InstancePerEntity => true;
-    public int HeatRay_Decay = 0;
-    public int HeatRay_HitCount = 0;
 
-    public int GolemFist_HitCount = 0;
-
-    public StatModifier StatDefense = new StatModifier();
-    public float Endurance = 0;
     public bool DRFromFatalAttack = false;
     public bool OneTimeDR = false;
     public int DRTimer = 0;
-    public const int BossHP = 8000;
-    public const int BossDMG = 40;
-    public const int BossDef = 5;
+    public int ExtraUpdate = 0;
     /// <summary>
     /// Use this for always update velocity
     /// </summary>
@@ -42,25 +32,84 @@ internal class RoguelikeGlobalNPC : GlobalNPC
     /// </summary>
     public bool IsAGhostEnemy = false;
     public int BelongToWho = -1;
+    /// <summary>
+    /// Currently this is broken, highly not recommand to use it.
+    /// </summary>
     public bool CanDenyYouFromLoot = false;
+    /// <summary>
+    /// This doesn't reset anywhere, it is a static value that allow npc to regenerate hp
+    /// </summary>
     public int PositiveLifeRegen = 0;
     public int PositiveLifeRegenCount = 0;
-    public int Perpetuation_PointStack = 0;
     /// <summary>
     /// Set this to true if you don't want the mod to apply boss NPC fixed boss's stats
     /// </summary>
     public bool NPC_SpecialException = false;
+    public int InvincibilityFrame = 0;
+
+    public float Static_PercentageDamage = 0;
+
+    public float PercentageDamage = 0;
+
+    public float MaxDamageTaken = 1;
+    /// <summary>
+    /// This is always reset back to 0, if you are looking for static damage reduciton, use <see cref="Static_Endurance"/> instead
+    /// </summary>
+    public float Endurance = 0;
+    public float Static_Endurance = 0;
+    /// <summary>
+    /// This is a always reset value, will increases damage NPC via ModifyHit hook and can be applied to projectile
+    /// </summary>
+    public StatModifier DamageIncrease = new();
+
+    public StatModifier Static_DamageIncrease = new();
+
+    public StatModifier StatDefense = new StatModifier();
+    /// <summary>
+    /// Use this for uniform debuff scaling<br/>
+    /// Modify it as you would to any other statmodifier as the code within <see cref="EverlastingOverhaulGlobalNPC"/> will handle all
+    /// </summary>
+    public StatModifier Poison_Inner = StatModifier.Default;
+    Dictionary<string, StatModifier> Poison_Global = new();
+    /// <summary>
+    /// Use this over <see cref="Poison_Inner"/> if the debuff change you made is global for your player
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
+    public void Add_PoisonGlobal(string key, StatModifier value)
+    {
+        if (Poison_Global.ContainsKey(key))
+        {
+            Poison_Global[key] = value;
+        }
+        else
+        {
+            Poison_Global.Add(key, value);
+        }
+    }
+    public StatModifier Poison_Additional = StatModifier.Default - 1;
+    public float Poison_Additional_Timer = 0;
+    public float Poison_Additional_MaxTimer = 60;
+    public int Amount_CurrentDebuffInflicted = 0;
     public override void SetDefaults(NPC entity)
     {
         StatDefense = new();
+        DamageIncrease = new();
     }
+    public int TimeLimit = -1;
     public override void ResetEffects(NPC npc)
     {
-        npc.buffImmune[ModContent.BuffType<Anti_Immunity>()] = false;
+        //var player = Main.player[npc.target];
+        //if (npc.Center.IsCloseToPosition(player.Center, 1500)) {
+        //	npc.timeLeft = 600;
+        //}
         StatDefense = new();
+        DamageIncrease = new();
+        MaxDamageTaken = 1;
         if (IsAGhostEnemy)
         {
             npc.dontTakeDamage = true;
+            npc.chaseable = false;
         }
         if (--DRTimer <= 0)
         {
@@ -71,10 +120,46 @@ internal class RoguelikeGlobalNPC : GlobalNPC
             DRFromFatalAttack = true;
         }
         Endurance = 0;
+        //if (npc.boss) {
+        //	if (npc.life <= npc.lifeMax / 2) {
+        //		DamageIncrease += 1;
+        //		MaxDamageTaken -= .99f;
+        //	}
+        //}
     }
+    public override void UpdateLifeRegen(NPC npc, ref int damage)
+    {
+        foreach (var item in Poison_Global.Values)
+        {
+            Poison_Inner = Poison_Inner.CombineWith(item);
+        }
+        npc.lifeRegen = (int)((npc.lifeRegen - Poison_Inner.Base) * Poison_Inner.Additive * Poison_Inner.Multiplicative - Poison_Inner.Flat);
+        Poison_Inner = StatModifier.Default;
+        Amount_CurrentDebuffInflicted = 0;
+        for (int i = 0; i < npc.buffType.Length; i++)
+        {
+            if (npc.buffType[i] <= 0)
+            {
+                continue;
+            }
+            if (Main.debuff[npc.buffType[i]])
+            {
+                Amount_CurrentDebuffInflicted++;
+            }
+        }
+        if (++Poison_Additional_Timer >= Poison_Additional_MaxTimer)
+        {
+            int additional = (int)((npc.lifeRegen - Poison_Additional.Base) * Poison_Additional.Additive * Poison_Additional.Multiplicative - Poison_Additional.Flat) * -1;
+            npc.lifeRegen -= additional;
+            Poison_Additional = StatModifier.Default - 1;
+            Poison_Additional_Timer = 0;
+        }
+        damage = (int)Math.Ceiling(npc.lifeRegen * -.5f);
+    }
+    public int Grapefruit = 0;
     public override bool? CanBeHitByItem(NPC npc, Player player, Item item)
     {
-        if (IsAGhostEnemy)
+        if (IsAGhostEnemy || InvincibilityFrame > 0)
         {
             return false;
         }
@@ -82,7 +167,7 @@ internal class RoguelikeGlobalNPC : GlobalNPC
     }
     public override bool CanBeHitByNPC(NPC npc, NPC attacker)
     {
-        if (IsAGhostEnemy)
+        if (IsAGhostEnemy || InvincibilityFrame > 0)
         {
             return false;
         }
@@ -90,7 +175,7 @@ internal class RoguelikeGlobalNPC : GlobalNPC
     }
     public override bool? CanBeHitByProjectile(NPC npc, Projectile projectile)
     {
-        if (IsAGhostEnemy)
+        if (IsAGhostEnemy || InvincibilityFrame > 0)
         {
             return false;
         }
@@ -98,13 +183,6 @@ internal class RoguelikeGlobalNPC : GlobalNPC
     }
     public override Color? GetAlpha(NPC npc, Color drawColor)
     {
-        if (npc.HasBuff<Urine_Debuff>())
-        {
-            drawColor.R = 255;
-            drawColor.G = 255;
-            drawColor.B = 90;
-            return drawColor;
-        }
         if (IsAGhostEnemy)
         {
             drawColor.A = 0;
@@ -137,14 +215,6 @@ internal class RoguelikeGlobalNPC : GlobalNPC
             npc.velocity *= .001f;
         }
         VelocityMultiplier = 1;
-        if (HeatRay_HitCount > 0)
-        {
-            HeatRay_Decay = ModUtils.CountDown(HeatRay_Decay);
-            if (HeatRay_Decay <= 0)
-            {
-                HeatRay_HitCount--;
-            }
-        }
         if (BelongToWho >= 0 && BelongToWho < Main.maxNPCs)
         {
             var parent = Main.npc[BelongToWho];
@@ -152,7 +222,10 @@ internal class RoguelikeGlobalNPC : GlobalNPC
             {
                 if (!parent.active || parent.life <= 0)
                 {
-                    npc.StrikeInstantKill();
+                    npc.life = 0;
+                    npc.realLife = 0;
+                    npc.active = false;
+                    return;
                 }
             }
             else
@@ -165,32 +238,34 @@ internal class RoguelikeGlobalNPC : GlobalNPC
             PositiveLifeRegenCount = 0;
             npc.life = Math.Clamp(npc.life + PositiveLifeRegen, 0, npc.lifeMax);
         }
+        InvincibilityFrame = ModUtils.CountDown(InvincibilityFrame);
     }
-
+    public override void ModifyHitPlayer(NPC npc, Player target, ref Player.HurtModifiers modifiers)
+    {
+        modifiers.FinalDamage.Flat += (int)(target.statLifeMax2 * (PercentageDamage + Static_PercentageDamage));
+        modifiers.SourceDamage = modifiers.SourceDamage.CombineWith(DamageIncrease.CombineWith(Static_DamageIncrease));
+    }
+    public int ResistHitCount = 0;
     public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
     {
         NPC_Debuff(npc, ref modifiers);
     }
-    public int CursedSkullStatus = 0;
     public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
     {
         NPC_Debuff(npc, ref modifiers);
-        if (projectile.type == ProjectileID.HeatRay)
-        {
-            modifiers.SourceDamage += HeatRay_HitCount * .02f;
-        }
-        if (projectile.type == ProjectileID.GolemFist)
-        {
-            if (++GolemFist_HitCount % 3 == 0)
-            {
-                modifiers.SourceDamage += 1.5f;
-            }
-        }
     }
     private void NPC_Debuff(NPC npc, ref NPC.HitModifiers modifiers)
     {
+        if (MaxDamageTaken < 1)
+        {
+            modifiers.SetMaxDamage((int)(npc.lifeMax * MaxDamageTaken));
+        }
         modifiers.Defense = modifiers.Defense.CombineWith(StatDefense);
-        modifiers.SourceDamage *= Math.Clamp(1 - Endurance, 0, 1f);
+        modifiers.SourceDamage *= Math.Clamp(1 - (Endurance + Static_Endurance), 0, 1f);
+        if (--ResistHitCount > 0)
+        {
+            modifiers.SetMaxDamage(1);
+        }
     }
     public int HitCount = 0;
     public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
@@ -200,42 +275,6 @@ internal class RoguelikeGlobalNPC : GlobalNPC
     public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
     {
         HitCount++;
-        if (projectile.type == ProjectileID.HeatRay)
-        {
-            HeatRay_HitCount = Math.Clamp(HeatRay_HitCount + 1, 0, 200);
-            HeatRay_Decay = 30;
-        }
-        else if (projectile.type == ProjectileID.GolemFist)
-        {
-            if (GolemFist_HitCount % 3 == 0)
-            {
-                for (int i = 0; i < 100; i++)
-                {
-                    Dust dust = Dust.NewDustDirect(npc.Center, 0, 0, DustID.HeatRay);
-                    dust.noGravity = true;
-                    dust.velocity = Main.rand.NextVector2Circular(20, 20);
-                    dust.scale += Main.rand.NextFloat();
-                }
-                for (int i = 0; i < 100; i++)
-                {
-                    Dust dust = Dust.NewDustDirect(npc.Center, 0, 0, DustID.HeatRay);
-                    dust.noGravity = true;
-                    dust.velocity = Main.rand.NextVector2CircularEdge(25, 25);
-                    dust.scale += Main.rand.NextFloat();
-                }
-                SoundEngine.PlaySound(SoundID.Item14, npc.Center);
-                npc.Center.LookForHostileNPC(out List<NPC> npclist, 150);
-                npc.TargetClosest();
-                Player player = Main.player[npc.target];
-                foreach (var target in npclist)
-                {
-                    if (target.whoAmI != npc.whoAmI)
-                    {
-                        player.StrikeNPCDirect(target, target.CalculateHitInfo(hit.Damage, -1));
-                    }
-                }
-            }
-        }
     }
     public override void OnKill(NPC npc)
     {
@@ -250,6 +289,10 @@ internal class RoguelikeGlobalNPC : GlobalNPC
     }
     public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
     {
+        if (InvincibilityFrame > 0 && InvincibilityFrame % 5 == 0)
+        {
+            return false;
+        }
         //TODO : this is very broken, I couldn't get the outline to work so I gave up
         //if (npc.boss) {
         //	Main.instance.LoadNPC(npc.type);

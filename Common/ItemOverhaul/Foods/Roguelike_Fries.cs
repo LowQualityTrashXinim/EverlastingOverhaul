@@ -3,8 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Fries : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Fries : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Fries;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(12);
 	public override int LifeAmount() => 30;
@@ -12,10 +12,10 @@ internal class Roguelike_Fries : GlobalFoodItem {
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(3.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_Fries_ModBuff>(), ModUtils.ToMinute(23));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Fries_ModBuff>(), ModUtils.ToMinute(23));
 	}
 }
-public class Roguelike_Fries_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_Fries_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.Fries;
 	public override void Update(Player player, ref int buffIndex) {
 		var handler = player.ModPlayerStats();

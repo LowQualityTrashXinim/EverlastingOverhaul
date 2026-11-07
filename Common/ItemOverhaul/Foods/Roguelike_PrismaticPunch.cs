@@ -5,18 +5,18 @@ using EverlastingOverhaul.Common.Utils;
 using EverlastingOverhaul.Common.Global;
 using Microsoft.Xna.Framework;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_PrismaticPunch : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_PrismaticPunch : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.PrismaticPunch;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(6);
 	public override int ManaAmount() => 305;
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(3.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_PrismaticPunch_ModBuff>(), ModUtils.ToMinute(24));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_PrismaticPunch_ModBuff>(), ModUtils.ToMinute(24));
 	}
 }
-public class Roguelike_PrismaticPunch_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_PrismaticPunch_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.PrismaticPunch;
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle handler = player.ModPlayerStats();
@@ -24,10 +24,10 @@ public class Roguelike_PrismaticPunch_ModBuff : FoodItemTier2 {
 		handler.UpdateDefenseBase.Base += 9;
 		player.GetDamage(DamageClass.Magic) += .18f;
 		player.manaCost -= .27f;
-		player.GetModPlayer<Roguelike_PrismaticPunch_ModPlayer>().PrismaticPunch = true;
+		player.GetModPlayer<EverlastingOverhaul_PrismaticPunch_ModPlayer>().PrismaticPunch = true;
 	}
 }
-public class Roguelike_PrismaticPunch_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_PrismaticPunch_ModPlayer : ModPlayer {
 	public bool PrismaticPunch = false;
 	public int CoolDown = 0;
 	public override void ResetEffects() {

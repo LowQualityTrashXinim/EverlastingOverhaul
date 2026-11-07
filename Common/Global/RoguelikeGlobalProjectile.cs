@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EverlastingOverhaul.Common.Global;
-internal class RoguelikeGlobalProjectile : GlobalProjectile
+internal class EverlastingOverhaulGlobalProjectile : GlobalProjectile
 {
     public override bool InstancePerEntity => true;
     public bool CanThisProjectileBeDevoured = true;
@@ -56,7 +56,7 @@ internal class RoguelikeGlobalProjectile : GlobalProjectile
                     IsFromMinion = true;
                 }
                 //Attempt to get item source from that minion
-                if (possibly.TryGetGlobalProjectile(out RoguelikeGlobalProjectile global))
+                if (possibly.TryGetGlobalProjectile(out EverlastingOverhaulGlobalProjectile global))
                 {
                     if (global.Source_ItemType != 0)
                     {

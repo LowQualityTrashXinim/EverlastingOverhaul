@@ -77,6 +77,7 @@ internal class OutroEffectSystem : ModSystem
         Add_Wooden();
         Add_ChlorophyteEmpowerment();
         Add_Frostbite();
+        Add_NightInfection();
 
         watch.Stop();
         Mod.Logger.Info("Time taken to initialize weapon tag: " + watch.ToString());
@@ -856,6 +857,16 @@ internal class OutroEffectSystem : ModSystem
         Arr_WeaponTag[tag].Add(ItemID.StaffoftheFrostHydra);
         Arr_WeaponTag[tag].Add(ItemID.CoolWhip);
     }
+    private void Add_NightInfection()
+    {
+        int tag = (int)WeaponTag.NightInfection;
+
+        Arr_WeaponTag[tag].Add(ItemID.LightsBane);
+        Arr_WeaponTag[tag].Add(ItemID.NightsEdge);
+        Arr_WeaponTag[tag].Add(ItemID.TrueNightsEdge);
+        Arr_WeaponTag[tag].Add(ItemID.DarkLance);
+        Arr_WeaponTag[tag].Add(ItemID.DemonBow);
+    }
 }
 public class OutroEffect_ModPlayer : ModPlayer
 {
@@ -1179,6 +1190,7 @@ public enum WeaponTag : byte
     ElectricConductor,
     Avarice,
     Frostbite,
+    NightInfection,
     /// <summary>
     /// This is not a weapon tag, it is specifically for outro effect and weapon that should recieve the benefit<br/>
     /// If you want your weapon to inherit outro effect of "ChlorophyteEmpowerment" then add in this tag into your weapon
@@ -1225,7 +1237,7 @@ public enum WeaponTag : byte
     Musical,
     ReaperMark,
 }
-public class UIImage_OutroEffectShower : Roguelike_UIImage
+public class UIImage_OutroEffectShower : EverlastingOverhaul_UIImage
 {
     public UIImage_OutroEffectShower() : base(TextureAssets.InventoryBack7)
     {

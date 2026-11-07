@@ -4,18 +4,18 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_FroggieBunwich : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_FroggieBunwich : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.FroggleBunwich;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(8);
 	public override int EnergyAmount() => 270;
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(4.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_FroggieBunwich_ModBuff>(), ModUtils.ToMinute(17));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_FroggieBunwich_ModBuff>(), ModUtils.ToMinute(17));
 	}
 }
-public class Roguelike_FroggieBunwich_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_FroggieBunwich_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.FroggleBunwich;
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle handler = player.ModPlayerStats();
@@ -26,7 +26,7 @@ public class Roguelike_FroggieBunwich_ModBuff : FoodItemTier2 {
 
 	}
 }
-public class Roguelike_FroggieBunwich_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_FroggieBunwich_ModPlayer : ModPlayer {
 	public bool FroggieBunwich = false;
 	public override void ResetEffects() {
 		FroggieBunwich = false;

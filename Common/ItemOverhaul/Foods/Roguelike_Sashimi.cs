@@ -4,8 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Sashimi : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Sashimi : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Sashimi;
 	public override int EnergyAmount() => 290;
 	public override int LifeAmount() => 100;
@@ -13,10 +13,10 @@ internal class Roguelike_Sashimi : GlobalFoodItem {
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(4.5f);
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(2.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_Sashimi_Buff>(), ModUtils.ToMinute(28));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Sashimi_Buff>(), ModUtils.ToMinute(28));
 	}
 }
-public class Roguelike_Sashimi_Buff : FoodItemTier2 {
+public class EverlastingOverhaul_Sashimi_Buff : FoodItemTier2 {
 	public override int TypeID => ItemID.Sashimi;
 	public override void Update(Player player, ref int buffIndex) {
 		player.GetDamage(DamageClass.Generic) += .1f;

@@ -341,7 +341,7 @@ SilverArmor: {
 	Leg: 12% First strike damage
 	SetBonus:
 		'''
-		+ 112% First strike damage
+		+112% First strike damage
 		Dealing first strike cause enemy to move slower
 		During the day : increases defense by 10
 		During the night : increases damage by 10%
@@ -466,4 +466,16 @@ MeteorArmor: {
 		Grant rocket boot ability
 		+50% Jump boost
 		'''
+}
+
+CrimsonArmor: {
+	SetBonus:
+		'''
+		Increases movement speed by 25%
+		and jump boost by 30%
+		Massively strengthen regeneration ability
+		'''
+	Head: +1 life regeneration
+	Body: +1 life regeneration
+	Leg: +1 life regeneration
 }

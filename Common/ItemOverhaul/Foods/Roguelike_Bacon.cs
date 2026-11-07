@@ -6,8 +6,8 @@ using EverlastingOverhaul.Common.Utils;
 using Microsoft.Xna.Framework;
 using EverlastingOverhaul.Common.Global;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Bacon : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Bacon : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Bacon;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(3.5f);
 	public override int LifeAmount() => 250;
@@ -15,16 +15,16 @@ internal class Roguelike_Bacon : GlobalFoodItem {
 	public override byte Tier() => 2;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(1.75f);
-		SetBuff(item, ModContent.BuffType<Roguelike_Bacon_ModBuff>(), ModUtils.ToMinute(39));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Bacon_ModBuff>(), ModUtils.ToMinute(39));
 	}
 }
-public class Roguelike_Bacon_ModBuff : FoodItemTier3 {
+public class EverlastingOverhaul_Bacon_ModBuff : FoodItemTier3 {
 	public override int TypeID => ItemID.Bacon;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_Bacon_ModPlayer>().Bacon = true;
+		player.GetModPlayer<EverlastingOverhaul_Bacon_ModPlayer>().Bacon = true;
 	}
 }
-public class Roguelike_Bacon_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_Bacon_ModPlayer : ModPlayer {
 	public bool Bacon = false;
 	public float Stack = 0;
 	public override void ResetEffects() {

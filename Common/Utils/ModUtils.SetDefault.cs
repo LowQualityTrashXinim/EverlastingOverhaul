@@ -267,6 +267,7 @@ public static class Roguelike_DamageClass
     /// And then calculated the damage to be increased.
     /// </summary>
     public static DamageClass Pure => new Roguelike_SummonDamageClass();
+    public static DamageClass True => new Roguelike_SummonDamageClass();
 }
 public class Roguelike_SummonDamageClass : VanillaDamageClass
 {
@@ -290,6 +291,15 @@ public class Roguelike_PureDamageClass : VanillaDamageClass
     public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
     {
         return StatInheritanceData.Full;
+    }
+    public override bool GetPrefixInheritance(DamageClass damageClass) => damageClass == Default;
+}
+public class Roguelike_TrueDamageClass : VanillaDamageClass
+{
+    protected override string LangKey => "True";
+    public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
+    {
+        return StatInheritanceData.None;
     }
     public override bool GetPrefixInheritance(DamageClass damageClass) => damageClass == Default;
 }

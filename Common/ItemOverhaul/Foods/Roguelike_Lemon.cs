@@ -4,24 +4,24 @@ using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 using System.Collections.Generic;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_Lemon : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_Lemon : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Lemon;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(4);
 	public override int EnergyAmount() => 92;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(3);
-		SetBuff(item, ModContent.BuffType<Roguelike_Lemon_Buff>(), ModUtils.ToMinute(4));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_Lemon_Buff>(), ModUtils.ToMinute(4));
 	}
 }
-public class Roguelike_Lemon_Buff : FoodItemTier1 {
+public class EverlastingOverhaul_Lemon_Buff : FoodItemTier1 {
 	public override int TypeID => ItemID.Lemon;
 	public override void Update(Player player, ref int buffIndex) {
 		player.ModPlayerStats().DebuffTime += .25f;
 		player.GetKnockback(DamageClass.Generic).Base += .5f;
 	}
 }
-public class Roguelike_Lemon_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_Lemon_ModPlayer : ModPlayer {
 	public bool Lemon = false;
 	public int CooldownExplosion = 0;
 	public override void ResetEffects() {

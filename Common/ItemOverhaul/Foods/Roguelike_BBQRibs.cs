@@ -5,25 +5,25 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_BBQRibs : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_BBQRibs : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.BBQRibs;
 	public override int LifeAmount() => 200;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(8.5f);
 	public override byte Tier() => 2;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(4.5f);
-		SetBuff(item, ModContent.BuffType<Roguelike_BBQRibs_ModBuff>(), ModUtils.ToMinute(43));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_BBQRibs_ModBuff>(), ModUtils.ToMinute(43));
 	}
 }
-public class Roguelike_BBQRibs_ModBuff : FoodItemTier3 {
+public class EverlastingOverhaul_BBQRibs_ModBuff : FoodItemTier3 {
 	public override int TypeID => ItemID.BBQRibs;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_BBQRibs_ModPlayer>().BBQRibs = true;
+		player.GetModPlayer<EverlastingOverhaul_BBQRibs_ModPlayer>().BBQRibs = true;
 		player.GetDamage(DamageClass.Melee) *= 1.2f;
 	}
 }
-public class Roguelike_BBQRibs_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_BBQRibs_ModPlayer : ModPlayer {
 	public bool BBQRibs = false;
 	public int Counter = 0;
 	public int CoolDown = 0;

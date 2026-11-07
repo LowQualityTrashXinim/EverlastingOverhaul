@@ -4,26 +4,26 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_BlackCurrent : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_BlackCurrent : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.BlackCurrant;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(1.5f);
 	public override int ManaAmount() => 60;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(.75f);
-		SetBuff(item, ModContent.BuffType<Roguelike_BlackCurrent_Buff>(), ModUtils.ToMinute(6));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_BlackCurrent_Buff>(), ModUtils.ToMinute(6));
 	}
 }
-public class Roguelike_BlackCurrent_Buff : FoodItemTier1 {
+public class EverlastingOverhaul_BlackCurrent_Buff : FoodItemTier1 {
 	public override int TypeID => ItemID.BlackCurrant;
 	public override void Update(Player player, ref int buffIndex) {
 		PlayerStatsHandle handler = player.ModPlayerStats();
 		handler.UpdateHPMax.Base += 75;
 		handler.UpdateManaMax += .25f;
-		player.GetModPlayer<Roguelike_BlackCurrent_ModPlayer>().BlackCurrent = true;
+		player.GetModPlayer<EverlastingOverhaul_BlackCurrent_ModPlayer>().BlackCurrent = true;
 	}
 }
-public class Roguelike_BlackCurrent_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_BlackCurrent_ModPlayer : ModPlayer {
 	public bool BlackCurrent = false;
 	public override void ResetEffects() {
 		BlackCurrent = false;

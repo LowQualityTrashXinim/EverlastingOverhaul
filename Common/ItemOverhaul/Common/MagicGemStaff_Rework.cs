@@ -3,11 +3,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using EverlastingOverhaul.Contents.Projectiles;
+using System.Collections.Generic;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Common;
-public class Roguelike_MagicGemStaff : GlobalItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Common;
+public class EverlastingOverhaul_MagicGemStaff : GlobalItem {
 	public override void SetStaticDefaults() {
 		ItemID.Sets.BonusAttackSpeedMultiplier[ItemID.AmethystStaff] = 0;
 		ItemID.Sets.BonusAttackSpeedMultiplier[ItemID.TopazStaff] = 0;
@@ -54,7 +54,7 @@ public class Roguelike_MagicGemStaff : GlobalItem {
 				entity.shoot = ModContent.ProjectileType<EmeraldMagicalBolt>();
 				entity.useTime = 10;
 				entity.useAnimation = 20;
-				entity.mana = 16;
+				entity.mana = 22;
 				entity.shootSpeed = 1;
 				break;
 			case ItemID.RubyStaff:
@@ -79,7 +79,7 @@ public class Roguelike_MagicGemStaff : GlobalItem {
 			case ItemID.EmeraldStaff:
 			case ItemID.RubyStaff:
 			case ItemID.DiamondStaff:
-				ModUtils.AddTooltip(ref tooltips, new(Mod, "Staff", ModUtils.LocalizationText("RoguelikeRework", "GemStaff")));
+				ModUtils.AddTooltip(ref tooltips, new(Mod, "Staff", ModUtils.LocalizationText("EverlastingOverhaulRework", "GemStaff")));
 				break;
 		}
 	}

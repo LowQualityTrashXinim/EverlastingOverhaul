@@ -3,7 +3,7 @@ using Terraria.ModLoader.Config;
 
 namespace EverlastingOverhaul.Common.General
 {
-    public class RogueLikeConfig : ModConfig
+    public class EverlastingOverhaulConfig : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;
 

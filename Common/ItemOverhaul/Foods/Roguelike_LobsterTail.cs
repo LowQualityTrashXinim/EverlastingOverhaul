@@ -3,24 +3,24 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EverlastingOverhaul.Common.Utils;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_LobsterTail : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_LobsterTail : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.LobsterTail;
 	public override int LifeAmount() => 120;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(8);
 	public override byte Tier() => 1;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = ModUtils.ToSecond(5.25f);
-		SetBuff(item, ModContent.BuffType<Roguelike_LobsterTail_ModBuff>(), ModUtils.ToMinute(23));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_LobsterTail_ModBuff>(), ModUtils.ToMinute(23));
 	}
 }
-public class Roguelike_LobsterTail_ModBuff : FoodItemTier2 {
+public class EverlastingOverhaul_LobsterTail_ModBuff : FoodItemTier2 {
 	public override int TypeID => ItemID.LobsterTail;
 	public override void Update(Player player, ref int buffIndex) {
-		player.GetModPlayer<Roguelike_LobsterTail_ModPlayer>().LobsterTail = true;
+		player.GetModPlayer<EverlastingOverhaul_LobsterTail_ModPlayer>().LobsterTail = true;
 	}
 }
-public class Roguelike_LobsterTail_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_LobsterTail_ModPlayer : ModPlayer {
 	public bool LobsterTail = false;
 	public int CoolDown = 0;
 	public override void ResetEffects() {

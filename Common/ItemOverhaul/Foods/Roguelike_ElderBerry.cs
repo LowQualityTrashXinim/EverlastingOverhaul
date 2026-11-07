@@ -3,25 +3,25 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EverlastingOverhaul.Common.ItemOverhaul.Foods;
-internal class Roguelike_ElderBerry : GlobalFoodItem {
+namespace EverlastingOverhaul.Common .ItemOverhaul.Foods;
+internal class EverlastingOverhaul_ElderBerry : GlobalFoodItem {
 	public override int AppliesToFoodType() => ItemID.Elderberry;
 	public override int CoolDownBetweenUse() => ModUtils.ToSecond(3);
 	public override int ManaAmount() => 21;
 	public override void SetFoodDefaults(Item item) {
 		item.useTime = item.useAnimation = 60;
-		SetBuff(item, ModContent.BuffType<Roguelike_ElderBerry_Buff>(), ModUtils.ToMinute(8));
+		SetBuff(item, ModContent.BuffType<EverlastingOverhaul_ElderBerry_Buff>(), ModUtils.ToMinute(8));
 	}
 }
-public class Roguelike_ElderBerry_Buff : FoodItemTier1 {
+public class EverlastingOverhaul_ElderBerry_Buff : FoodItemTier1 {
 	public override int TypeID => ItemID.Elderberry;
 	public override void Update(Player player, ref int buffIndex) {
 		player.GetDamage(DamageClass.Ranged) += .09f;
 		player.ModPlayerStats().Range_CritDamage += .21f;
-		player.GetModPlayer<Roguelike_ElderBerry_ModPlayer>().ElderBerry = true;
+		player.GetModPlayer<EverlastingOverhaul_ElderBerry_ModPlayer>().ElderBerry = true;
 	}
 }
-public class Roguelike_ElderBerry_ModPlayer : ModPlayer {
+public class EverlastingOverhaul_ElderBerry_ModPlayer : ModPlayer {
 	public bool ElderBerry = false;
 	public override void ResetEffects() {
 		ElderBerry = false;
