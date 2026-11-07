@@ -145,6 +145,10 @@ public class EverlastingOverhaulArmorPlayer : ModPlayer
     public List<ModArmorSet> ForceActive = new();
     public bool ArmorSetCheck(ModPlayer modplayer = null)
     {
+        if (ActiveArmor is null)
+        {
+            return false;
+        }
         if (ActiveArmor.modplayer == null)
         {
             if (ForceActive != null && ForceActive.Where(ar => !ar.Equals(ArmorLoader.Default) && ar.modplayer.Name == modplayer.Name).Any())

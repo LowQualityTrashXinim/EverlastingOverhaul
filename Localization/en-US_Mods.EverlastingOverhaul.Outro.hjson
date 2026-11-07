@@ -1,0 +1,148 @@
+OutroEffect_Sword: {
+	DisplayName: Sword empowerment
+	Description:
+		'''
+		+35% damage for "Sword" weapon
+		+50% damage for direct hit
+		'''
+	Tooltip: Increases damage for "Sword" weapon for {0} duration
+}
+
+OutroEffect_Bow: {
+	DisplayName: Bow empowerment
+	Description: +25% damage for "Bow" weapon
+	Tooltip: Increases damage for "bow" weapon for {0} duration
+}
+
+OutroEffect_Pistol: {
+	DisplayName: Pistol empowerment
+	Description:
+		'''
+		+15% damage and 5% critical chance for "Pistol" weapon
+		15% to deal 50% more damage for "Pistol" weapon
+		'''
+	Tooltip:
+		'''
+		Increases damage and critical chance for "Pistol" weapon for {0} duration
+		Shot from "Pistol" have chance to deal extra major damage
+		'''
+}
+
+OutroEffect_Gun: {
+	DisplayName: Gun empowerment
+	Description: +25% damage for "Gun" weapon
+	Tooltip: Increases damage for "Gun" weapon for {0}s duration
+}
+
+OutroEffect_Rifle: {
+	DisplayName: Rifle empowerment
+	Description:
+		'''
+		+15% damage for "Rifle" weapon
+		50% to deal 40% more damage for "Rifle" weapon
+		Ignore 10% enemy DEF for "Rifle" weapon
+		'''
+	Tooltip:
+		'''
+		Increases damage for "Rifle" weapon for {0}s duration
+		Have a chance to deal slightly more damage for "Rifle" weapon
+		Bullet from "Rifle" weapon slightly ignore enemy defense
+		'''
+}
+
+OutroEffect_DamageMulti: {
+	DisplayName: Damage multiplier
+	Description: 1.05x damage
+	Tooltip: Slightly multiply weapon damage for {0}s duration
+}
+
+OutroEffect_RejuvinatingGlow: {
+	DisplayName: Rejuvinating Glow
+	Description: 1.15x damage after getting healed
+	Tooltip: Getting healed multiply weapon damage for {0}s duration
+}
+
+OutroEffect_ReaperMark: {
+	DisplayName: Reaper mark empowerment
+	Description:
+		'''
+		+100% first strike damage
+		+35% damage for "Reaper Mark" weapon
+		+15% crit chance for "Reaper Mark" weapon
+		"Reaper Mark" weapon will instant kill non-boss enemies below 10% health
+		'''
+	Tooltip:
+		'''
+		Massively increases first strike damage
+		Strongly increases "Reaper Mark" weapon damage and crit chance for {0}s duration
+		"Reaper Mark" weapon will instant kill non-boss enemies on low health
+		'''
+}
+
+OutroEffect_SoulSweep: {
+	DisplayName: Soul sweep
+	Description: 0.5% health damage
+	Tooltip: Deal small amount of percentage health damage
+}
+
+OutroEffect_Blunt: {
+	DisplayName: Blunt empowerment
+	Description: +25% damage for "Blunt" weapon
+	Tooltip: Increases damage for "Blunt" weapon for {0}s duration
+}
+
+OutroEffect_Whip: {
+	DisplayName: Whip empowerment
+	Description: +25% damage for "Whip" weapon
+	Tooltip: Increases damage for "Whip" weapon for {0}s duration
+}
+
+OutroEffect_Spear: {
+	DisplayName: Spear empowerment
+	Description: +25% damage for "Spear" weapon
+	Tooltip: Increases damage for "Spear" weapon for {0}s duration
+}
+
+OutroEffect_Greatsword: {
+	DisplayName: Greatsword empowerment
+	Description:
+		'''
+		+25% damage and knockback for "Greatsword" weapon
+		And "Greatsword" weapon deal 1% of current NPC health
+		'''
+	Tooltip:
+		'''
+		Increases damage and knockback for "Greatsword" weapon for {0}s duration
+		"Greatsword" weapon deal 1% of NPC current health
+		'''
+}
+
+OutroEffect_ChlorophyteEmpowerment: {
+	DisplayName: Chlorophyte Empowerment
+	Description:
+		'''
+		+10% damage and have 1 in 10 chance to 
+		spawn spore cloud dealing 65% weapon damage
+		"Chlorophyte empowerment" weapon deal 20% true damage
+		'''
+	Tooltip:
+		'''
+		Increases damage and have small chance to create spore cloud for {0}s duration
+		"Chlorophyte empowerment" weapon deal extra damage
+		'''
+}
+
+OutroEffect_DeathSickle: {
+	DisplayName: Reaper's hand
+	Description:
+		'''
+		+50% damage and +200% critical damage
+		Deal 5% of current enemy's health ( capped at 2000 health )
+		"ReaperMark" weapon gain 50% critical strike chance
+		'''
+	Tooltip:
+		'''
+		Massively increases damage and critical damage
+		"ReaperMark" weapon gain massive boost in critical chance
+		'''
+}

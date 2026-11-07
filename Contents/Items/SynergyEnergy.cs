@@ -45,7 +45,7 @@ namespace EverlastingOverhaul.Contents.Items {
 					ItemTypeCurrent = item.type; 
                     if (itemOld != null)
                     {
-                        Player.GetModPlayer<OutroEffect_ModPlayer>().Add_OutroEffect(itemOld.GetGlobalItem<GlobalItemHandle>().OutroEffect_type);
+                        //Player.GetModPlayer<OutroEffect_ModPlayer>().Add_OutroEffect(itemOld.GetGlobalItem<GlobalItemHandle>().OutroEffect_type);
                     }
                     itemOld = item;
 					JustSwitched = true;

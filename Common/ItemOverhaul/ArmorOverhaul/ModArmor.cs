@@ -55,7 +55,7 @@ public class ArmorLoader : ModSystem
             return _armor.ContainsKey("None") ? _armor["None"] : null;
         return armor;
     }
-    public static ModArmorSet Default => _armor["None"];
+    public static ModArmorSet Default => _armor.ContainsKey("none") ? _armor["None"] : null;
     public static ModArmorSet GetModArmor(string name) => _armor.ContainsKey(name) ? _armor[name] : _armor.ContainsKey("None") ? _armor["None"] : null;
     /// <summary>
     /// The <paramref name="name"/> param use the same as name of the <see cref="ModArmorSet"/> class name<br/>

@@ -381,6 +381,21 @@ Projectiles: {
 	ReworkIceShards.DisplayName: Rework Ice Shards
 	EverlastingOverhaul_Revolver_ModProjectile.DisplayName: EverlastingOverhaul_ Revolver_ Mod Projectile
 	ShortCircusDischarge.DisplayName: Short Circus Discharge
+	EverlastingOverhaul_Megaphone_Projectile_SoundWave.DisplayName: Everlasting Overhaul_ Megaphone_ Projectile_ Sound Wave
+	EverlastingOverhaul_Megaphone_Projectile_SoundWave2.DisplayName: Everlasting Overhaul_ Megaphone_ Projectile_ Sound Wave2
+	EverlastingOverhaul_CookedShrimp_Projectile.DisplayName: Everlasting Overhaul_ Cooked Shrimp_ Projectile
+	EverlastingOverhaul_GrapeJuice_ModProjectile.DisplayName: Everlasting Overhaul_ Grape Juice_ Mod Projectile
+	EverlastingOverhaul_DeathSickle_SoulProjectile.DisplayName: Everlasting Overhaul_ Death Sickle_ Soul Projectile
+	EverlastingOverhaul_EnchantedBoomerang_Beam_ModProjectile.DisplayName: Everlasting Overhaul_ Enchanted Boomerang_ Beam_ Mod Projectile
+	EverlastingOverhaul_EnchantedBoomerang_ModProjectile.DisplayName: Everlasting Overhaul_ Enchanted Boomerang_ Mod Projectile
+	EverlastingOverhaul_EnchantedSword_Slash_Projectile.DisplayName: Everlasting Overhaul_ Enchanted Sword_ Slash_ Projectile
+	EverlastingOverhaul_Revovler_Fail.DisplayName: Everlasting Overhaul_ Revovler_ Fail
+	EverlastingOverhaul_Spear_Projectile.DisplayName: Everlasting Overhaul_ Spear_ Projectile
+	EverlastingOverhaul_Trident_Projectile.DisplayName: Everlasting Overhaul_ Trident_ Projectile
+	EverlastingOverhaul_Trident_ThrownProjectile.DisplayName: Everlasting Overhaul_ Trident_ Thrown Projectile
+	FrostBrand_Slash_Projectile.DisplayName: Frost Brand_ Slash_ Projectile
+	Rework_Boomerang.DisplayName: Rework_ Boomerang
+	SpearThrownProjectile.DisplayName: Spear Thrown Projectile
 }
 
 NPCs: {
@@ -2937,6 +2952,36 @@ Buffs: {
 		DisplayName: EverlastingOverhaul_ Tropical Smoothie_ Mod Buff
 		Description: Mods.EverlastingOverhaul.Buffs.EverlastingOverhaul_TropicalSmoothie_ModBuff.Description
 	}
+
+	EverlastingOverhaul_GrapeJuice_Buff: {
+		DisplayName: Everlasting Overhaul_ Grape Juice_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.EverlastingOverhaul_GrapeJuice_Buff.Description
+	}
+
+	EverlastingOverhaul_Spagetti_Buff: {
+		DisplayName: Everlasting Overhaul_ Spagetti_ Buff
+		Description: Mods.EverlastingOverhaul.Buffs.EverlastingOverhaul_Spagetti_Buff.Description
+	}
+
+	EverlastingOverhaul_DeathSickle_ModBuff: {
+		DisplayName: Everlasting Overhaul_ Death Sickle_ Mod Buff
+		Description: Mods.EverlastingOverhaul.Buffs.EverlastingOverhaul_DeathSickle_ModBuff.Description
+	}
+
+	SpearCoolDown: {
+		DisplayName: Spear Cool Down
+		Description: Mods.EverlastingOverhaul.Buffs.SpearCoolDown.Description
+	}
+
+	TridentCoolDown: {
+		DisplayName: Trident Cool Down
+		Description: Mods.EverlastingOverhaul.Buffs.TridentCoolDown.Description
+	}
+
+	HolyFlame: {
+		DisplayName: Holy Flame
+		Description: Mods.EverlastingOverhaul.Buffs.HolyFlame.Description
+	}
 }
 
 Prefixes: {
@@ -2973,4 +3018,7 @@ Biomes: {
 	}
 }
 
-"Keybinds.Weapon action.DisplayName": Weapon action
+Keybinds: {
+	"Weapon action.DisplayName": Weapon action
+	Dash.DisplayName: Dash
+}
